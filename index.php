@@ -14,8 +14,25 @@ if(!isset($attributes) || !is_array($attributes)) {
 print_r($_SESSION);
 
 include 'query/connect.php';   
-
+include ("query/user.php");
+include ("action/checkauth.php"); 
 include 'main/header.php';
+
+switch ($attributes[act]){
+    
+    case 'main':
+        include 'main/main.php';
+        break;
+    
+    case 'logout':
+        include 'action/logout.php';
+        break;
+    
+    default :
+        include 'main/authentication.php'; 
+}
+
+include 'main/footer.php';
 
 mysql_close();
 ?>

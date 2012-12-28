@@ -10,40 +10,45 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <?php   $title_header = $title;?>
     <title>INTER - salat <?php echo $title_header; ?></title>
+    <meta http-equiv="content-language" content="ru" />
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/reset.css" /> <!-- RESET -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" /> <!-- MAIN STYLE SHEET -->
+    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/style.css" /> <!-- GRAPHIC THEME -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/styles.css" />
     <script type="text/javascript" src="js/jquery-1.8b1.js"></script>
-</head>
+    <script type="text/javascript">
+        $(document).ready(function(){
 
-<body>
-    
-    <div>
-        <p style="text-align: center">WELLCOME DEAR FRIENDS!!! Начали</p>
-    </div>
-    <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
-</body>
-</html>
-<script type="text/javascript">
-    $(document).ready(function(){
-        
-        var rem = $("#rem").val();
-        var rem_obj = {screen:screen.width + " X "+screen.height};
-        
-        if(rem == undefined || !rem){
-            $.ajax({
-                url:"action/statistics.php",
-                type:'post',
-                dataType:'json',
-                data:rem_obj,
-                success:function(data){
-                    console.log(data);
-                    if(data['ok'] != "NULL"){
-                        $("#rem").val('1');
-                        rem = 1;
+            var rem = $("#rem").val();
+            var rem_obj = {screen:screen.width + " X "+screen.height};
+
+            if(rem == undefined || !rem){
+                $.ajax({
+                    url:"action/statistics.php",
+                    type:'post',
+                    dataType:'json',
+                    data:rem_obj,
+                    success:function(data){
+                        console.log(data);
+                        if(data['ok'] != "NULL"){
+                            $("#rem").val('1');
+                            rem = 1;
+                        }
+                    },
+                    error:function(data){
+                        console.log(data['responseText']);
                     }
-                },
-                error:function(data){
-                    console.log(data['responseText']);
-                }
-            });
-        }
-    });
-</script>
+                });
+            }
+        });
+    </script>
+    
+</head>
+<body>
+<div id="wrapper">    
+<input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
