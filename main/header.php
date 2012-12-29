@@ -14,11 +14,13 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
     <meta name="robots" content="noindex,nofollow" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/reset.css" /> <!-- RESET -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/main.css" /> <!-- MAIN STYLE SHEET -->
-    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/style.css" /> <!-- GRAPHIC THEME -->
-    <link rel="stylesheet" media="screen,projection" type="text/css" href="css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/reset.css" /> <!-- RESET -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/main.css" /> <!-- MAIN STYLE SHEET -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/2col.css" title="2col" /> <!-- DEFAULT: 2 COLUMNS -->
+    <link rel="alternate stylesheet" media="screen,projection" type="text/css" href="../css/1col.css" title="1col" /> <!-- ALTERNATE: 1 COLUMN -->
+    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="../css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/style.css" /> <!-- GRAPHIC THEME -->
+    <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="css/styles.css" />
     <script type="text/javascript" src="js/jquery-1.8b1.js"></script>
     <script type="text/javascript">
@@ -29,7 +31,7 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
 
             if(rem == undefined || !rem){
                 $.ajax({
-                    url:"action/statistics.php",
+                    url:"action/statistics.php", 
                     type:'post',
                     dataType:'json',
                     data:rem_obj,

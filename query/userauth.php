@@ -6,7 +6,7 @@ if(!isset($_SESSION)){
 
 include '../query/connect.php';
 
-$out = array('ok'=>NULL);
+$out = array('ok'=>NULL,'check'=>$_POST[minde]);
 
 $code = "'$_POST[code]'";
 
@@ -27,8 +27,8 @@ if ($num_rows == 1) {
     
 	$out['ok'] = 1;
 	
-	// Yстановим куку (неделя) для аутентификации
-	if ($_POST[minde] == 1) setcookie("di", $id, time()+680400);
+//	// Yстановим куку (неделя) для аутентификации
+//	if ($_POST[minde] == 1) setcookie("di", $id, time()+680400);
 
 }
 

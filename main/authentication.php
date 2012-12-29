@@ -1,5 +1,7 @@
 <?php
-
+if(isset($_SESSION[id])){
+    header("location:index.php?act=main");
+}
 ?>
 <!--
 <div>
@@ -17,9 +19,7 @@
 		<?php } else {?>
 		<p class="msg info">Введите ключ.</p>
         <?php } ?>
-		<!-- Form -->
-        
-<!--            <input type="hidden" name="query_str" value="<? echo $_SERVER["QUERY_STRING"]; ?>">-->
+                
 		<table class="nom nostyle">			
 			<tr>
 				<td><label for="login-pass"><strong>Ключ:</strong></label></td>
@@ -44,14 +44,13 @@
 				<td colspan="2" class="t-right"><input type="button" id="submit_psw" class="input-submit" value="Войти &raquo;" /></td>
 			</tr>
 		</table>
-<!--      <form action="index.php?act=authentication" method="post" name="login_form">  </form>-->
-
-	 <!-- </div>/login-box -->
 
 	<div id="login-bottom"></div>
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
+        
+                $("#code").focus();
         
         $("#submit_psw").mousedown(function(){
             
@@ -59,23 +58,46 @@
             
             if($("#login-remember").attr('checked') == 'checked')ch = 1;
             
-            var out = {code:$("#code").val(),minde:ch};
-            console.log(out);
-            $.ajax({
+            _submit({code:$("#code").val(),minde:ch});
+       
+        });
+        
+        $("#code").keydown(function(event){
+            
+            if(event.which == 13){
+                
+                var ch = 0;
+            
+                if($("#login-remember").attr('checked') == 'checked')ch = 1;
+
+                _submit({code:$("#code").val(),minde:ch}); 
+            }            
+        });
+         
+         
+        function _submit(arg){
+               $.ajax({
                 url:'query/userauth.php',
                 type:'post',
                 dataType:'json',
-                data:out,
+                data:arg,
                 success:function(data){
                     console.log(data);
+                    var addr_str = '';
+                    if(data['check']==1){
+                        addr_str = "index.php?act=main&ch=1";
+                    }else{
+                        addr_str = "index.php?act=main";
+                    }
                     if(data['ok'] == 1){
-                        document.location = "index.php?act=main";
+                        document.location = addr_str;
                     }
                 },
                 error:function(data){
                     console.log(data['responseText']);
                 }
-            });
-        });
+            }); 
+            return false;
+        }
     });
 </script>

@@ -1,1 +1,16 @@
 /* WRITE YOUR CSS CODE HERE */
+#wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+/*    outline: 1px solid red;*/
+}
+#logo{
+    position: relative;
+    margin: 172px auto;
+    width: 644px;
+    height: 376px;
+    background-color: white;
+/*    outline: 1px solid green;*/
+}
