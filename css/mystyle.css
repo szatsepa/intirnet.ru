@@ -9,8 +9,13 @@
 #logo{
     position: relative;
     margin: 172px auto;
-    width: 644px;
-    height: 376px;
+    width: 444px;
+    height: 336px;
     background-color: white;
+    padding: 0 24px 0 24px;
+    
 /*    outline: 1px solid green;*/
+}
+#customer_tab{
+    
 }

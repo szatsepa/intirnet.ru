@@ -1,100 +1,74 @@
 <script type="text/javascript">
 	   
-//     $(document).ready(function(){
-//        $("#user_insert").validate();
-//        $("#doc_add").validate();
-//		
-//		<?php // if (isset($attributes["choose"])) {?>
-//	
-//		$("#myTabs").hide();
-//		$("#tab02").hide();
-//		$(".ico-edit").hide();
-//	
-//		<?php // } ?>	  
-//     
-//        
-//        <?php //     
-		
-		 if (mysql_numrows($qry_users) > 0) { 
-            mysql_data_seek($qry_users,0);
-         }
-		
-        while ($row = mysql_fetch_assoc($qry_users)) {?>//
-//        $("#edit<?php echo $row["id"];?>").click(function() {
-//            $.getScript('index.php?act=user&uid=<?php echo $row["id"]; ?>');
-//        });
-//        <?php }
-//         if (mysql_numrows($qry_users) > 0) { 
-//            mysql_data_seek($qry_users,0);
-//         }
-         ?>//
-//        
-//        //$('#myTabs').tabs({ selected: 1});
-//        
-//     });
-//    jQuery.validator.messages.required = "";
-//    jQuery.validator.messages.email = "";
-//    jQuery.validator.messages.digits = "";    
-//    jQuery.validator.defaults.errorClass = "err";
-//    jQuery.validator.messages.minlength = jQuery.format("");
-  
-  	
-       
+     $(document).ready(function(){
+         
+           
+         $("#myTabs").css({'width':'47%','margin':'0 auto'});
+         $("#myTabs > p").css({'font-size':'1.4em','font-weight':'bold','text-align':'center'});
+         $("#tab01").css('margin', '8px auto');
+         $("#tab02").hide().css({'width':'66%','margin':'12px auto'});
+         $("#about_bottom").css({'width':'100%'});
+         
+         $(".ico-edit").mousedown(function(){
+             $("#tab01").hide();
+             $("#tab02").show();
+             var id = this.id;
+             id = id.substr(2); 
+//             $("div").css({'outline':'1px solid blue'});
+             $(".col50").css({'position':'relative','width':'50%','float':'left'});
+             $("#right_side").css({'position':'relative','width':'50%','float':'left','padding-top':'66px'});
+         });
+         $(".ico-user-02").mousedown(function(){
+             $("#tab01").hide();
+             var id = this.id;
+             id = id.substr(4);
+         });
+     });
+     
 </script>
 
-<div class="tabs box" id="myTabs">
-    <ul>    
-    	<li><a href="#tab01"><span>Список</span></a></li>
-    	<li><a href="#tab02"><span>Создать/Редактировать</span></a></li>        
-    </ul>
+<div id="content" class="box">   
+                    <!-- Tab01 -->
+
+    <div  class="tabs box" id="myTabs">
+        <p>Клиенты.</p>
+<!--        <ul>    
+            <li><span><strong></strong></span></li>
+        </ul>-->
+    </div>
+
+    <div id="tab01">
+
+        <table>
+            <thead>
+
+            </thead> 
+            <tbody>
+                <tr>
+                    <th class="t-center">ID</th>
+                    <th class="t-center">Ф.И.О.</th>
+                    <th class="t-center">Телефон</th>
+                    <th class="t-center">Email</th>
+                    <th class="t-center">Дата<br />рег.</th>
+                    <th class='t-center'>Действ.</th>
+                </tr>
+    <?php
+    foreach ($customers as $value) {
+        echo "<tr><td class='t-right'>$value[id]</td><td>$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]</td><td class='smaller'>$value[phone]</td><td class='smaller'>$value[email]</td><td class='smaller t-center'>$value[creation_time]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='set_$value[id]' class='ico-user-02' title='Выбрать контакт'></a></td></tr>";
+
+                }
+                ?>
+            </tbody>
+        </table>
+    </div> <!-- /tab01 -->
+
 </div>
-
-<!-- Tab01 -->
-<div id="tab01">
-
-    <table>
-        <thead>
-            
-        </thead>
-        <tbody>
-            <tr>
-                <th class="t-center">ID</th>
-                <th class="t-center">Ф.И.О.</th>
-                <th class="t-center">Телефон</th>
-                <th class="t-center">Email</th>
-                <th class="t-center">Роль</th>
-                <th class="t-center">Роль<br />в сделке</th>
-                            <th class="t-center">Теги</th>
-                <th class="t-center">Дата<br />рег.</th>
-                <th>Действ.</th>
-            </tr>
-
-        </tbody>
-    </table>
-</div> <!-- /tab01 -->
-
 <!-- Tab02 -->
-<!--<div id="tab02">-->
-     <?php  
-        // Для Секретаря вн.коммуникаций доступно назначение контакта
-        if ($user["role"] == 14) { ?>
-<!--     <div class="box-01" style="display:none;" id="user_append_box">
-        <p class="nom">
-        <form action="index.php?act=user_append" method="post" id="user_append" name="user_append">
-            <input type="hidden" name="contact_append" value="" id="contact_append">
-        <label for="media">Агент:</label>
-    <select name="agent_append" class="input-text" id="agent_append">
-        <?php option ('users',"id","surname,name",0," AND role=4 ");?>
-    </select>
-	    <input value="Назначить этот контакт" class="" type="submit" id="user_append_submit">
-        </form>
-        </p>
-	 </div>-->
-     <?php } ?>
+<div id="tab02">
      
-<!--    <form action="index.php?act=user_insert" method="post" id="user_insert" name="user_insert">  
+    <form action="index.php?act=user_insert" method="post" id="user_insert" name="user_insert">  
         <fieldset>
-    	<legend>Основные данные</legend>     
+    	<legend><strong>Основные данные</strong></legend>     
         <div class="col50">
              <p><label for="surname">Фамилия:</label><br />
 			    <input size="50" name="surname" value="" class="input-text required" id="surname" type="text"></p>
@@ -106,26 +80,15 @@
 			    <input size="30" name="fax" value="" class="input-text" id="fax" type="text"></p>
         </div>
         
-        <div class="col50 f-right">
+        <div class="col50 f-right" id="right_side">
             <p><label for="patronymic">Отчество:</label><br />
 			    <input size="50" name="patronymic" value="" class="input-text" id="patronymic" type="text"></p>
-            <p><label for="role">Роль:</label><br />
-					<select name="role" class="input-text required" id="role">
-						<?php  
-                            // Для Агента и Секретаря вн.коммуникаций доступны только клиенты
-//                            if ($user["role"] == 4 or $user["role"] == 14) {
-//                                option ("roles","id","name",12," AND id = 12 ");
-//                            } else {
-//                                option ("roles","id","name",0,"");
-//                            }
-                            
-                        ?>
-					</select></p>
             <p><label for="phone2">Дополнительный телефон:</label><br />
 			    <input size="30" name="phone2" value="" class="input-text" id="phone2" type="text"></p>
             <p><label for="email">Электронная почта:</label><br />
 			    <input size="30" name="email" value="" class="input-text email" id="email" type="text"></p><br />
         </div>
+        <div id="about_bottom">
          <p><label for="postcode">Почтовый индекс:</label><br />
 			    <input size="12" name="postcode" value="" class="input-text digits" id="postcode" minlength="6" maxlength="6" type="text"></p>
          <p><label for="address">Почтовый адрес:</label><br />
@@ -135,21 +98,16 @@
          <p><label for="tags">Теги:</label><br />
 			    <input size="100" name="tags" value="" class="input-text" id="tags" type="text"><br />
             <span class="smaller low">несколько тегов разделяются запятыми</span></p>
-          
+        </div>  
     
         </fieldset>
-        <?php  
-//        // Для Агента и Секретаря вн.коммуникаций доступны потребности клиента
-//        if ($user["role"] == 4 or $user["role"] == 14) {
-//            include("dsp/dsp_client_need.php");
-//        }
-        ?>
+    
         <div class="box-01">
-		    <p class="nom"><input value="Создать пользователя" class="input-submit" type="submit" id="user_insert_submit"></p>
+		    <p class="nom" style="text-align: center"><input value="Создать пользователя" class="input-submit" type="submit" id="user_insert_submit"></p>
 		</div> 
-    </form>-->
-        
-<!--        <fieldset id="fieldset_doc" style="display:none;">
+    </form>
+<!--        
+        <fieldset id="fieldset_doc" style="display:none;">
     	<legend>Документы</legend>
          
         <div id="user_doc"></div>
@@ -172,7 +130,7 @@
                     <p class="nomt">
 						<label for="inputname" class="low">Выберите название из списка:</label><br />
 						<select name="inputname" class="input-text required" id="inputname" size="7">
-                            <?php // option_doc($udoc);?>
+                            <?php option_doc($udoc);?>
                         </select>
 					</p>
  
@@ -190,5 +148,4 @@
         </fieldset>-->
         
     
-<!--</div>  /tab02 -->
-
+</div> <!-- /tab02 -->

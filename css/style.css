@@ -12,6 +12,7 @@ HTML - styles
 body {background-color:#eaeaea; color:#303030;}
 a {color:#0085cc;}
 a:hover, a:active, a:focus {color:#df0000;}
+#content div{position: relative;margin: 0 auto;width: 72%;}
 #content h2 {color:#0085cc;}
 #content table {border:2px solid #cfcfcf;}
 #content table th {border-right:1px solid #0074B3; background-color:#0085cc; color:#fff;}

@@ -1,14 +1,5 @@
 <?php
-//$query = "SELECT `db_query` FROM `db_data`";
-//
-//$result = mysql_query($query) or die($query);
-
 $db_tables = array();
-
-//while($var = mysql_fetch_assoc($result)){
-//    $tmp = str_word_count($var[db_query], 1);
-//    array_push($db_tables, $tmp[2]);
-//}
 
 foreach ($db_data as $value){
     
@@ -48,4 +39,18 @@ if(count($new_customers)){
         mysql_query($query) or die("Помилка ".  mysql_error());
     }
 }
+
+$customers = array();
+
+$query = "SELECT * FROM `customer`";
+
+$result = mysql_query($query) or die($query);
+
+if(mysql_numrows($result)!=0){
+    while ($var = mysql_fetch_assoc($result)){
+        array_push($customers, $var);
+    }
+}
+
+mysql_free_result($result);
 ?>
