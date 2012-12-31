@@ -10,7 +10,7 @@ foreach ($db_data as $value){
 
 $new_customers = array();
 
-$query = "SELECT c.id, t.name, t.patronymic, t.surname, t.email, t.phone, t.password FROM `tmp_U1` AS t LEFT JOIN `customer` AS c USING(password) WHERE c.password IS NULL";
+$query = "SELECT c.id, t.name, t.patronymic, t.surname, t.email, t.phone, t.password, t.db_data_id FROM `tmp_U1` AS t LEFT JOIN `customer` AS c USING(password) WHERE c.password IS NULL";
 
 $result = mysql_query($query) or die($query);
 
@@ -34,7 +34,7 @@ if(count($new_customers)){
 
     foreach ($new_customers as $value) {
         
-        $query = "INSERT INTO `customer` (surname,name,patronymic,email,phone,password) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[password]')";
+        $query = "INSERT INTO `customer` (surname,name,patronymic,email,phone,password,db_data_id) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[password]',$value[db_data_id])";
         
         mysql_query($query) or die("Помилка ".  mysql_error());
     }

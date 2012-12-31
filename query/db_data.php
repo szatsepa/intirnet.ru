@@ -15,6 +15,7 @@ $query = "CREATE TABLE IF NOT EXISTS `tmp_U$_SESSION[id]` (
         `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `email` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `address` text character set utf8 collate utf8_bin NOT NULL,
+        `db_data_id`  int(11) NOT NULL,
         PRIMARY KEY  (`id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
@@ -43,16 +44,22 @@ $all_users = array();
 
 foreach ($db_data as $value) {
     $link = mysql_connect("$value[addr]","$value[login]","$value[password]") or die ("Ошибка 1");
+//    echo "<br>LINK - $value[addr];$value[login];$value[password]:=>$value[db_name]<br>";
     mysql_select_db($value[db_name]);
     mysql_query ("SET NAMES $value[charset]");
     
     $query = str_replace('"', '', $value[db_query]);
     
-    $result = mysql_query($query);
+    $result = mysql_query($query) or die("ERROR ".  mysql_error());
+//    echo "RESULT - $result";
+//    echo "<br>"; 
+//    echo "$value[id] - $query<br>";
 
     if($result){
         while($var = mysql_fetch_assoc($result)){
-        array_push($all_users, $var);
+//            print_r($var);
+            $var[db_data_id] = $value[id];
+            array_push($all_users, $var);
         }
     }
 
@@ -84,7 +91,7 @@ foreach ($all_users as $value) {
         $pwd = $value[secret_key]; 
     }
     
-    $query = "INSERT INTO `tmp_U$_SESSION[id]` (surname,name,patronymic,email,phone,address,password) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$email','$value[phone]','$value[shipping_address]','$pwd')";
+    $query = "INSERT INTO `tmp_U$_SESSION[id]` (surname,name,patronymic,email,phone,address,password,db_data_id) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$email','$value[phone]','$value[shipping_address]','$pwd',$value[db_data_id])";
     
     
     mysql_query($query);
