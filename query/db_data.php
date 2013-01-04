@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 $query = "CREATE TABLE IF NOT EXISTS `tmp_U$_SESSION[id]` (
         `id` int(11) NOT NULL auto_increment,
         `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
@@ -44,20 +38,15 @@ $all_users = array();
 
 foreach ($db_data as $value) {
     $link = mysql_connect("$value[addr]","$value[login]","$value[password]") or die ("Ошибка 1");
-//    echo "<br>LINK - $value[addr];$value[login];$value[password]:=>$value[db_name]<br>";
     mysql_select_db($value[db_name]);
     mysql_query ("SET NAMES $value[charset]");
     
     $query = str_replace('"', '', $value[db_query]);
     
     $result = mysql_query($query) or die("ERROR ".  mysql_error());
-//    echo "RESULT - $result";
-//    echo "<br>"; 
-//    echo "$value[id] - $query<br>";
 
     if($result){
         while($var = mysql_fetch_assoc($result)){
-//            print_r($var);
             $var[db_data_id] = $value[id];
             array_push($all_users, $var);
         }
@@ -76,8 +65,6 @@ if(count($all_users) > 0){
 }
 
 foreach ($all_users as $value) {
-//    echo "<br>";
-//    print_r($value);
     $email = '';
     if($value[e_mail]){
         $email = $value[e_mail];
@@ -96,6 +83,4 @@ foreach ($all_users as $value) {
     
     mysql_query($query);
 }
-
-//echo "<br>$query<br>";
 ?>

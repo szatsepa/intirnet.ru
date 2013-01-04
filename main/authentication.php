@@ -1,8 +1,3 @@
-<?php
-if(isset($_SESSION[id])){
-    header("location:index.php?act=main");
-}
-?>
 <div id="logo">
     
         <p class="nom t-center" ><a href="#"><img src="images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
@@ -162,3 +157,10 @@ if(isset($_SESSION[id])){
         }
     });
 </script>
+<?php
+//echo "USER - ";
+//print_r($user);
+if(isset($user)){
+//    header("location:index.php?act=main");
+}
+?>

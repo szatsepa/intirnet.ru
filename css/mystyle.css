@@ -16,6 +16,409 @@
     
 /*    outline: 1px solid green;*/
 }
-#customer_tab{
-    
+#menubacktl {	
+	background: url(../design/menu/fusion_menubackl.png) no-repeat;
+} 
+	
+#menubacktr {	
+	padding:0 16px;
+	background: url(../design/menu/fusion_menubackr.png) no-repeat scroll right;
+} 
+	
+#menubacktm {	
+	height:78px;
+	background: url(../design/menu/fusion_menubackm.png) repeat-x;
+} 	
+.wrap{
+	margin:70px auto;
+	width:970px;
+}	
+/* MAIN MENU
+----------------------------------------------------------- */
+#nav ul li {
+	margin-left:0px;
+	position: relative;}
+
+#nav a {
+	color:#383838;
+	cursor:pointer;
+	display:block;
+	float:left;
+	font-size:16px;
+	font-weight:bold;
+	height:68px;
+	line-height:17px;
+	margin-left:25px;
+	margin-top:0;
+	overflow:hidden;
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:25px;
+	text-decoration:none;
+	text-shadow:1px 1px #ffffff;}
+
+#nav a span {
+	display:block;
+	color:#383838;
+	font-weight:normal;
+	font-size:11px;}
+
+#nav li li a {
+	margin-left:0px;
+	line-height:35px;
+	margin-top:0px;
+	height: 30px;
+	background: none;
+	font-weight: normal;
+	padding: 0;
+	text-indent: 18px;}
+
+#nav li li {
+	text-align: left;
+	width: 233px;
+    float: left;
+    padding: 0;
+    background: none;
+	height:30px;
+	padding-top:0px;}
+
+#nav ul li ul li a {
+    font-size:12px; 
+	line-height:28px;
+    font-weight: normal; 
+	margin-left:-2px;
+	width:225px; }
+
+#nav ul li a {
+    background: none; } 
+
+#nav ul li ul li {
+	width:230px;
+    background:transparent url(../design/menu/fusion_ddmenumidh.png) repeat-x scroll 0 -33px; }
+	
+#nav ul li ul li:hover {
+    background:transparent url(../design/menu/fusion_ddmenumidh.png) repeat-y 0px 0px; }   
+	 
+#nav {
+	position:relative;
+	z-index:2;
+	height: 30px;}
+#nav, #nav ul {
+	list-style: none;
+	padding:0px 0px 0;}
+
+#nav ul {
+	float:left;
+	padding: 0;
+	margin: 0;
+	margin:-3px 0 0;}
+	
+#nav ul ul a {
+	display: block;
+	text-decoration: none;
+	width: 233px;
+	text-transform: none;}
+
+#nav li {
+    float: left;
+    padding: 0;
+	margin-right:0px;
+    background: none;
+    height: 51px;}
+
+#nav li ul {
+	top: 59px;
+	position: absolute;
+	left: -999em;
+	height: auto;
+	width:  233px;
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+	margin-left:16px;
+    z-index: 4;}
+
+#nav li ul a {
+	font-weight: bold;
+	color:#FFFFFF;}
+#nav li ul ul {
+	width:230px;
+	margin: -70px 0 0 227px;}
+
+* html #nav li ul ul {
+	margin: -74px 0 0 227px;}
+
+#nav li:hover ul ul, 
+#nav li:hover ul ul ul,
+#nav li:hover ul ul ul ul{
+	left: -999em;}
+
+#nav li:hover ul, 
+#nav li li:hover ul, 
+#nav li li li:hover ul, 
+#nav li li li li:hover ul{
+	left: 0;
+    position: absolute;}
+
+
+#nav li:hover ul {
+	left: 0;
+	background-position: 0 0;}
+
+
+#nav ul li:hover {
+	background:transparent;
+	color:#000000;}
+
+#nav li:hover span a{
+	color:#ffffff;}
+	
+	#nav ul li:hover ul li span span a{
+	color:#ffffff;}
+	
+		#nav ul li ul li:hover ul li span span a{
+			color:#ffffff;}
+				
+				#nav ul li ul li ul li:hover ul li span span a{
+					color:#ffffff;}
+	
+		#nav ul li ul li:hover span span a{
+			color:#ffffff;}
+	
+			#nav ul li ul li ul li:hover span span a{
+				color:#ffffff;}
+				
+				#nav ul li ul li ul li ul li:hover span span a{
+					color:#ffffff;}
+
+#nav ul li.active a {
+	background:transparent url(../design/menu/fusion_mmiddle.png) repeat-x scroll left 1pt;
+    color:#ffffff;
+	text-shadow:1px 1px #000000;}	
+
+#nav ul li:hover a{
+	background:transparent url(../design/menu/fusion_mmiddle.png) repeat-x scroll left 1pt;
+	color:#ffffff;
+	text-shadow:1px 1px 1px #000000;}
+	
+	#nav ul li:hover ul li a{
+		background:transparent; 
+	    color:#ffffff;}
+		
+	#nav ul li ul li:hover a{
+	    color:#ffffff;
+		width:230px;}	
+		
+#nav li.active span.outer_active, #nav span.outer_active:hover, #nav ul li:hover span.outer_active {
+	background:transparent url(../design/menu/fusion_mleft.png) no-repeat scroll 0 1pt;
+	height:68px;}
+
+#nav ul li span.outer {
+	height:68px;
+	width:12px;
+	float:left;}		
+		
+	#nav ul li:hover span.outer, #nav ul li a.active:hover span.span_active, #nav ul li.active span.outer  {
+		height:68px;
+		width:23px;
+		float:left;
+		background:transparent url(../design/menu/fusion_mright.png) no-repeat scroll 0 1pt;}
+
+	#nav ul li span.outer, #nav ul li a.active span.span_active, #nav ul li.active span.outer  {
+		height:68px;
+		width:23px;}
+		
+		#nav ul li ul li:hover span.span_active {
+			background:none;}
+
+#nav span.span_active, #nav span.span_active:hover {
+	height:53px;
+	width:6px;
+	float:left;
+	background:transparent url(../design/menu/fusion_mright.png) no-repeat scroll 0 1pt;
 }
+
+#nav ul li ul li span.span_active, #nav ul li ul li span.span_active:hover {
+	height:29px;}
+
+.outer_active {
+	display:block;
+	height:32px;
+	float:left;}
+	 
+#nav a span:hover, #nav li:hover a span, #nav li.active span, #nav li.over a span{
+	color:#cccccc;
+} 
+	
+#nav ul li li:hover span{
+	background:none;
+	color:#FFFFFF;}
+
+#nav ul li li span.span_active {
+	background:none;}	 
+
+/* Rounded menu top/bottoms */
+#nav ul li.toparrow, #nav ul li.toparrow:hover {
+	height:16px;
+	line-height:25px;
+	width:230px;
+	background:transparent url(../design/menu/fusion_ddmenutop.png) no-repeat scroll 0 0;}
+		
+#nav ul li.menubottom, #nav ul li.menubottom:hover {
+	background:transparent url(../design/menu/fusion_ddmenubot.png) no-repeat scroll 0 0;
+	height:17px;
+	line-height:25px;
+	width:230px;}
+/* FOOTER */
+
+.nicewrap_stm {
+	height:24px;
+	margin-left:11px;
+	margin-right:11px;
+	background: url(../design/menu/footer_fusion_bmmshadow.png) repeat-x;}
+	
+.nicewrap_stmwrap {
+	height:16px;
+	margin-left:-11px;
+	margin-right:-11px;
+	position:relative;
+	top:37px;
+	z-index:1;}
+
+.nicewrap {
+	margin:0px;
+	width:100%;
+	background: url(../design/menu/footer_fusion_nicewrap_bck.png) repeat;}
+
+.nicewrap_inner_mtl {
+	width:12px;
+	height:16px;
+	margin-top:-16px;
+	margin-left:-11px;
+	position:absolute;
+	background: url(../design/menu/footer_fusion_bmodstl.png) no-repeat left;} 		
+
+.nicewrap_inner_mtr{
+	width:11px;
+	height:16px;
+	position:absolute;
+	margin-right:-11px;
+	margin-top:-16px;
+	background: url(../design/menu/footer_fusion_bmodstr.png) no-repeat right;} 		
+
+.nicewrap_inner_mtm {
+	height:37px;
+	margin-left:-11px;
+	position:absolute;
+	width:33px;
+	background: url(../design/menu/footer_fusion_bmodsml.png) repeat-y left;} 		
+
+.nicewrap_innertop {
+	padding:8px 8px 8px 3px;
+	color:#ffffff;
+	text-shadow:1px 1px #333333;}
+	
+.nicewrap_innerr {
+	padding:8px 8px 8px 34px;
+	color:#ffffff;
+	text-shadow:1px 1px #333333;}
+	
+.nicewrap_inner_mbm{
+	height:37px;
+	margin-left:-22px;
+	position:absolute;
+	width:33px;
+	background: url(../design/menu/footer_fusion_bmodsmr.png) repeat-y right;}
+
+.nicewrap_inner_mbl {
+	width:11px;
+	height:16px;
+	margin-left:-11px;
+	position:absolute;
+	margin-top:36px;
+	background: url(../design/menu/footer_fusion_bmodsbl.png) no-repeat left;} 		
+
+.nicewrap_inner_mbr{
+	width:11px;
+	height:16px;
+	margin-top:37px;
+	position:absolute;
+	margin-right:-11px;
+	background: url(../design/menu/footer_fusion_bmodsbr.png) no-repeat right;} 		
+	
+#menubackbl {	
+	background: url(../design/menu/footer_fusion_mainbbottoml.png) no-repeat;} 
+	
+#menubackbr {	
+	padding:0 18px;
+	background: url(../design/menu/footer_fusion_mainbbottomr.png) no-repeat scroll right;} 
+	
+#menubackbm {	
+	height:16px;
+	background: url(../design/menu/footer_fusion_mainbbottomm.png) repeat-x;} 	
+#gradientusers {	
+	background: url(../design/menu/footer_fusion_gradientusers.png) repeat-x bottom;} 		
+
+#topgradient {	
+	background: url(../design/menu/footer_fusion_mainbodygradient.png) repeat-x top;} 			
+	
+#topbgradient {	
+	background: url(../design/menu/footer_fusion_mainbodygradb.png) repeat-x bottom;} 					
+	
+#nicewrap_inner h3 {
+	color:#ffffff;
+	text-shadow:1px 1px #000000;
+	padding-bottom:12px;}
+	
+	
+.w_modwrap div.module, .backmiddlemiddle div.module { 
+	padding:0px;
+	margin-left:0px;
+    width: 100%;}
+
+.w_modwrap div.module div, .backmiddlemiddle div.module div {
+	padding:0px;
+	margin:0px;}
+
+.w_modwrap div.module div div, .backmiddlemiddle div.module div div {
+	padding:0px;
+	margin:0px;}
+
+.w_modwrap div.module div div div, .backmiddlemiddle div.module div div div {
+	padding:0px;
+	margin:0px;
+	padding:10px 11px 0 9px;
+	z-index:0;
+	width: auto;}
+
+.w_modwrap div.module div div div div, .backmiddlemiddle div.module div div div div {
+	margin: 0px;
+	padding: 0px;}		
+	
+	
+.backmiddlemiddle div.module ul.menu li a, .backmiddlemiddle div.module ul.menu li {
+	border:none;
+	margin-left:0px;}
+
+	
+.backmiddlemiddle div.module ul.menu li a {
+	line-height:13px;
+	margin:0;
+	padding:0px;
+	text-decoration:none;
+	width:100%;}
+	
+.controllermleft {
+	background:transparent url(../design/menu/footer_fusion_mainbodysl.png) repeat-y scroll 0 0;}
+	
+.controllermright {
+	background:transparent url(../design/menu/footer_fusion_mainbodysr.png) repeat-y scroll right center;}
+	
+.controllermiddle {
+	margin-left:9px;
+	margin-right:8px;
+	background:#ffffff;}
+
+.toplefrig, .w_modwrap {
+	margin-bottom:1px;
+	padding-top:8px;}

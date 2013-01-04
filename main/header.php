@@ -52,5 +52,6 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
     
 </head>
 <body>
+    
 <div id="wrapper">    
 <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>

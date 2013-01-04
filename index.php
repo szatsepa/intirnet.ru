@@ -12,7 +12,7 @@ if(!isset($attributes) || !is_array($attributes)) {
 }
 if(isset($attributes[ch]) && $attributes[ch]){
     // Yстановим куку (неделя) для аутентификации
-	 setcookie("di", $_SESSION[id], time()+680400);
+	 setcookie("di", $_SESSION[id], time()+(680400*2));
 } 
 if(isset($attributes[di])){
     $_SESSION[id] = $attributes[di];
@@ -39,7 +39,7 @@ switch ($attributes[act]){
     default :
         include 'main/authentication.php'; 
 }
-print_r($_SESSION);
+//print_r($_SESSION);
 include 'main/footer.php';
 
 mysql_close();
