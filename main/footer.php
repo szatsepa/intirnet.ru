@@ -5,6 +5,7 @@
  * and open the template in the editor.
  */
 ?>
+            </div> <!-- /cols -->
         </div>
     </body>
 </html>

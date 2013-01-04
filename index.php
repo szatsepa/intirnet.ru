@@ -29,7 +29,15 @@ switch ($attributes[act]){
         include 'query/db_data.php';
         include 'query/check_customers.php';
         include 'main/main.php';
+        include 'main/main_menu.php';
         include 'main/customers.php';
+        break;
+    
+    case 'res':
+        include 'query/res_data.php';
+        include 'main/main.php';
+        include 'main/main_menu.php';
+        include 'main/res_data.php';
         break;
     
     case 'logout':

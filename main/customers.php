@@ -11,6 +11,7 @@
          $("#about_bottom").css({'width':'100%'});
          $(".col50").css({'position':'relative','width':'50%','float':'left'});
          $("#right_side").css({'position':'relative','width':'50%','float':'left','padding-top':'66px'} );
+         $("#aside").css({'position':'relative','float':'left','width':'12%'});
          
          $(".ico-edit").mousedown(function(){
              
@@ -83,6 +84,8 @@
 
 <div id="content" class="box">   
                     <!-- Tab01 -->
+                    
+            
 
     <div  class="tabs box" id="myTabs">
         <p>Клиенты.</p>

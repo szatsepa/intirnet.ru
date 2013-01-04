@@ -14,4 +14,5 @@
 	<hr class="noscreen" />
 
 	<!-- Columns -->
-	<div id="cols" class="box">
+<!--	<div id="cols" class="box">-->
+           
