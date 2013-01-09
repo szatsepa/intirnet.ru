@@ -1,3 +1,28 @@
+<?php
+include 'action/check_differences.php';
+
+$qstring = $_SERVER[QUERY_STRING];
+
+$qstring = "index.php?".str_replace('&chng=1', "", $qstring)."&chng=1";
+
+if(count($differences)!=0){
+?>
+<script type="text/javascript">
+    if(confirm("В базах донорах имеются измененые данные!\n\t\tИзменить данные?")){
+        document.location = "<?php echo $qstring;?>";
+    }
+</script>
+<?php
+}
+if($add_rows > 0){
+//    unset($differences);
+?>
+<script type="text/javascript">
+    alert("Изменено <?php echo $add_rows;?> строк");
+</script>
+<?php
+}
+?>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
 		<div id="aside" class="box">
@@ -28,12 +53,12 @@
                     </ul>-->
                                 </li>   
 				
-<!--				<li ><a href="#">Документы</a>
-                    <ul id="docs">
+				<li ><a href="index.php?act=adm">Администрация</a>
+<!--                    <ul id="docs">
                          <li><a href="index.php?act=utd&amp;utn=doc_types">Типы</a></li>     
 						 <li><a href="index.php?act=discuss_permit">Обсуждение</a></li>
-                    </ul>
-                </li>   -->
+                    </ul>-->
+                </li>   
 				
                 
 <!--                <li><a href="#">Реклама</a>

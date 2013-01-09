@@ -7,7 +7,6 @@
          $("#myTabs > p").css({'font-size':'1.4em','font-weight':'bold','text-align':'center'});
          $("#tab01").css('margin', '8px auto');
          $("#tab02").hide().css({'width':'66%','margin':'12px auto'});
-//         $("#about_bottom").css({'position':'absolute','width':'50%','margin-top':'255px'});
          $("#back_box").css({'position':'relative','width':'50%'});
          $(".col50").css({'position':'relative','width':'50%','float':'left'});
          $("#right_side").css({'position':'relative','width':'50%','float':'left','padding-top':'66px'} );
@@ -49,14 +48,13 @@
                         console.log(data['responseText']);
                     }
                 });
-           }else{
+           }else{ 
                $.ajax({
                     url:'./action/add_db_data.php',
                     type:'post',
                     dataType:'json',
                     data:out,
                     success:function(data){
-                        console.log(data);
                         $("#tab01").show();
                         $("#tab02").hide();
                         if(data['ins'] > 0){

@@ -40,6 +40,13 @@ switch ($attributes[act]){
         include 'main/res_data.php';
         break;
     
+    case 'adm':
+        include 'query/users.php';
+        include 'main/main.php';
+        include 'main/main_menu.php';
+        include 'main/administration.php';
+        break;
+    
     case 'logout':
         include 'action/logout.php';
         break;
@@ -47,7 +54,7 @@ switch ($attributes[act]){
     default :
         include 'main/authentication.php'; 
 }
-//print_r($_SESSION);
+//print_r($_SERVER); 
 include 'main/footer.php';
 
 mysql_close();
