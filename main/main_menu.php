@@ -23,6 +23,13 @@ if($add_rows > 0){
 <?php
 }
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+//        $("#aside").css({'width':'12%'});
+//         $("#content ").css({'width':'88%'});
+//         $("#aside ul li a").css({'width':'66%'});
+    });
+</script>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
 		<div id="aside" class="box">
@@ -61,11 +68,11 @@ if($add_rows > 0){
                 </li>   
 				
                 
-<!--                <li><a href="#">Реклама</a>
-                    <ul id="reklama">
-                        <li><a href="index.php?act=utd&amp;utn=media">Рекламные носители</a></li>                                
+                <li><a href="index.php?act=srch">Поиск</a>
+<!--                    <ul id="reklama">
+                        <li><a href="index.php?act=utd&amp;utn=media">Рекламные носители</a></li>                                -->
                     </ul>
-                </li>                				-->
+                </li>                				
 				
 <!--				<li id="messages">
 					<a href="index.php?act=messages">Сообщения</a>
@@ -94,9 +101,7 @@ if($add_rows > 0){
 		<!-- Content (Right Column) -->
 <!--		<div id="content" class="box">    </div>  /content -->        
 <!--            <br />-->
- <?php
-//            include 'main/customers.php';
-            ?>
+
 		
 
 	

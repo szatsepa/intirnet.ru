@@ -28,6 +28,7 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
 
             var rem = $("#rem").val();
             var rem_obj = {screen:screen.width + " X "+screen.height};
+//            console.log(rem_obj);
 
             if(rem == undefined || !rem){
                 $.ajax({
@@ -36,7 +37,7 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
                     dataType:'json',
                     data:rem_obj,
                     success:function(data){
-                        console.log(data);
+//                        console.log(data);
                         if(data['ok'] != "NULL"){
                             $("#rem").val('1');
                             rem = 1;

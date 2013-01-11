@@ -33,6 +33,12 @@ switch ($attributes[act]){
         include 'main/customers.php';
         break;
     
+    case 'srch':
+        include 'main/main.php';
+        include 'main/main_menu.php';
+        include 'main/search.php';
+        break;
+    
     case 'res':
         include 'query/res_data.php';
         include 'main/main.php';
@@ -46,6 +52,8 @@ switch ($attributes[act]){
         include 'main/main_menu.php';
         include 'main/administration.php';
         break;
+    
+    
     
     case 'logout':
         include 'action/logout.php';
