@@ -30,6 +30,7 @@ switch ($attributes[act]){
         include 'query/check_customers.php';
         include 'main/main.php';
         include 'main/main_menu.php';
+//        include 'main/filter.php';
         include 'main/customers.php';
         break;
     
@@ -62,7 +63,7 @@ switch ($attributes[act]){
     default :
         include 'main/authentication.php'; 
 }
-//print_r($_SERVER); 
+//print_r($_SESSION); 
 include 'main/footer.php';
 
 mysql_close();

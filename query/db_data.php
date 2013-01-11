@@ -1,9 +1,12 @@
 <?php
+mysql_query("DROP TABLE IF EXISTS `tmp_U$_SESSION[id]`");
+
 $query = "CREATE TABLE IF NOT EXISTS `tmp_U$_SESSION[id]` (
         `id` int(11) NOT NULL auto_increment,
         `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `surname` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `patronymic` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `role` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `login` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `password` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
@@ -11,14 +14,9 @@ $query = "CREATE TABLE IF NOT EXISTS `tmp_U$_SESSION[id]` (
         `address` text character set utf8 collate utf8_bin NOT NULL,
         `db_data_id`  int(11) NOT NULL,
         PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
 
 $result = mysql_query($query) or die($query);
-
-if($result){
-    $query = "TRUNCATE TABLE `tmp_U$_SESSION[id]`";
-    $result = mysql_query($query) or die($query);
-}
 
 $query = "SELECT * FROM `db_data`";
 
@@ -47,7 +45,23 @@ foreach ($db_data as $value) {
 
     if($result){
         while($var = mysql_fetch_assoc($result)){
+            
+           
+            
+            $role = "Заказчик";
+            
+             if(isset($var[role])){
+        
+                $res = mysql_query("SELECT `name` FROM `roles` WHERE `id` = $var[role]");
+
+                $row = mysql_fetch_row($res);
+
+                $role = $row[0];
+            }
+            $var[role] = $role;
+            
             $var[db_data_id] = $value[id];
+            
             array_push($all_users, $var);
         }
     }
@@ -77,8 +91,9 @@ foreach ($all_users as $value) {
     }else{
         $pwd = $value[secret_key]; 
     }
+   
     
-    $query = "INSERT INTO `tmp_U$_SESSION[id]` (surname,name,patronymic,email,phone,address,password,db_data_id) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$email','$value[phone]','$value[shipping_address]','$pwd',$value[db_data_id])";
+    $query = "INSERT INTO `tmp_U$_SESSION[id]` (surname,name,patronymic,email,phone,address,password,db_data_id,role) VALUES ('$value[surname]','$value[name]','$value[patronymic]','$email','$value[phone]','$value[shipping_address]','$pwd',$value[db_data_id],'$value[role]')";
     
     
     mysql_query($query);

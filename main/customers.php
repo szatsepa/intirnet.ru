@@ -95,10 +95,8 @@
             
 
     <div  class="tabs box" id="myTabs">
-        <p>Клиенты.</p>
-<!--        <ul>    
-            <li><span><strong></strong></span></li>
-        </ul>-->
+        <p class="box">Клиенты.</p>
+        <p class="box"><a href="#" class="btn-info"><span>Роли</span></a><a href="#" class="btn-info"><span>Алфавит</span></a><a href="#" class="btn-info"><span>Все</span></a></p>
     </div>
 
     <div id="tab01">
@@ -111,6 +109,7 @@
                 <tr>
                     <th class="t-center">ID</th>
                     <th class="t-center">Ф.И.О.</th>
+                    <th class="t-center">Роль</th>
                     <th class="t-center">Телефон</th>
                     <th class="t-center">Email</th>
                     <th class="t-center">Дата<br />рег.</th>
@@ -118,7 +117,7 @@
                 </tr>
     <?php
     foreach ($customers as $value) {
-        echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]</td><td class='smaller'>$value[phone]</td><td class='smaller'>$value[email]</td><td class='smaller t-center'>$value[creation_time]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='set_$value[id]' class='ico-user-02' title='Выбрать контакт'></a></td></tr>";
+        echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]</td><td class='smaller'>$value[role]</td><td class='smaller'>$value[phone]</td><td class='smaller'>$value[email]</td><td class='smaller t-center'>$value[creation_time]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='set_$value[id]' class='ico-user-02' title='Выбрать контакт'></a></td></tr>";
 
                 }
                 ?>

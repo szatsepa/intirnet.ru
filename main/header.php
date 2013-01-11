@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
     </script>
     
 </head>
-<body>
+<!--<body>
     
 <div id="wrapper">    
-<input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
+<input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>-->
