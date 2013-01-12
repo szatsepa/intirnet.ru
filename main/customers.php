@@ -14,7 +14,7 @@
          $("#aside").css({'position':'relative','float':'left','width':'12%'});
          
          $(".ico-edit").mousedown(function(){
-             
+              
              var id = this.id;
              id = id.substr(2); 
              $("#uid").val(id)
@@ -38,7 +38,36 @@
              $("#tab02").hide();
 
         });
+        
+        var role_vision = false;
+        var alphabet_vision = false;
+        
+        $("#a_role").mousedown(function(){
+            $("#fieldset_filter_alphabet").css('display', 'none');
+            if(!role_vision){
+                $("#fieldset_filter_roles").css('display', 'block');
+            }else{
+                $("#fieldset_filter_roles").css('display', 'none');
+            }
+            role_vision = !role_vision;        
+        });
+        
+        $("#a_alphabet").mousedown(function(){
+            $("#fieldset_filter_roles").css('display', 'none');
+            if(!alphabet_vision){
+                $("#fieldset_filter_alphabet").css('display', 'block');
+            }else{
+                $("#fieldset_filter_alphabet").css('display', 'none');
+            }
+            role_vision = !alphabet_vision;        
+        });
          
+        $("#a_all").mousedown(function(){
+            alphabet_vision = role_vision = false;
+            $("#fieldset_filter_alphabet").css('display', 'none');
+            $("#fieldset_filter_roles").css('display', 'none');
+        });
+        
          function _saveData(arg){
              $.ajax({
                  url:'action/update_customer.php',
@@ -91,12 +120,23 @@
 
 <div id="content" class="box">   
                     <!-- Tab01 -->
-                    
-            
+                    <p class="box"><strong>Клиенты.</strong></p>
+        <p class="box"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            
+    
+<!-- Upload -->
+<fieldset id="fieldset_filter_roles" style="display:none;">
+	<legend>Теги</legend>
+    <?php include ("../main/roles.php");?>
+</fieldset>
+
+<!-- Upload --> 
+<fieldset id="fieldset_filter_alphabet" style="display:none;">
+	<legend>Алфавит</legend>
+    <?php  include ("../main/alphabet.php");?>
+</fieldset>        
 
     <div  class="tabs box" id="myTabs">
-        <p class="box">Клиенты.</p>
-        <p class="box"><a href="#" class="btn-info"><span>Роли</span></a><a href="#" class="btn-info"><span>Алфавит</span></a><a href="#" class="btn-info"><span>Все</span></a></p>
+        
     </div>
 
     <div id="tab01">
@@ -125,7 +165,7 @@
         </table>
     </div> <!-- /tab01 -->
 
-</div>
+
 <!-- Tab02 -->
 <div id="tab02">
     
@@ -171,3 +211,4 @@
 		</div> 
            
 </div> <!-- /tab02 -->
+</div><!-- Content -->

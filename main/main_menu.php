@@ -1,5 +1,5 @@
 <?php
-include 'action/check_differences.php';
+include '../action/check_differences.php';
 
 $qstring = $_SERVER[QUERY_STRING];
 
@@ -23,23 +23,16 @@ if($add_rows > 0){
 <?php
 }
 ?>
-<script type="text/javascript">
-    $(document).ready(function(){
-//        $("#aside").css({'width':'12%'});
-//         $("#content ").css({'width':'88%'});
-//         $("#aside ul li a").css({'width':'66%'});
-    });
-</script>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
 		<div id="aside" class="box">
-<!--
+
 			<div class="padding box">
 
-				 Logo (Max. width = 200px) 
-				<p id="logo"><a href="#"><img src="../tmp/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
-				
-			</div>  /padding -->
+<!--				 Logo (Max. width = 200px) -->
+				<p id="logo"><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
+			</div>	
+<!--			  /padding -->
                         <ul class="box">				
                 
 				<li ><a href="index.php?act=main">Клиенты ресурсов</a>
@@ -70,8 +63,8 @@ if($add_rows > 0){
                 
                 <li><a href="index.php?act=srch">Поиск</a>
 <!--                    <ul id="reklama">
-                        <li><a href="index.php?act=utd&amp;utn=media">Рекламные носители</a></li>                                -->
-                    </ul>
+                        <li><a href="index.php?act=utd&amp;utn=media">Рекламные носители</a></li>                                
+                    </ul>-->
                 </li>                				
 				
 <!--				<li id="messages">
@@ -98,10 +91,11 @@ if($add_rows > 0){
 
 		<hr class="noscreen" />
 
-		<!-- Content (Right Column) -->
-<!--		<div id="content" class="box">    </div>  /content -->        
-<!--            <br />-->
 
-		
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#logo").css({'width':'200px','height':'100px','padding':'4px 0px 0 0px','backgroung-color':'rgb(234, 234, 234)'});
+    });
+</script>		
 
 	

@@ -71,7 +71,7 @@ foreach ($db_data as $value) {
     
 }
 
-include 'query/connect.php';
+include '../query/connect.php';
 
 if(count($all_users) > 0){
 

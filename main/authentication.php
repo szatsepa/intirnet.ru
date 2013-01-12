@@ -1,6 +1,6 @@
 <div id="logo">
     
-        <p class="nom t-center" ><a href="#"><img src="images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
+        <p class="nom t-center" ><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 
         <!-- Messages -->
 
