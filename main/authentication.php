@@ -105,7 +105,7 @@
          
         function _submit(arg){
                $.ajax({
-                url:'query/userauth.php',
+                url:'../query/userauth.php',
                 type:'post',
                 dataType:'json',
                 data:arg,
@@ -132,7 +132,7 @@
         }
         function _sendPWD(arg){
             $.ajax({
-                    url:'action/user_password.php',
+                    url:'../action/user_password.php',
                     type:'post',
                     dataType:'json',
                     data:arg,
@@ -157,10 +157,3 @@
         }
     });
 </script>
-<?php
-//echo "USER - ";
-//print_r($user);
-if(isset($user)){
-//    header("location:index.php?act=main");
-}
-?>

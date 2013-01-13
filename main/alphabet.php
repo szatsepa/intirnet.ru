@@ -29,7 +29,7 @@ foreach ($customers as $value) {
 
 foreach ($bukvar_act as $key => $value) {
 	if ($value == 1) {
-		echo "<a href='index.php?act=main&amp;buk=$key".$url_add."'>$key</a>&nbsp; ";
+		echo "<a id='$key' class='simbls'>$key</a>&nbsp; "; 
 	} else {
 		echo $key."&nbsp; ";
 	}

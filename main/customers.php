@@ -2,8 +2,10 @@
 	   
      $(document).ready(function(){
          
-//         var cid = 0;
-           
+         var customers = "";
+
+         customers = $("#customers_tab > tbody").html();              
+ 
          $("#myTabs").css({'width':'47%','margin':'0 auto'});
          $("#myTabs > p").css({'font-size':'1.4em','font-weight':'bold','text-align':'center'});
          $("#tab01").css('margin', '8px auto');
@@ -27,6 +29,7 @@
              id = id.substr(4);
              
          });
+         
          
         $("#user_insert_submit").mousedown(function(){
             _saveData({uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val()});
@@ -66,6 +69,48 @@
             alphabet_vision = role_vision = false;
             $("#fieldset_filter_alphabet").css('display', 'none');
             $("#fieldset_filter_roles").css('display', 'none');
+        });
+        
+        
+        
+        $(".bigger").mousedown(function(){
+            
+            var role = this.id;
+            
+            $("#customers_tab > tbody").empty().append(customers);           
+            
+            $("#customers_tab > tbody > tr").each(function(){
+                
+                var id = this.id;
+                var td_data = $("#"+id+" > td:eq(2)").text();
+                
+                if(role != td_data){
+                    $("#"+id).remove();
+                }
+            });
+        });
+        
+        $(".simbls").mousedown(function(){
+            
+            var simbl = this.id;
+            
+            $("#customers_tab > tbody").empty().append(customers);           
+            
+            $("#customers_tab > tbody > tr").each(function(){
+                
+                var id = this.id;
+                var td_data = $("#"+id+" > td:eq(1)").text();
+                
+                if(simbl != td_data.substr(0,1)){
+                    $("#"+id).remove();
+                }
+            });
+        });
+        
+         $("#a_all").mousedown(function(){
+                       
+            $("#customers_tab > tbody").empty().append(customers);           
+           
         });
         
          function _saveData(arg){
@@ -119,6 +164,15 @@
 </script>
 
 <div id="content" class="box">   
+    
+    <?php
+    if(isset($attributes[role])){
+                echo "<input type='hidden' id='s_role' value='$attributes[role]'>";
+          }
+    if(isset($attributes[buk])){
+                echo "<input type='hidden' id='s_buk' value='$attributes[buk]'>";
+          }      
+    ?>
                     <!-- Tab01 -->
                     <p class="box"><strong>Клиенты.</strong></p>
         <p class="box"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            
@@ -143,9 +197,6 @@
 
         <table id="customers_tab">
             <thead>
-
-            </thead> 
-            <tbody>
                 <tr>
                     <th class="t-center">ID</th>
                     <th class="t-center">Ф.И.О.</th>
@@ -155,6 +206,9 @@
                     <th class="t-center">Дата<br />рег.</th>
                     <th class='t-center'>Действ.</th>
                 </tr>
+            </thead> 
+            <tbody>
+                
     <?php
     foreach ($customers as $value) {
         echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]</td><td class='smaller'>$value[role]</td><td class='smaller'>$value[phone]</td><td class='smaller'>$value[email]</td><td class='smaller t-center'>$value[creation_time]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='set_$value[id]' class='ico-user-02' title='Выбрать контакт'></a></td></tr>";

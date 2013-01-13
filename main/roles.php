@@ -28,13 +28,6 @@ foreach($customers as $value) {
     }
 }
 
-//if (count($customers) > 0) {
-//
-//    mysql_data_seek($qry_users,0);
-//
-//}
-
-
 // Часто встречающиеся теги будут выводиться первыми
 arsort($cloud);
 
@@ -44,7 +37,7 @@ arsort($cloud);
 
 foreach ($cloud as $key => $value) {
     
-    echo "<a href='index.php?act=main&amp;role=".$key.$url_add."' class='bigger'>".$key."</a>&nbsp; ";
+    echo "<a id='$key' class='bigger'>".$key."</a>&nbsp; ";
     
 }
 
