@@ -15,7 +15,7 @@
          $("#right_side").css({'position':'relative','width':'50%','float':'left','padding-top':'66px'} );
          $("#aside").css({'position':'relative','float':'left','width':'12%'});
          
-         $(".ico-edit").mousedown(function(){
+         $(".ico-edit").live('click',function(){
               
              var id = this.id;
              id = id.substr(2); 
@@ -23,7 +23,7 @@
              _readCustomer({uid:id});
          });
          
-         $(".ico-user-02").mousedown(function(){
+         $(".ico-user-02").live('click',function(){
 //             $("#tab01").hide();
              var id = this.id;
              id = id.substr(4);
@@ -112,6 +112,11 @@
             $("#customers_tab > tbody").empty().append(customers);           
            
         });
+        
+//        $("tr").live('click',function(){
+//            var id = this.id;
+//            console.log(id);
+//        });
         
          function _saveData(arg){
              $.ajax({
