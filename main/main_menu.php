@@ -66,7 +66,7 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#logo").css({'width':'200px','height':'100px','padding':'4px 0px 0 0px','backgroung-color':'rgb(234, 234, 234)'});
+//        $("#logo").css({'width':'200px','height':'100px','padding':'4px 0px 0 0px','backgroung-color':'rgb(234, 234, 234)'});
     });
 </script>		
 <?php

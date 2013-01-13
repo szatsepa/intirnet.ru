@@ -6,7 +6,7 @@ $query = "UPDATE `customer` SET name = '$_POST[name]', patronymic = '$_POST[patr
 
 mysql_query($query);
 
-$out = array('ok'=>NULL, 'query'=>$query,'customer'=>$_POST);
+$out = array('ok'=>NULL, 'query'=>$query,'customer'=>$_POST,'act'=>'update');
 
 $aff = mysql_affected_rows();
 

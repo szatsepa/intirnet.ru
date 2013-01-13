@@ -3,28 +3,23 @@
      $(document).ready(function(){
          
          var customers = "";
+         var add = false;
 
-         customers = $("#customers_tab > tbody").html();              
- 
-         $("#myTabs").css({'width':'47%','margin':'0 auto'});
-         $("#myTabs > p").css({'font-size':'1.4em','font-weight':'bold','text-align':'center'});
-         $("#tab01").css('margin', '8px auto');
-         $("#tab02").hide().css({'width':'66%','margin':'12px auto'});
-         $("#about_bottom").css({'width':'100%'});
-         $(".col50").css({'position':'relative','width':'50%','float':'left'});
-         $("#right_side").css({'position':'relative','width':'50%','float':'left','padding-top':'66px'} );
-         $("#aside").css({'position':'relative','float':'left','width':'12%'});
+         customers = $("#customers_tab > tbody").html(); 
          
+         $("#tab02").hide();
+         $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+          
          $(".ico-edit").live('click',function(){
               
              var id = this.id;
              id = id.substr(2); 
              $("#uid").val(id)
              _readCustomer({uid:id});
-         });
+         }).css({'cursor':'pointer'});
          
          $(".ico-user-02").live('click',function(){
-//             $("#tab01").hide();
+             
              var id = this.id;
              id = id.substr(4);
              
@@ -32,7 +27,13 @@
          
          
         $("#user_insert_submit").mousedown(function(){
-            _saveData({uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val()});
+            var path = '';
+            if(!add){
+                path = '../action/update_customer.php';
+             }else{
+               path = '../action/add_customer.php'; 
+            }
+            _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
         });
         
         $("#back").mousedown(function(){
@@ -52,7 +53,8 @@
             }else{
                 $("#fieldset_filter_roles").css('display', 'none');
             }
-            role_vision = !role_vision;        
+            role_vision = !role_vision; 
+            alphabet_vision = false;
         });
         
         $("#a_alphabet").mousedown(function(){
@@ -62,7 +64,8 @@
             }else{
                 $("#fieldset_filter_alphabet").css('display', 'none');
             }
-            role_vision = !alphabet_vision;        
+            alphabet_vision = !alphabet_vision; 
+            role_vision = false;
         });
          
         $("#a_all").mousedown(function(){
@@ -113,18 +116,43 @@
            
         });
         
-         function _saveData(arg){
+        $("#t01").mousedown(function(){
+            $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+            $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+            $("#tab01").show();
+            $("#tab02").hide();
+            add = false;
+        });
+
+        $("#t02").mousedown(function(){
+            $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+            $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+            $("#tab02").show();
+            $("#tab01").hide();
+            add = true;
+//            $("div").css('outline', '1px solid red');
+        });
+    
+        
+         function _saveData(path, arg){
              $.ajax({
-                 url:'action/update_customer.php',
+                 url:path,
                  type:'post',
                  dataType:'json',
                  data:arg,
                  success:function(data){
                      $("#tab01").show();
                      $("#tab02").hide();
-                     $("#r_"+$("#uid").val()+" td:eq(1)").text(data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']);
-                     $("#r_"+$("#uid").val()+" td:eq(2)").text(data['customer']['phone']);
-                     $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']);
+                     if(data['act'] == 'update'){
+                        $("#r_"+$("#uid").val()+" td:eq(1)").text(data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']);
+                        $("#r_"+$("#uid").val()+" td:eq(2)").text(data['customer']['phone']);
+                        $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']); 
+                     }else if(data['act'] == 'add'){
+                         $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"/td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-edit' title='Редактировать'></a></td></tr>");
+
+// <a id='set_"+data['customer']['id']+"' class='ico-user-02' title='Выбрать контакт'></a>           
+
+                     }                    
                  },
                  error:function(data){
                      console.log(data['responseText']);                     
@@ -151,8 +179,12 @@
                      $("#address").val(data['address']);
                      $("#comments").val(data['comments']);
                      $("#tags").val(data['tags']);
+                     $("#role").val(data['role']);
+                     
                      $("#tab01").hide();
+                     $("#p-filter").hide();
                      $("#tab02").show();
+                     
                 },
                 error:function(data){
                     console.log(data['responseText']);
@@ -175,7 +207,7 @@
     ?>
                     <!-- Tab01 -->
                     <p class="box"><strong>Клиенты.</strong></p>
-        <p class="box"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            
+        <p class="box" id="p-filter"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            
     
 <!-- Upload -->
 <fieldset id="fieldset_filter_roles" style="display:none;">
@@ -190,15 +222,15 @@
 </fieldset>        
 
     <div  class="tabs box" id="myTabs">
-        <ul>    
+        <ul> 
     	<li><a id="t01"><span>Список</span></a></li>
     	<li><a id="t02"><span>Создать/Редактировать</span></a></li>        
     </ul>
     </div>
-
+<!-- class="ui-tabs-panel"-->
     <div id="tab01">
 
-        <table id="customers_tab">
+        <table id="customers_tab" >
             <thead>
                 <tr>
                     <th class="t-center">ID</th>
@@ -233,51 +265,50 @@
             </tbody>
         </table>
     </div> <!-- /tab01 -->
-
-
-<!-- Tab02 -->
+<!-- TAB02 -->
 <div id="tab02">
-    
-<!--    <form action="index.php?act=user_insert" method="post" id="user_insert" name="user_insert">   </form>-->
         <fieldset>
-    	<legend><strong>Основные данные</strong></legend>     
+    	<legend>Основные данные</legend>     
         <div class="col50">
-            <input type="hidden" value="" id="uid"/>
              <p><label for="surname">Фамилия:</label><br />
-			    <input size="50" name="surname" value="" class="input-text required" id="surname" type="text"/></p>
-            <p><label for="name">Имя:</label><br />
-			    <input size="50" name="name" value="" class="input-text required" id="name" type="text"/></p>
+			    <input size="50" value="" class="input-text required" id="surname" type="text"></p>
+            <p><label for="patronymic">Отчество:</label><br />
+			    <input size="50" value="" class="input-text" id="patronymic" type="text"></p>
              <p><label for="phone">Телефон:</label><br />
-			    <input size="30" name="phone" value="" class="input-text required" id="phone" type="text"/></p>
+			    <input size="30" value="" class="input-text required" id="phone" type="text"></p>
             <p><label for="fax">Факс:</label><br />
-			    <input size="30" name="fax" value="" class="input-text" id="fax" type="text"/></p>
+			    <input size="30" value="" class="input-text" id="fax" type="text"></p>
         </div>
         
-        <div class="col50 f-right" id="right_side">
-            <p><label for="patronymic">Отчество:</label><br />
-			    <input size="50" name="patronymic" value="" class="input-text" id="patronymic" type="text"/></p>
+        <div class="col50 f-right">
+            <p><label for="name">Имя:</label><br />
+			    <input size="50" value="" class="input-text required" id="name" type="text"></p>
+            
+            <p><label for="role">Роль:</label><br />
+                            <input size="50" value="" class="input-text" id="role"/></p>
             <p><label for="phone2">Дополнительный телефон:</label><br />
-			    <input size="30" name="phone2" value="" class="input-text" id="phone2" type="text"/></p>
+			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>
             <p><label for="email">Электронная почта:</label><br />
-			    <input size="30" name="email" value="" class="input-text email" id="email" type="text"/></p><br />
+			    <input size="30" value="" class="input-text email" id="email" type="text"></p><br />
         </div>
-        <div id="about_bottom">
          <p><label for="postcode">Почтовый индекс:</label><br />
-			    <input size="12" name="postcode" value="" class="input-text digits" id="postcode" minlength="6" maxlength="6" type="text"></p>
+			    <input size="12" value="" class="input-text digits" id="postcode" minlength="6" maxlength="6" type="text"></p>
          <p><label for="address">Почтовый адрес:</label><br />
-			    <input size="100" name="address" value="" class="input-text" id="address" type="text"/></p>
+			    <input size="100" value="" class="input-text" id="address" type="text"></p>
          <p><label for="comments">Комментарии:</label><br />
-			    <textarea cols="95" rows="3" class="input-text" id="comments" name="comments"></textarea></p>
+			    <textarea cols="95" rows="3" class="input-text" id="comments"></textarea></p>
          <p><label for="tags">Теги:</label><br />
-			    <input size="100" name="tags" value="" class="input-text" id="tags" type="text"/><br />
+			    <input size="100" value="" class="input-text" id="tags" type="text"><br />
             <span class="smaller low">несколько тегов разделяются запятыми</span></p>
-        </div>  
+          
     
         </fieldset>
-    
-        <div class="box-01">
-		    <p class="nom" style="text-align: center"><input value="Сохранить" class="input-submit" type="submit" id="user_insert_submit">&nbsp;&nbsp;<input value="Вернутся" class="input-submit" type="button" id="back"></p>
+                <div class="box-01">
+		    <p class="nom"><input value="Сохранить пользователя" class="input-submit" type="button" id="user_insert_submit"></p>
 		</div> 
-           
+   
+        
+        <fieldset id="fieldset_doc" style="display:none;">        
+    
 </div> <!-- /tab02 -->
 </div><!-- Content -->

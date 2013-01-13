@@ -16,20 +16,27 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/reset.css" />  <!-- RESET -->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/main.css" /> <!-- MAIN STYLE SHEET -->
-   <link rel="stylesheet" media="screen,projection" type="text/css" href="./css/2col.css" title="2col" /><!--  DEFAULT: 2 COLUMNS -->
-    <link rel="alternate stylesheet" media="screen,projection" type="text/css" href="./css/1col.css" title="1col" /> <!--  ALTERNATE: 1 COLUMN -->
-    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="./css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
+   <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/2col.css" title="2col" /><!--  DEFAULT: 2 COLUMNS -->
+    <link rel="alternate stylesheet" media="screen,projection" type="text/css" href="../css/1col.css" title="1col" /> <!--  ALTERNATE: 1 COLUMN -->
+    <!--[if lte IE 6]><link rel="stylesheet" media="screen,projection" type="text/css" href="../css/main-ie6.css" /><![endif]--> <!-- MSIE6 -->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/style.css" /> <!-- GRAPHIC THEME -->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
     <script type="text/javascript" src="../js/jquery-1.8b1.js"></script>
     <script type="text/javascript" src="../js/myfunction.js"></script>
+<!--    <script type="text/javascript" src="../js/ui.tabs.js"></script>-->
     <script type="text/javascript">
         
         $(document).ready(function(){
 
             var rem = $("#rem").val();
             var rem_obj = {screen:screen.width + " X "+screen.height};
-//            console.log(rem_obj);
+//            $(".tabs > ul").tabs();
+// Подсветка текущего раздела
+//            $('#users').attr('Id', 'submenu-active');
+            $("tr:nth-child(odd)").addClass("bg");
+            $("table.nostyle > tbody > tr").removeClass("bg");
+            $("#calendar > tbody > tr").removeClass("bg");
+            $("#calendar-02 > tbody > tr").removeClass("bg");
 
             if(rem == undefined || !rem){
                 $.ajax({
@@ -38,7 +45,6 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
                     dataType:'json',
                     data:rem_obj,
                     success:function(data){
-//                        console.log(data);
                         if(data['ok'] != "NULL"){
                             $("#rem").val('1');
                             rem = 1;
@@ -49,12 +55,8 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
                     }
                 });
             }
-
-        });  
+          
+	});
     </script>
     
 </head>
-<!--<body>
-    
-<div id="wrapper">    
-<input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>--> 

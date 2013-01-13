@@ -89,6 +89,8 @@
                      $("#comments").val(data['comments']);
                      $("#pwd").val(data['pwd']);
                      $("#tags").val(data['tags']);
+                     $("#role").val(data['role']);
+                     
                      $("#tab01").hide();
                      $("#tab02").show();
                 },
@@ -158,50 +160,49 @@
     </div> <!-- /tab01 -->
 
 </div>
-<!-- Tab02 -->
+<!-- TAB02 -->
 <div id="tab02">
-    
-<!--    <form action="index.php?act=user_insert" method="post" id="user_insert" name="user_insert">   </form>-->
         <fieldset>
-    	<legend><strong>Основные данные</strong></legend>     
+    	<legend>Основные данные</legend>     
         <div class="col50">
-            <input type="hidden" value="" id="uid"/>
              <p><label for="surname">Фамилия:</label><br />
-			    <input size="50" value="" class="input-text required" id="surname" type="text"/></p>
-            <p><label for="name">Имя:</label><br />
-			    <input size="50" value="" class="input-text required" id="name" type="text"/></p>
-            <p><label for="name">Пароль:</label><br />
-			    <input size="50" value="" class="input-text required" id="pwd" type="text"/></p>
+			    <input size="50" value="" class="input-text required" id="surname" type="text"></p>
+            <p><label for="patronymic">Отчество:</label><br />
+			    <input size="50" value="" class="input-text" id="patronymic" type="text"></p>
              <p><label for="phone">Телефон:</label><br />
-			    <input size="30" value="" class="input-text required" id="phone" type="text"/></p>
+			    <input size="30" value="" class="input-text required" id="phone" type="text"></p>
             <p><label for="fax">Факс:</label><br />
-			    <input size="30" value="" class="input-text" id="fax" type="text"/></p>
+			    <input size="30" value="" class="input-text" id="fax" type="text"></p>
         </div>
         
-        <div class="col50 f-right" id="right_side">
-            <p><label for="patronymic">Отчество:</label><br />
-			    <input size="50" value="" class="input-text" id="patronymic" type="text"/></p>
+        <div class="col50 f-right">
+            <p><label for="name">Имя:</label><br />
+			    <input size="50" value="" class="input-text required" id="name" type="text"></p>
+            
+            <p><label for="role">Роль:</label><br />
+                            <input size="50" value="" class="input-text" id="role"/></p>
             <p><label for="phone2">Дополнительный телефон:</label><br />
-			    <input size="30" value="" class="input-text" id="phone2" type="text"/></p>
+			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>
             <p><label for="email">Электронная почта:</label><br />
-			    <input size="30" value="" class="input-text email" id="email" type="text"/></p><br />
+			    <input size="30" value="" class="input-text email" id="email" type="text"></p><br />
         </div>
-        <div id="about_bottom">
          <p><label for="postcode">Почтовый индекс:</label><br />
 			    <input size="12" value="" class="input-text digits" id="postcode" minlength="6" maxlength="6" type="text"></p>
          <p><label for="address">Почтовый адрес:</label><br />
-			    <input size="100" value="" class="input-text" id="address" type="text"/></p>
+			    <input size="100" value="" class="input-text" id="address" type="text"></p>
          <p><label for="comments">Комментарии:</label><br />
 			    <textarea cols="95" rows="3" class="input-text" id="comments"></textarea></p>
          <p><label for="tags">Теги:</label><br />
-			    <input size="100" value="" class="input-text" id="tags" type="text"/><br />
+			    <input size="100" value="" class="input-text" id="tags" type="text"><br />
             <span class="smaller low">несколько тегов разделяются запятыми</span></p>
-        </div>  
+          
     
         </fieldset>
-    
-        <div class="box-01">
-		    <p class="nom" style="text-align: center"><input value="Сохранить" class="input-submit" type="submit" id="user_insert_submit">&nbsp;&nbsp;<input value="Вернутся" class="input-submit" type="button" id="back"></p>
+                <div class="box-01">
+		    <p class="nom"><input value="Сохранить пользователя" class="input-submit" type="button" id="user_insert_submit"></p>
 		</div> 
-           
+   
+        
+        <fieldset id="fieldset_doc" style="display:none;">        
+    
 </div> <!-- /tab02 -->

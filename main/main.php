@@ -16,7 +16,5 @@
             </div> <!--  /tray -->
 
             <hr class="noscreen" />
-<!--
-             Columns 
-            <div id="cols" class="box">-->
+
            
