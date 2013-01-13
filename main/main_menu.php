@@ -22,72 +22,44 @@ if($add_rows > 0){
 </script>
 <?php
 }
+if($_SESSION[auth] == 1) { 
+$roles_active    = "";
+$users_active    = "";
+$kabagent_active = "";
+if ($attributes[act] == "main") $roles_active = 'id="submenu-active"';
+if ($attributes[act] == "res") $users_active = 'id="submenu-active"';
+if ($attributes[act] == "adm" ) $kabagent_active = 'id="submenu-active"';
+if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 ?>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
+            <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
 		<div id="aside" class="box">
 
-			<div class="padding box">
+                    <div class="padding box">
 
 <!--				 Logo (Max. width = 200px) -->
-				<p id="logo"><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
-			</div>	
-<!--			  /padding -->
-                        <ul class="box">				
+                            <p id="logo"><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
+                    </div>	
+<!-- /padding -->
+            <ul class="box">				
                 
-				<li ><a href="index.php?act=main">Клиенты ресурсов</a>
-<!--                                <ul id="users">
-                                    <li><a href="index.php?act=roles">Роли участников системы</a></li>
-                                    <li><a href="index.php?act=utd&amp;utn=pd_roles">Роли продавцов</a></li>
-                                    <li><a href="index.php?act=utd&amp;utn=pk_roles">Роли покупателей</a></li>
-                                    <li><a href="index.php?act=utd&amp;utn=buh_roles">Роли бухгалтерии</a></li>
-                                    <li><a href="index.php?act=o_type_permit">Карточки для Агентов</a></li>
-                                </ul>-->
-                                </li>
+                <li <?php echo $roles_active;?>>
+                    <a href="index.php?act=main">Клиенты ресурсов</a>
+                </li>
                 
-				<li ><a href="index.php?act=res">Ресурсы и базы</a>
-<!--                    <ul id="products">
-                         <li><a href="index.php?act=utd&amp;utn=o_type">Типы карточек</a></li>     
-						 <li><a href="index.php?act=o_div">Разделы карточек</a></li>  
-						 <li><a href="index.php?act=o_inp&o_div=0">Общие характеристики</a></li>  						 
-                    </ul>-->
-                                </li>   
-				
-				<li ><a href="index.php?act=adm">Администрация</a>
-<!--                    <ul id="docs">
-                         <li><a href="index.php?act=utd&amp;utn=doc_types">Типы</a></li>     
-						 <li><a href="index.php?act=discuss_permit">Обсуждение</a></li>
-                    </ul>-->
+                <li <?php echo $users_active;?>>
+                    <a href="index.php?act=res">Ресурсы и базы</a>
                 </li>   
 				
-                
-                <li><a href="index.php?act=srch">Поиск</a>
-<!--                    <ul id="reklama">
-                        <li><a href="index.php?act=utd&amp;utn=media">Рекламные носители</a></li>                                
-                    </ul>-->
-                </li>                				
-				
-<!--				<li id="messages">
-					<a href="index.php?act=messages">Сообщения</a>
-				</li>-->
-<!--				
-				<li><a href="#">Подсчет баллов</a>
-                    <ul id="ball">
-                        <li>
-							<a href="index.php?act=utd&amp;utn=b_process">Процессы</a>
-						</li>
-						<li>
-							<a href="index.php?act=balls">Баллы</a>
-						</li>                        
-                    </ul>
-                </li>-->
-				
-<!--				<li id="containers">
-					<a href="index.php?act=containers">Контейнеры</a>
-				</li>-->
-				      
-			</ul>
-            		</div> <!-- /aside -->
+                <li <?php echo $kabagent_active;?>>
+                    <a href="index.php?act=adm">Администрация</a>
+                </li>   
+		<li <?php echo $objects_active;?>>
+                    <a href="index.php?act=srch">Поиск</a>
+                </li> 
+            </ul>
+    </div> <!-- /aside -->
 
 		<hr class="noscreen" />
 
@@ -97,5 +69,6 @@ if($add_rows > 0){
         $("#logo").css({'width':'200px','height':'100px','padding':'4px 0px 0 0px','backgroung-color':'rgb(234, 234, 234)'});
     });
 </script>		
-
-	
+<?php
+}
+?>	

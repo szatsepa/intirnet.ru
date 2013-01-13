@@ -113,11 +113,6 @@
            
         });
         
-//        $("tr").live('click',function(){
-//            var id = this.id;
-//            console.log(id);
-//        });
-        
          function _saveData(arg){
              $.ajax({
                  url:'action/update_customer.php',
@@ -195,7 +190,10 @@
 </fieldset>        
 
     <div  class="tabs box" id="myTabs">
-        
+        <ul>    
+    	<li><a id="t01"><span>Список</span></a></li>
+    	<li><a id="t02"><span>Создать/Редактировать</span></a></li>        
+    </ul>
     </div>
 
     <div id="tab01">
@@ -216,9 +214,21 @@
                 
     <?php
     foreach ($customers as $value) {
-        echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]</td><td class='smaller'>$value[role]</td><td class='smaller'>$value[phone]</td><td class='smaller'>$value[email]</td><td class='smaller t-center'>$value[creation_time]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='set_$value[id]' class='ico-user-02' title='Выбрать контакт'></a></td></tr>";
+        ?>
+        <tr id='r_<?php echo $value[id];?>'>
+            <td class='t-right'><?php echo $value[id];?></td>
+            <td><?php echo "$value[surname]&nbsp;$value[name]&nbsp;$value[patronymic]";?></td>
+            <td class='smaller'><?php echo $value[role];?></td>
+            <td class='smaller'><?php echo $value[phone];?></td>
+            <td class='smaller'><a href='mailto:<?php echo $value[email];?>'><?php echo $value[email];?></a></td>
+            <td class='smaller'><?php echo $value[creation_time];?></td>
+            <td class='t-center'>
+                <a id='e_<?php echo $value[id];?>' class='ico-edit' title='Редактировать'></a>
+<!--                <a id='set_<?php echo $value[id];?>' class='ico-user-02' title='Выбрать контакт'></a>-->
+            </td>
+        </tr>
 
-                }
+      <?php          }
                 ?>
             </tbody>
         </table>
