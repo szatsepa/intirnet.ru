@@ -5,8 +5,14 @@
          var customers = "";
          var add = false;
          var search = false;
+         var d_bases = new Array();
 
          customers = $("#customers_tab > tbody").html(); 
+         
+              $.each($("#my_db > input"), function(){
+                 
+                  d_bases.push({db_name:this.name,login:this.id,password:$(this).val(),addr:$(this).attr('title')});
+              });
          
          $("#tab02").hide();
          $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
@@ -20,7 +26,7 @@
              add = false;
              search = false;
              _readCustomer({uid:id});
-             
+            
          }).css({'cursor':'pointer'});
          
          $(".ico-user-02").live('click',function(){
@@ -40,7 +46,7 @@
             }
             if(!search){
                 _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
-            }else{
+            }else{                
                _searchData({name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()}); 
             }
             
@@ -154,7 +160,7 @@
         
         $("#t03").mousedown(function(){
             
-        $("input:text").val("");
+                $("input:text").val("");
                 
                 $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                 $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
@@ -215,13 +221,13 @@
         }
         
          function _saveData(path, arg){
+         
              $.ajax({
                  url:path,
                  type:'post',
                  dataType:'json',
                  data:arg,
                  success:function(data){
-                     
                      $("#tab01").show();
                      $("#tab02").hide();
                      if(data['act'] == 'update'){
@@ -233,10 +239,7 @@
                         $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                         $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                      }else if(data['act'] == 'add'){
-                         $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"/td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-edit' title='Редактировать'></a></td></tr>");
-
-// <a id='set_"+data['customer']['id']+"' class='ico-user-02' title='Выбрать контакт'></a>           
-
+                         $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"/td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-edit' title='Редактировать'></a></td></tr>");         
                      }                    
                  },
                  error:function(data){
@@ -275,7 +278,7 @@
                      $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                 },
                 error:function(data){
-                    console.log(data['responseText']);
+                    document.write(data['responseText']);
                 }
             });
         }
@@ -284,7 +287,15 @@
 </script>
 
 <div id="content" class="box">   
-  <input type="hidden" id="uid" value=""/>  
+  <input type="hidden" id="uid" value="">
+  <form id="my_db">
+      <?php 
+      foreach ($db_data as $value){
+     echo "<input type='hidden' name='$value[db_name]' id='$value[login]' value='$value[password]' title='$value[addr]'>";     
+      }
+      ?>
+  </form>
+  
     <?php
     if(isset($attributes[role])){
                 echo "<input type='hidden' id='s_role' value='$attributes[role]'>";
