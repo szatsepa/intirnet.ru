@@ -33,7 +33,7 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 ?>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
-            <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
+<!--            <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>-->
 		<div id="aside" class="box">
 
                     <div class="padding box">
@@ -55,9 +55,9 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                 <li <?php echo $kabagent_active;?>>
                     <a href="index.php?act=adm">Администрация</a>
                 </li>   
-		<li <?php echo $objects_active;?>>
+<!--		<li <?php echo $objects_active;?>>
                     <a href="index.php?act=srch">Поиск</a>
-                </li> 
+                </li> -->
             </ul>
     </div> <!-- /aside -->
 

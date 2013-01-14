@@ -8,14 +8,14 @@ if(!isset($_SESSION)){
 
 if(!isset($attributes) || !is_array($attributes)) {
 	$attributes = array();
-	$attributes = array_merge($_GET,$_POST,$_COOKIE); 
+	$attributes = array_merge($_GET,$_POST); 
 }
 if(isset($attributes[ch]) && $attributes[ch]){
     // Yстановим куку (неделя) для аутентификации
-	 setcookie("di", $_SESSION[id], time()+(680400*2));
+	 setcookie("di", $_SESSION[id], time()+(604800));
 } 
-if(isset($attributes[di])){
-    $_SESSION[id] = $attributes[di];
+if(isset($_COOKIE[di]) && $_COOKIE[di] != 'NULL'){
+    $_SESSION[id] = $_COOKIE[di];
 }
 
 include '../query/connect.php';   
@@ -63,7 +63,14 @@ switch ($attributes[act]){
     default :
         include '../main/authentication.php'; 
 }
-//print_r($_SESSION); 
+
+//echo "C => ";
+//print_r($_COOKIE);
+//echo "<br>S => ";
+//print_r($_SESSION);
+//echo "<br>A => ";
+//print_r($attributes);
+
 include '../main/footer.php';
 
 mysql_close(); 

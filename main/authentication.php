@@ -1,4 +1,4 @@
-<div id="logo">
+<div id="entry">
     
         <p class="nom t-center" ><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
 

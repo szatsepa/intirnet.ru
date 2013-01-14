@@ -52,7 +52,7 @@
          
          function _saveData(arg){
              $.ajax({
-                 url:'action/update_user.php',
+                 url:'..action/update_user.php',
                  type:'post',
                  dataType:'json',
                  data:arg,
@@ -64,7 +64,7 @@
                      $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']);
                  },
                  error:function(data){
-                     console.log(data['responseText']);                     
+                     document.write(data['responseText']);                     
                  }
              });
          }
@@ -76,7 +76,7 @@
                 dataType:'json',
                 data:arg,
                 success:function(data){
-//                     console.log(data);
+//                     document.write(data);
                      $("#surname").val(data['surname']);
                      $("#name").val(data['name']);
                      $("#patronymic").val(data['patronymic']);
@@ -95,13 +95,13 @@
                      $("#tab02").show();
                 },
                 error:function(data){
-                    console.log(data['responseText']);
+                    document.write(data['responseText']);
                 }
             });
         }
         function _addUser(arg){
             $.ajax({
-                    url:'./action/add_user.php',
+                    url:'../action/add_user.php',
                     type:'post',
                     dataType:'json',
                     data:arg,
@@ -114,7 +114,7 @@
 
                     },
                     error:function(data){
-                        console.log(data['responseText']);
+                        document.write(data['responseText']);
                     }
                 });
             }

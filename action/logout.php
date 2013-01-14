@@ -1,13 +1,19 @@
 <?php
 
 // Удаляем cookie
-setcookie("di", $attributes[auth], time()-1200);
+
 
 unset($_SESSION['auth']);
 unset($_SESSION['id']);
+unset($_COOKIE['di']);
 
 session_destroy();
 
-header ("location:index.php?out=1");
+setcookie("di", 'NULL',time()+604800);
+
+//echo "ETO PYZDETS =>> ";
+//print_r($_COOKIE);
+
+header ("location:index.php");
 
 ?>

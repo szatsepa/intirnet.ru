@@ -26,12 +26,12 @@
            
            if(!add){
                $.ajax({
-                    url:'./action/update_db_data.php',
+                    url:'../action/update_db_data.php',
                     type:'post',
                     dataType:'json',
                     data:out,
                     success:function(data){
-//                        console.log(data);
+//                        document.write(data);
                         $("#tab01").show();
                         $("#tab02").hide();
                         if(data['aff'] > 0){
@@ -45,12 +45,12 @@
 
                     },
                     error:function(data){
-                        console.log(data['responseText']);
+                        document.write(data['responseText']);
                     }
                 });
            }else{ 
                $.ajax({
-                    url:'./action/add_db_data.php',
+                    url:'../action/add_db_data.php',
                     type:'post',
                     dataType:'json',
                     data:out,
@@ -63,7 +63,7 @@
 
                     },
                     error:function(data){
-                        console.log(data['responseText']);
+                        document.write(data['responseText']);
                     }
                 });
            }
@@ -84,7 +84,7 @@
         });
          function _read_DB(arg){
              $.ajax({
-                 url:'./query/uno_data.php',
+                 url:'../query/uno_data.php',
                  type:'post',
                  dataType:'json',
                  data:arg,
@@ -100,7 +100,7 @@
                      $("#tab02").show();
                  },
                  error:function(data){
-                     console.log(data['responseText']);
+                     document.write(data['responseText']);
                  }
              });
              
@@ -121,9 +121,6 @@
 
         <table id="db_tab">
             <thead>
-
-            </thead> 
-            <tbody>
                 <tr>
                     <th class="t-center">ID</th>
                     <th class="t-center">Data base</th>
@@ -134,6 +131,9 @@
                     <th class='t-center'>Query</th>
                     <th class='t-center'>Action</th>
                 </tr>
+            </thead> 
+            <tbody>
+                
 <?php
 
 foreach ($res_data as $value) {

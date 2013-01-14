@@ -29,10 +29,15 @@ foreach ($customers as $value) {
 
 foreach ($bukvar_act as $key => $value) {
 	if ($value == 1) {
-		echo "<a id='$key' class='simbls'>$key</a>&nbsp; "; 
+		echo "<a id='$key' class='simbls'>$key</a>&nbsp;&nbsp; "; 
 	} else {
-		echo $key."&nbsp; ";
+		echo $key."&nbsp;&nbsp; ";
 	}
 }
 
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".simbls").css({'text-decoration':'underline','cursor':'pointer'});
+    });
+</script>

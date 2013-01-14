@@ -4,6 +4,7 @@
          
          var customers = "";
          var add = false;
+         var search = false;
 
          customers = $("#customers_tab > tbody").html(); 
          
@@ -14,8 +15,12 @@
               
              var id = this.id;
              id = id.substr(2); 
-             $("#uid").val(id)
+             $("#uid").val(id);
+             $("#user_insert_submit").val('Сохранить');
+             add = false;
+             search = false;
              _readCustomer({uid:id});
+             
          }).css({'cursor':'pointer'});
          
          $(".ico-user-02").live('click',function(){
@@ -33,7 +38,12 @@
              }else{
                path = '../action/add_customer.php'; 
             }
-            _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
+            if(!search){
+                _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
+            }else{
+               _searchData({name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()}); 
+            }
+            
         });
         
         $("#back").mousedown(function(){
@@ -119,20 +129,90 @@
         $("#t01").mousedown(function(){
             $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
             $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+            $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+            
             $("#tab01").show();
             $("#tab02").hide();
+            
+            $("#user_insert_submit").val('Сохранить');
             add = false;
+            search = false;
         });
 
         $("#t02").mousedown(function(){
             $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
             $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+            $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+            
             $("#tab02").show();
             $("#tab01").hide();
+            
+            $("#user_insert_submit").val('Сохранить');
             add = true;
-//            $("div").css('outline', '1px solid red');
+            search = false;
         });
-    
+        
+        $("#t03").mousedown(function(){
+            
+        $("input:text").val("");
+                
+                $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+               
+                $("#tab02").show();
+                $("#tab01").hide();
+                
+                $("#user_insert_submit").val('Искать');
+                add = false;
+                search = true;
+//                console.log($("#search_btn").attr('id')).attr('id', 'search_btn');
+        });
+        
+        function _searchData(arg){
+            
+             var count = 0;
+            
+            $.each(arg, function(){
+                if(this.length > 3)count++;
+            });
+            if(count > 0){
+                $.ajax({
+                    url:'../query/search.php',
+                    type:'post',
+                    dataType:'json',
+                    data:arg,
+                    success:function(data){
+//                        console.log(data);
+                        
+                        if(data.length > 0){
+                            $("#customers_tab > tbody").empty();
+                            $.each(data, function(){
+                                $("#customers_tab > tbody").append("<tr id='r_"+this['id']+"'><td class='t-right'>"+this['id']+"</td><td>"+this['name']+" "+this['patronymic']+" "+this['surname']+"</td><td class='smaller'>"+this['role']+"</td><td class='smaller'>"+this['phone']+"</td><td class='smaller'><a href='mailto:"+this['email']+"'>"+this['email']+"</a></td><td class='smaller t-center'>"+this['creation_time']+"</td><td class='t-center'><a id='e_"+this['id']+"' class='ico-edit' title='Редактировать'></a><a id='del_"+this['id']+"' class='ico-user-02' title='Выбрать контакт'></a></td></tr>");                            
+                            });
+                            $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+                            $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                            $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                            
+                            $("#user_insert_submit").val('Сохранить');
+                            add = false;
+                            search = false;
+                            
+                            $("#tab02").hide();
+                            $("#tab01").show();
+            
+                        }else{
+                            alert("Запрос вернул пустой результат!");
+                        }
+                    },
+                    error:function(data){
+                        document.write(data['responseText']);
+                    }
+                });
+            }else{
+                alert("Строка поиска должна содержать не менее трех символов.")
+            }
+        }
         
          function _saveData(path, arg){
              $.ajax({
@@ -141,12 +221,17 @@
                  dataType:'json',
                  data:arg,
                  success:function(data){
+                     
                      $("#tab01").show();
                      $("#tab02").hide();
                      if(data['act'] == 'update'){
+                         
                         $("#r_"+$("#uid").val()+" td:eq(1)").text(data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']);
                         $("#r_"+$("#uid").val()+" td:eq(2)").text(data['customer']['phone']);
-                        $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']); 
+                        $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']);
+                        $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+                        $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                        $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                      }else if(data['act'] == 'add'){
                          $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"/td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-edit' title='Редактировать'></a></td></tr>");
 
@@ -185,6 +270,9 @@
                      $("#p-filter").hide();
                      $("#tab02").show();
                      
+                     $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                     $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'}); 
+                     $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                 },
                 error:function(data){
                     console.log(data['responseText']);
@@ -196,7 +284,7 @@
 </script>
 
 <div id="content" class="box">   
-    
+  <input type="hidden" id="uid" value=""/>  
     <?php
     if(isset($attributes[role])){
                 echo "<input type='hidden' id='s_role' value='$attributes[role]'>";
@@ -220,11 +308,12 @@
 	<legend>Алфавит</legend>
     <?php  include ("../main/alphabet.php");?>
 </fieldset>        
-
+<!-- href="index.php?act=srch"-->
     <div  class="tabs box" id="myTabs">
         <ul> 
     	<li><a id="t01"><span>Список</span></a></li>
-    	<li><a id="t02"><span>Создать/Редактировать</span></a></li>        
+    	<li><a id="t02"><span>Создать/Редактировать</span></a></li> 
+        <li><a id="t03"><span>Поиск</span></a></li>
     </ul>
     </div>
 <!-- class="ui-tabs-panel"-->
@@ -267,6 +356,7 @@
     </div> <!-- /tab01 -->
 <!-- TAB02 -->
 <div id="tab02">
+    <form id="customers_data">
         <fieldset>
     	<legend>Основные данные</legend>     
         <div class="col50">
@@ -304,9 +394,9 @@
     
         </fieldset>
                 <div class="box-01">
-		    <p class="nom"><input value="Сохранить пользователя" class="input-submit" type="button" id="user_insert_submit"></p>
+		    <p class="nom"><input value="Сохранить" class="input-submit" type="button" id="user_insert_submit"></p>
 		</div> 
-   
+   </form>
         
         <fieldset id="fieldset_doc" style="display:none;">        
     
