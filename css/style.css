@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =============================================================================
 
 	STYLE.CSS
@@ -160,3 +161,118 @@ MESSAGES
 .msg.info {border:2px solid #B8E2FB; background-color:#E8F6FF;}
 .msg.done {border:2px solid #BBDF8D; background-color:#EAF7D9;}
 .msg.error {border:2px solid #FFAEAE; background-color:#FEEBEB;}
+=======
+/* 
+    Document   : style
+    Created on : 08.11.2012, 18:13:27
+    Author     : serjoga
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+    color: black;
+    font-family: Arial;
+}
+#d_wrapper{
+    position: relative;
+    width: 100%;
+    font: 1em Arial;
+}
+#d_login{
+    position: relative;
+    margin: 139px auto;
+    padding-top: 12px;
+    width: 230px;
+    height: 220px;
+}
+#d_in{
+    cursor: pointer;
+}
+#paragraff{
+    position: relative;
+    font-size: 1.6em;
+    font-weight: bold;
+    text-align: center;
+}
+a{
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 1.1em;
+    font-weight: normal;
+    color: black;
+}
+a:hover{
+    color: blueviolet;
+}
+#privat{
+    
+}
+#d_main_menu{
+    position: relative;
+    width: 100%;
+    height: 37px;
+    padding-left: 32px; 
+}
+#m_menu{
+    
+    background-color: #ececec;
+    width: 95%;
+}
+#m_menu td{
+    width: 10%;
+    text-align: center;
+    border: 1px solid black;
+}
+#submenu{
+    display: none;
+    position: absolute;
+    width: 15%;
+}
+.ll{
+    cursor: pointer;
+    text-decoration: underline;
+}
+.ll:hover{
+    color: blueviolet;
+}
+div.left_block{
+    position: relative;
+    float: left;
+    width: 39%;
+    padding-top: 12px;
+    padding-left: 24px;
+/*    outline: 1px solid green;*/
+    margin-left: 8px; 
+}
+div.right_block{
+    position: relative;
+    float: left;
+    width: 42%;
+    padding-top: 12px;
+    padding-left: 16px;
+    margin-left: 8px;
+/*    outline: 1px solid grey;*/
+}
+#vpsw,#svpsw{
+    width: 4px;
+    height: 12px;
+    background-color: red;
+    visibility: hidden;
+}
+table.info_tables{
+    width: 90%;
+    border: 1px solid #ececec;
+}
+table.info_tables.tr{
+   border: 1px solid #ececec; 
+}
+table.info_tables.td{
+    width: 16%;
+    
+}
+#u_dat{
+    display: none;
+}
+>>>>>>> branch 'master' of https://github.com/szatsepa/dimon_app.git
