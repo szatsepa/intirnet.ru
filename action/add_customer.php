@@ -10,6 +10,8 @@ $ins = mysql_insert_id();
 
 $_POST[id] = $ins;
 
+$_POST['creation_time'] = date("Y-m-d H:i:s");
+
 
 $out = array('ok'=>NULL, 'query'=>$query,'customer'=>$_POST,'act'=>'add');
 

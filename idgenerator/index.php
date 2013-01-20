@@ -26,11 +26,10 @@ include '../main/header.php';
 switch ($attributes[act]){
     
     case 'main':
-        include '../query/db_data.php';
+        include '../query/check_other_bases.php';
         include '../query/check_customers.php';
         include '../main/main.php';
         include '../main/main_menu.php';
-//        include '../main/filter.php';
         include '../main/customers.php';
         break;
     
