@@ -43,7 +43,7 @@
              
 //             this_id = "#"+this_id;
              
-        console.log($(pre_input).attr('id')!=$(this).children().attr('id'));
+//        console.log($(pre_input).attr('id')!=$(this).children().attr('id'));
              
              if($(pre_input).attr('id')!=$(this).children().attr('id')){
                      var txt = $(pre_input).val();
