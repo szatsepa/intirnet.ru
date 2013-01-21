@@ -25,6 +25,7 @@ function insertToThis($arr){
 }
 
 function insertToBases($arr){
+    //загружаем новых пользователей в иные базы
     $cnt = 0;
     
     foreach ($arr as $value) {
@@ -46,15 +47,16 @@ function insertToBases($arr){
                         $pwd = $value[men][pwd];
                     }
                     
-                    $role = $value[men][role];
+                    if($value[men][role] == 3 OR !$value[men][role])$role = 1;
 //                    echo "$role;  ";
-            
+//            поочередно подключаемся к базам
                     mysql_close();
                     mysql_connect($var[addr], $var[login], $var[password]);
                     mysql_select_db($var[db_name]);
                     mysql_query ("SET NAMES $var[charset]");
+//                    проверяем есть ли таблица в базе
                     $istable = mysql_table_seek('customer', $var[db_name]);
-//                    echo "CU ->>> $istable in ".$var[db_name]."<br>";
+//                    по результатам формируем запрос 
                     if($istable == 1){
                         $str = "INSERT INTO `customer` (name,patronymic,surname,phone,e_mail,secret_key) VALUES ('$name','$patronymic','$surname','$phone','$email','$pwd')";
                         $check_pwd = "SELECT COUNT(secret_key) FROM `customer` WHERE `secret_key` = '$pwd'";
@@ -64,8 +66,8 @@ function insertToBases($arr){
                     }
                     $result = mysql_query($check_pwd);
                     $row = mysql_fetch_row($result);
-//                    echo $row[0]." => count of password<br>";
-                    if($row[0] == 0 && $role == 3){
+//                    проверяем есть ли чел с таким паролем в бд если нету и роль ЗАКАЗЧИК  тогда добавляем запись в таблицу
+                    if($row[0] == 0 && $role == 1){
 //                        echo "$str<br>";
                         mysql_query($str);
                         if(mysql_insert_id()>0)$cnt++;
