@@ -53,7 +53,9 @@ switch ($attributes[act]){
         include '../main/administration.php';
         break;
     
-    
+    case 'info':
+        phpinfo();
+        break;
     
     case 'logout':
         include '../action/logout.php';

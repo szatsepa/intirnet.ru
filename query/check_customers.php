@@ -1,27 +1,57 @@
 <?php
+// TO DO = проверять если кустомер больше тмп полностью обновлять кустомерр
+
+$unnecessary = unnecessaryCustomers();
+
+
+
+if($unnecessary > 0){
+       $max_id = clearCustomer();
+}
+
 $new_customers = checkNewCustomers($odb_tables);
 
+insertToThis(checkNewCustomers($new_customers));
+
 if(count($new_customers)){
-//    $GLOBALS['cu'] = count($new_customers);
-
-    $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
-
-    $inserted = insertToBases($real_customers);
     
-    insertToThis(checkNewCustomers($odb_tables));
-
+    $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
 }
 
 $customers = _allPersons(NULL);
 
-function insertToThis($arr){
+function clearCustomer(){
     
-    foreach ($arr as $value) {
-        $query = "INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id])";
-        
-        mysql_query($query) or die("Помилка ".  mysql_error());
+    mysql_query("TRUNCATE TABLE `customer`");
+    
+    $result = mysql_query("SELECT * FROM `tmp`");
+    
+    $tmp_arr = array();
+    
+    while ($var = mysql_fetch_assoc($result)){
+        array_push($tmp_arr, $var);
     }
-        
+    $str_data = 'INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ';
+    foreach ($tmp_arr as $value) {
+        $str_data .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id]),";
+    }
+    
+    $str_data = substr($str_data, 0,  strlen($str_data));
+    
+    mysql_query($str_data);
+    
+    return mysql_insert_id();
+}
+
+function insertToThis($arr){
+    if(count($arr)){
+        foreach ($arr as $value) {
+            
+            $query = "INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id])";
+
+            mysql_query($query) or die("Помилка ".  mysql_error());
+        }
+    }
 }
 
 function insertToBases($arr){
@@ -57,13 +87,9 @@ function insertToBases($arr){
 //                    проверяем есть ли таблица в базе
                     $istable = mysql_table_seek('customer', $var[db_name]);
 //                    по результатам формируем запрос 
-                    if($istable == 1){
-                        $str = "INSERT INTO `customer` (name,patronymic,surname,phone,e_mail,secret_key) VALUES ('$name','$patronymic','$surname','$phone','$email','$pwd')";
-                        $check_pwd = "SELECT COUNT(secret_key) FROM `customer` WHERE `secret_key` = '$pwd'";
-                    }else{
-                        $str = "INSERT INTO `users` (role,name,patronymic,surname,phone,email,pwd) VALUES (3,'$name','$patronymic','$surname','$phone','$email','$pwd')";
-                        $check_pwd = "SELECT COUNT(pwd) FROM `users` WHERE `pwd` = '$pwd'";
-                    }
+                    $str = "INSERT INTO `users` (role,name,patronymic,surname,phone,email,pwd) VALUES (3,'$name','$patronymic','$surname','$phone','$email','$pwd')";
+                    $check_pwd = "SELECT COUNT(pwd) FROM `users` WHERE `pwd` = '$pwd'";
+                   
                     $result = mysql_query($check_pwd);
                     $row = mysql_fetch_row($result);
 //                    проверяем есть ли чел с таким паролем в бд если нету и роль ЗАКАЗЧИК  тогда добавляем запись в таблицу
@@ -72,6 +98,32 @@ function insertToBases($arr){
                         mysql_query($str);
                         if(mysql_insert_id()>0)$cnt++;
                     }
+                    if($istable == 1){
+                        $str = "INSERT INTO `customer` (name,patronymic,surname,phone,e_mail,secret_key) VALUES ('$name','$patronymic','$surname','$phone','$email','$pwd')";
+                        $check_pwd = "SELECT COUNT(secret_key) FROM `customer` WHERE `secret_key` = '$pwd'";
+                        
+                        $result = mysql_query($check_pwd);
+                        $row = mysql_fetch_row($result);
+                        
+                        if($row[0] == 0){
+    //                        echo "$str<br>";
+                            mysql_query($str);
+                            if(mysql_insert_id()>0)$cnt++;
+                        }
+                        
+                        $str = "INSERT INTO `users` (role,name,patronymic,surname,phone,email,pwd) VALUES (3,'$name','$patronymic','$surname','$phone','$email','$pwd')";
+                        $check_pwd = "SELECT COUNT(pwd) FROM `users` WHERE `pwd` = '$pwd'";
+
+                        $result = mysql_query($check_pwd);
+                        $row = mysql_fetch_row($result);
+    //                    проверяем есть ли чел с таким паролем в бд если нету и роль ЗАКАЗЧИК  тогда добавляем запись в таблицу
+                        if($row[0] == 0 && $role == 1){
+    //                        echo "$str<br>";
+                            mysql_query($str);
+                            if(mysql_insert_id()>0)$cnt++;
+                        }
+                    }
+                    
                 }
             }
     }
@@ -96,6 +148,17 @@ function _allPersons($sort){
     mysql_free_result($result);
     
     return $customers;
+}
+
+function unnecessaryCustomers(){
+    
+    $query = "SELECT COUNT(c.id) FROM `customer` AS c LEFT JOIN `tmp` AS t USING(id) WHERE t.id IS NULL";
+    
+    $result = mysql_query($query);
+    
+    $row = mysql_fetch_row($result);
+    
+    return $row[0];
 }
 
 function checkNewCustomers($db){
