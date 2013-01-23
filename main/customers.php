@@ -90,7 +90,7 @@
                     }
 
             });
-            console.log(user_data);
+//            console.log(user_data);
 //            if(!search && !add){
 //                _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
 //            }else if(search){                
@@ -516,23 +516,23 @@
     	<legend>Основные данные</legend>     
         <div class="col50">
              <p><label for="surname">Фамилия:</label><br />
-			    <input size="50" value="" class="input-text required" id="surname" type="text" readonly></p>
+			    <input value="" class="input-text required" id="surname" type="text" readonly></p>
             <p><label for="patronymic">Отчество:</label><br />
-			    <input size="50" value="" class="input-text" id="patronymic" type="text" readonly></p>
+			    <input value="" class="input-text" id="patronymic" type="text" readonly></p>
              <p><label for="phone">Телефон:</label><br />
-			    <input size="30" value="" class="input-text required" id="phone" type="text" readonly></p>
+			    <input value="" class="input-text required" id="phone" type="text" readonly></p>
 <!--            <p><label for="fax">Факс:</label><br />
 			    <input size="30" value="" class="input-text" id="fax" type="text"></p>-->
         </div>
         
         <div class="col50 f-right">
             <p><label for="name">Имя:</label><br />
-			    <input size="50" value="" class="input-text required" id="name" type="text" readonly></p>
+			    <input value="" class="input-text required" id="name" type="text" readonly></p>
             
             <p><label for="role">Роль:</label><br />
-                            <input size="50" value="" class="input-text" id="role" readonly></p>
+                            <input value="" class="input-text" id="role" readonly></p>
             <p><label for="email">Электронная почта:</label><br />
-			    <input size="30" value="" class="input-text email" id="email" type="text" readonly></p><br />
+			    <input value="" class="input-text email" id="email" type="text" readonly></p><br />
 <!--            <p><label for="phone2">Дополнительный телефон:</label><br />
 			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>-->
             
