@@ -45,12 +45,23 @@ function clearCustomer(){
 
 function insertToThis($arr){
     if(count($arr)){
+        
+        $str_data = 'INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ';
+        
+//        foreach ($arr as $value) {
+//            
+//            $query = "INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id])";
+//
+//            mysql_query($query) or die("Помилка ".  mysql_error());
+//        }
+        
         foreach ($arr as $value) {
-            
-            $query = "INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id])";
-
-            mysql_query($query) or die("Помилка ".  mysql_error());
+            $str_data .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id]),";
         }
+
+        $str_data = substr($str_data, 0,  strlen($str_data));
+        
+        mysql_query($str_data);
     }
 }
 
