@@ -11,16 +11,40 @@ if($unnecessary > 0){
 
 $new_customers = checkNewCustomers($odb_tables);
 
-insertToThis(checkNewCustomers($new_customers));
+insertToThis($new_customers);
 
 if(count($new_customers)){
     
     $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
+    
+    $already_added = insertToBases($real_customers);
+    
+    updateBaseTable($already_added);
+
+    
 }
 
 $customers = _allPersons(NULL);
 
+function updateBaseTable($arr){
+    
+    $str_data = 'INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ';
+    
+    foreach ($arr as $value) {
+        
+        if($value[e_mail])$email = $value[e_mail];
+        if($value[email])$email = $value[email];
+        if(!$value[role])$value[role] = "Заказчик";
+        
+        $str_data .= "($value[id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$email','$value[phone]','$value[tablename]',(SELECT id FROM db_data WHERE db_name = '$value[db_name]')),";
+    }
+    
+    $str_data = substr($str_data, 0,  (strlen($str_data)-1));
+    
+}
+
 function clearCustomer(){
+    // как если вдруг в бдонорах окажется пользователей меньше чем базаовой то перезапишем всех вновь
     
     mysql_query("TRUNCATE TABLE `customer`");
     
@@ -36,7 +60,7 @@ function clearCustomer(){
         $str_data .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id]),";
     }
     
-    $str_data = substr($str_data, 0,  strlen($str_data));
+    $str_data = substr($str_data, 0,  (strlen($str_data)-1));
     
     mysql_query($str_data);
     
@@ -44,22 +68,16 @@ function clearCustomer(){
 }
 
 function insertToThis($arr){
+//    добавим новых пользователей в таблицу оных
     if(count($arr)){
         
         $str_data = 'INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ';
-        
-//        foreach ($arr as $value) {
-//            
-//            $query = "INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id])";
-//
-//            mysql_query($query) or die("Помилка ".  mysql_error());
-//        }
         
         foreach ($arr as $value) {
             $str_data .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id]),";
         }
 
-        $str_data = substr($str_data, 0,  strlen($str_data));
+        $str_data = substr($str_data, 0,  (strlen($str_data)-1));
         
         mysql_query($str_data);
     }
@@ -68,6 +86,9 @@ function insertToThis($arr){
 function insertToBases($arr){
     //загружаем новых пользователей в иные базы
     $cnt = 0;
+    
+    $already_added = array();
+    $tmp = array();
     
     foreach ($arr as $value) {
             if(count($value[d_base])){
@@ -87,9 +108,9 @@ function insertToBases($arr){
                     }else{
                         $pwd = $value[men][pwd];
                     }
-                    
+//                    array_push($already_added, $pwd)
                     if($value[men][role] == 3 OR !$value[men][role])$role = 1;
-//                    echo "$role;  ";
+                    
 //            поочередно подключаемся к базам
                     mysql_close();
                     mysql_connect($var[addr], $var[login], $var[password]);
@@ -100,14 +121,17 @@ function insertToBases($arr){
 //                    по результатам формируем запрос 
                     $str = "INSERT INTO `users` (role,name,patronymic,surname,phone,email,pwd) VALUES (3,'$name','$patronymic','$surname','$phone','$email','$pwd')";
                     $check_pwd = "SELECT COUNT(pwd) FROM `users` WHERE `pwd` = '$pwd'";
-                   
                     $result = mysql_query($check_pwd);
                     $row = mysql_fetch_row($result);
 //                    проверяем есть ли чел с таким паролем в бд если нету и роль ЗАКАЗЧИК  тогда добавляем запись в таблицу
                     if($row[0] == 0 && $role == 1){
-//                        echo "$str<br>";
                         mysql_query($str);
                         if(mysql_insert_id()>0)$cnt++;
+                        $tmp = $value[men];
+                        $tmp[db_id] = $var[id];
+                        $tmp[db_name] = $var[db_name];
+                        $tmp[tablename] = "users";
+                        array_push($already_added, $tmp);
                     }
                     if($istable == 1){
                         $str = "INSERT INTO `customer` (name,patronymic,surname,phone,e_mail,secret_key) VALUES ('$name','$patronymic','$surname','$phone','$email','$pwd')";
@@ -117,29 +141,21 @@ function insertToBases($arr){
                         $row = mysql_fetch_row($result);
                         
                         if($row[0] == 0){
-    //                        echo "$str<br>";
                             mysql_query($str);
                             if(mysql_insert_id()>0)$cnt++;
+                            $tmp = $value[men];
+                            $tmp[db_id] = $var[id];
+                            $tmp[db_name] = $var[db_name];
+                            $tmp[tablename] = "customer";
+                            array_push($already_added, $tmp);
                         }
-                        
-                        $str = "INSERT INTO `users` (role,name,patronymic,surname,phone,email,pwd) VALUES (3,'$name','$patronymic','$surname','$phone','$email','$pwd')";
-                        $check_pwd = "SELECT COUNT(pwd) FROM `users` WHERE `pwd` = '$pwd'";
 
-                        $result = mysql_query($check_pwd);
-                        $row = mysql_fetch_row($result);
-    //                    проверяем есть ли чел с таким паролем в бд если нету и роль ЗАКАЗЧИК  тогда добавляем запись в таблицу
-                        if($row[0] == 0 && $role == 1){
-    //                        echo "$str<br>";
-                            mysql_query($str);
-                            if(mysql_insert_id()>0)$cnt++;
-                        }
                     }
-                    
                 }
             }
     }
     include '../query/connect.php'; 
-    return '<script type="text/javascript">document.location.href = "index.php?act=main";</script>';
+    return $already_added;
 }
 
 function _allPersons($sort){
@@ -216,8 +232,8 @@ function realytiData($arr){
     return $tmp;
 }
 
-function _isWhoRealyti($men){
-//    print_r($men);
+function _isWhoRealyti($men){ 
+    
     $tmp = array();
     $result = mysql_query("SELECT * FROM `db_data` WHERE id = $men[db_data_id]");
     $db = mysql_fetch_assoc($result);
@@ -237,6 +253,8 @@ function _isWhoRealyti($men){
     
     $tmp[d_base] = $men[db_data];
     
+    $tmp[tablename] = $men[tablename];
+    
     if($tmp[men][role] != 3 && $men[tablename] == 'users')unset ($tmp);
     
     include '../query/connect.php';
@@ -249,5 +267,5 @@ function mysql_table_seek($tablename, $dbname)
     $rslt = mysql_query("SHOW TABLES FROM `{$dbname}` LIKE '" . mysql_real_escape_string(addCslashes($tablename, "\\%_")) . "';");
 
     return mysql_num_rows($rslt) > 0;
-}
+} 
 ?>
