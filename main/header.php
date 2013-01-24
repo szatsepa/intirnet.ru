@@ -1,6 +1,22 @@
 <?php 
 header('Content-Type: text/html; charset=utf-8'); 
-echo '<?xml version="1.0" encoding="utf8"?>'; ?>
+echo '<?xml version="1.0" encoding="utf8"?>'; 
+
+$roles = checkRoles();
+
+function checkRoles(){
+    
+    $result = mysql_query("SELECT role FROM customer GROUP BY role");
+    
+    $roles = array();
+    
+    while($var = mysql_fetch_assoc($result)){
+        array_push($roles, $var[role]);
+    }
+    
+    return $roles;
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 
@@ -24,40 +40,5 @@ echo '<?xml version="1.0" encoding="utf8"?>'; ?>
 <!--    <script type="text/javascript" src="../js/jquery-1.8b1.js"></script>-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script type="text/javascript" src="../js/myfunction.js"></script>
-<!--    <script type="text/javascript" src="../js/ui.tabs.js"></script>-->
-    <script type="text/javascript">
-        
-        $(document).ready(function(){
-
-            var rem = $("#rem").val();
-            var rem_obj = {screen:screen.width + " X "+screen.height};
-//            $(".tabs > ul").tabs();
-// Подсветка текущего раздела
-//            $('#users').attr('Id', 'submenu-active');
-            $("tr:nth-child(odd)").addClass("bg");
-            $("table.nostyle > tbody > tr").removeClass("bg");
-            $("#calendar > tbody > tr").removeClass("bg");
-            $("#calendar-02 > tbody > tr").removeClass("bg");
-
-            if(rem == undefined || !rem){
-                $.ajax({
-                    url:"../action/statistics.php", 
-                    type:'post',
-                    dataType:'json',
-                    data:rem_obj,
-                    success:function(data){
-                        if(data['ok'] != "NULL"){
-                            $("#rem").val('1');
-                            rem = 1;
-                        }
-                    },
-                    error:function(data){
-                        console.log(data['responseText']);
-                    }
-                });
-            }
-          
-	});
-    </script> 
-    
+    <script type="text/javascript" src="../js/<?php echo $attributes[act];?>.js"></script>    
 </head>

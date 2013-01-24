@@ -1,5 +1,6 @@
 <?php
-// TO DO = проверять если кустомер больше тмп полностью обновлять кустомерр
+
+// TO DO = проверять если кустомер больше тмп полностью обновлять кустомерр 
 
 $unnecessary = unnecessaryCustomers();
 
@@ -24,7 +25,25 @@ if(count($new_customers)){
     
 }
 
-$customers = _allPersons(NULL);
+$str_role = 0;
+if($attributes[r])$str_role = $attributes[r];
+
+$customers = _allPersons("WHERE role = '$roles[$str_role]' GROUP BY surname, name, patronymic ORDER BY id");
+
+//$roles = checkRoles();
+//
+//function checkRoles(){
+//    
+//    $result = mysql_query("SELECT role FROM customer GROUP BY role");
+//    
+//    $roles = array();
+//    
+//    while($var = mysql_fetch_assoc($result)){
+//        array_push($roles, $var[role]);
+//    }
+//    
+//    return $roles;
+//}
 
 function updateBaseTable($arr){
     
@@ -171,7 +190,7 @@ function _allPersons($sort){
             array_push($customers, $var);
         }
     }
-
+    
     mysql_free_result($result);
     
     return $customers;

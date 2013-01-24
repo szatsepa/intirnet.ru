@@ -42,5 +42,36 @@ function isValidEmail (email, strict)
  if ( !strict ) email = email.replace(/^\s+|\s+$/g, '');
  return (/^([a-z0-9_\-]+\.)*[a-z0-9_\-]+@([a-z0-9][a-z0-9\-]*[a-z0-9]\.)+[a-z]{2,4}$/i).test(email);
 }
+        
+$(document).ready(function(){
 
+    var rem = $("#rem").val();
+    var rem_obj = {screen:screen.width + " X "+screen.height};
+//            $(".tabs > ul").tabs();
+// Подсветка текущего раздела
+//            $('#users').attr('Id', 'submenu-active');
+    $("tr:nth-child(odd)").addClass("bg");
+    $("table.nostyle > tbody > tr").removeClass("bg");
+    $("#calendar > tbody > tr").removeClass("bg");
+    $("#calendar-02 > tbody > tr").removeClass("bg");
+
+    if(rem == undefined || !rem){
+        $.ajax({
+            url:"../action/statistics.php", 
+            type:'post',
+            dataType:'json',
+            data:rem_obj,
+            success:function(data){
+                if(data['ok'] != "NULL"){
+                    $("#rem").val('1');
+                    rem = 1;
+                }
+            },
+            error:function(data){
+                console.log(data['responseText']);
+            }
+        });
+    }
+
+});
 

@@ -46,6 +46,21 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                 
                 <li <?php echo $roles_active;?>>
                     <a href="index.php?act=main">Клиенты ресурсов</a>
+                    <ul id="products">
+                        <?php 
+                        
+                        foreach ($roles as $key => $value) {
+                            echo '<li><a href="index.php?act=main&r='.$key.'">'.$value.'</a></li>';
+                        }
+//                        
+                        ?>
+                              
+<!--                        <li><a href="index.php?act=main&r=1">Администраторы</a></li>  
+                        <li><a href="index.php?act=main&r=2">Администраторы компаний</a></li> 
+                        <li><a href="index.php?act=main&r=3">Менеджеры лотереи</a></li>     
+                        <li><a href="index.php?act=main&r=4">Поставщики</a></li>  
+                        <li><a href="index.php?act=main&r=5">Торговые представители</a></li>-->
+                    </ul>
                 </li>
                 
                 <li <?php echo $users_active;?>>
@@ -55,9 +70,7 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                 <li <?php echo $kabagent_active;?>>
                     <a href="index.php?act=adm">Администрация</a>
                 </li>   
-<!--		<li <?php echo $objects_active;?>>
-                    <a href="index.php?act=srch">Поиск</a>
-                </li> -->
+
             </ul>
     </div> <!-- /aside -->
 
