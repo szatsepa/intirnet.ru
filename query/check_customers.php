@@ -30,20 +30,6 @@ if($attributes[r])$str_role = $attributes[r];
 
 $customers = _allPersons("WHERE role = '$roles[$str_role]' GROUP BY surname, name, patronymic ORDER BY id");
 
-//$roles = checkRoles();
-//
-//function checkRoles(){
-//    
-//    $result = mysql_query("SELECT role FROM customer GROUP BY role");
-//    
-//    $roles = array();
-//    
-//    while($var = mysql_fetch_assoc($result)){
-//        array_push($roles, $var[role]);
-//    }
-//    
-//    return $roles;
-//}
 
 function updateBaseTable($arr){
     

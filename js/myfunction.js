@@ -72,6 +72,26 @@ $(document).ready(function(){
             }
         });
     }
-
+    
+    
+    
+    setInterval(function (){
+        
+        $.ajax({
+            url:'../action/sinchronisation.php',
+            type:'post',
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+            },
+            error:function(data){
+                console.lod(data['responseText']);
+            }
+        });
+        
+    }, 30000);
+    
+    
+    
 });
 

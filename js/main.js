@@ -20,8 +20,9 @@ $(document).ready(function(){
         $("#chap").text($(this).text());
 //        console.log();
     });
-
+    
     $("#tab02,#tab03").hide();
+    
     $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
 
     $(".ico-info").live('click',function(){
