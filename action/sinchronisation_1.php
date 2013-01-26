@@ -1,43 +1,19 @@
 <?php
-header('Content-Type: text/html; charset=utf-8'); 
+//header('Content-Type: text/html; charset=utf-8'); 
 
 include '../query/connect.php';
 
-mysql_query("TRUNCATE TABLE `sinchro_tmp`");
 
-$bases = getBases();
 
-$get_cu = getCustomers($bases);
-
-$cntrl_cu = insertToSinchro($get_cu);
-
-$difference = _verification($cntrl_cu);
+$cntrl_cu = insertToSinchro(getCustomers(getBases()));
 
 echo json_encode($cntrl_cu);
 
-function _verification($arr){
-    
-    $result = mysql_query("SELECT * FROM customer");
-    
-    $customer = array();
-    
-    while ($var = mysql_fetch_assoc($result)){
-        
-        unset($var[id]);
-        
-        array_push($customer, $var);
-    }
-    
-   $tmp = array_diff($arr, $customer);
-    
-    return $arr;
-    
-}
-
 function insertToSinchro($arr){
     
-    $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
+    mysql_query("TRUNCATE TABLE `sinchro_tmp`");
     
+    $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
     foreach ($arr as $value) {
         
         $query .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]','$value[db_id]'),";

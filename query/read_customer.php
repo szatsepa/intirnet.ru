@@ -33,7 +33,12 @@ if(isset($out[role])){
     
     $role_name = $row[0];
     
-    $out[role] = iconv("cp1251", "utf8", $role_name);
+   if($icv){ 
+       $out[role] = iconv("cp1251", "utf8", $role_name);
+       
+       }else{
+       $out[role] = $role_name;
+   }
 }else{
     $out[role] = "Заказчик";
 }

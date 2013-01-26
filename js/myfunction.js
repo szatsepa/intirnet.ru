@@ -51,13 +51,13 @@ function _sinchro(){
             dataType:'json',
             success:function(data){
                 console.log(data);
-//document.write(data);
+
             },
             error:function(data){
                 console.lod(data['responseText']);
             }
         });
-    
+
 } 
         
 $(document).ready(function(){
@@ -90,26 +90,21 @@ $(document).ready(function(){
         });
     }
     
-    
+
     _sinchro();
-    setInterval('_sinchro()', 60000);
-//        
-//        $.ajax({
-//            url:'../action/sinchronisation.php',
-//            type:'post',
-//            dataType:'json',
-//            success:function(data){
-//                console.log(data);
-////document.write(data);
-//            },
-//            error:function(data){
-//                console.lod(data['responseText']);
-//            }
-//        });
-//        
-//    });
     
+    setInterval(function(){
+        $.ajax({
+            url:'../action/sinchronisation.php',
+            dataType:'json',
+            success:function(data){
+                console.log(data);
+            },
+            error:function(data){
+                document.write(data['responseText']);
+            }
+        });
+        }, 6000);
    
-    
 });
 
