@@ -1,10 +1,9 @@
 <?php
+header('Content-Type: text/html; charset=utf-8'); 
 
 include '../query/connect.php';
 
-$result = mysql_query("TRUNCATE TABLE `sinchro_tmp`");
-
-$dbases = getBases();
+mysql_query("TRUNCATE TABLE `sinchro_tmp`");
 
 $cntrl_cu = insertToSinchro(getCustomers(getBases()));
 
@@ -12,7 +11,18 @@ echo json_encode($cntrl_cu);
 
 function insertToSinchro($arr){
     
-   return $arr; 
+//    $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`phone`,`tablename`,`db_data_id`) VALUES ";
+    $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
+    foreach ($arr as $value) {
+        
+        $query .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]','$value[db_id]'),";
+    }
+    
+    $query = substr($query, 0,  strlen($query)-1);
+    
+    mysql_query($query);
+        
+   return array('ins'=>  mysql_insert_id());  
 }
 
 function getBases(){
@@ -45,6 +55,10 @@ function getCustomers($array){
             
         while ($var = mysql_fetch_assoc($result)){
             $var[db_id] = $value[id];
+            $var[tablename] = 'users';
+            $result = mysql_query("SELECT `name` FROM `roles` WHERE `id` = $var[role]");
+            $row = mysql_fetch_row($result);
+            $var[role] = $row[0];
             array_push($persons, $var);
         }
         
@@ -53,7 +67,9 @@ function getCustomers($array){
             $result = mysql_query("SELECT * FROM `customer`");
             
             while ($var = mysql_fetch_assoc($result)){
+                $var[tablename] = 'customer';
                 $var[db_id] = $value[id];
+                $var[role] = 'Заказчик';
                 array_push($persons, $var);
             }
         }
@@ -68,7 +84,7 @@ function getCustomers($array){
         if($value[e_mail])$email = $value[e_mail];
         $password = $value[pwd];
         if($value[secret_key])$password = $value[secret_key];
-        $tmp = array('db_id'=>$value[db_id],'id'=>$value[id],'surname'=>$value[surname],'name'=>$value[name],'patronymic'=>$value[patronymic],'phone'=>$value[phone],'email'=>$email,'password'=>$password);
+        $tmp = array('role'=>$value[role],'tablename'=>$value[tablename],'db_id'=>$value[db_id],'user_id'=>$value[id],'surname'=>$value[surname],'name'=>$value[name],'patronymic'=>$value[patronymic],'phone'=>$value[phone],'email'=>$email,'password'=>$password);
         array_push($all, $tmp);
     }
     

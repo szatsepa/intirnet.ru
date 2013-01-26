@@ -90,21 +90,21 @@
     </div>
 <!-- TAB02 -->
 <div id="tab02">
-    <form id="customers_data">
-        <fieldset>
-    	<legend>Основные данные</legend>     
-        <div class="col50">
+<!--    <form id="customers_data">-->
+<!--        <fieldset>-->
+<!--    	<legend>Основные данные</legend>     -->
+<!--        <div class="col50">
              <p><label for="surname">Фамилия:</label><br />
 			    <input value="" class="input-text required" id="surname" type="text" readonly></p>
             <p><label for="patronymic">Отчество:</label><br />
 			    <input value="" class="input-text" id="patronymic" type="text" readonly></p>
              <p><label for="phone">Телефон:</label><br />
 			    <input value="" class="input-text required" id="phone" type="text" readonly></p>
-<!--            <p><label for="fax">Факс:</label><br />
-			    <input size="30" value="" class="input-text" id="fax" type="text"></p>-->
-        </div>
+            <p><label for="fax">Факс:</label><br />
+			    <input size="30" value="" class="input-text" id="fax" type="text"></p>
+        </div>-->
         
-        <div class="col50 f-right">
+<!--        <div class="col50 f-right">
             <p><label for="name">Имя:</label><br />
 			    <input value="" class="input-text required" id="name" type="text" readonly></p>
             
@@ -112,10 +112,10 @@
                             <input value="" class="input-text" id="role" readonly></p>
             <p><label for="email">Электронная почта:</label><br />
 			    <input value="" class="input-text email" id="email" type="text" readonly></p><br />
-<!--            <p><label for="phone2">Дополнительный телефон:</label><br />
-			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>-->
+            <p><label for="phone2">Дополнительный телефон:</label><br />
+			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>
             
-        </div>
+        </div>-->
 <!--        <table id="customer_data" >
             <thead>
                 
@@ -135,11 +135,11 @@
             <span class="smaller low">несколько тегов разделяются запятыми</span></p>-->
           
    
-        </fieldset>
-    </form> 
-                <div class="box-01">
+<!--        </fieldset>
+    </form> -->
+<!--                <div class="box-01">
 		    <p class="nom"><input value="Сохранить" class="input-submit" type="button" id="user_insert_submit"></p>
-		</div> 
+		</div> -->
    
         
         <fieldset id="fieldset_doc" style="display:none;">        

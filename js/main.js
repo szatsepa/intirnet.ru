@@ -41,25 +41,25 @@ $(document).ready(function(){
 
     $("#customer_data tbody tr td").live('click',function(){
 
-        var str = $(this).text();
-        var index = $(this).index();
-        var this_id = $(this).children();
-
-//             this_id = "#"+this_id;
-
-//        console.log($(pre_input).attr('id')!=$(this).children().attr('id'));
-
-        if($(pre_input).attr('id')!=$(this).children().attr('id')){
-                var txt = $(pre_input).val();
-                $(pre_input).parent().text(txt);
-                $(pre_input).remove();
-        }
-
-    if($(this).index() != 0 && $(this).children()[0] == undefined) {
-        $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
-
-        pre_input = $(this).children();
-    }
+//        var str = $(this).text();
+//        var index = $(this).index();
+//        var this_id = $(this).children();
+//
+////             this_id = "#"+this_id;
+//
+////        console.log($(pre_input).attr('id')!=$(this).children().attr('id'));
+//
+//        if($(pre_input).attr('id')!=$(this).children().attr('id')){
+//                var txt = $(pre_input).val();
+//                $(pre_input).parent().text(txt);
+//                $(pre_input).remove();
+//        }
+//
+//    if($(this).index() != 0 && $(this).children()[0] == undefined) {
+//        $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
+//
+//        pre_input = $(this).children();
+//    }
 
 });
 
@@ -74,7 +74,7 @@ $(document).ready(function(){
 $("#user_insert_submit").mousedown(function(){
 
     var seni = new Date();
-
+    
     var creation_time = seni.getFullYear()+"-"+seni.getMonth()+"-"+seni.getDate()+" "+seni.getHours()+":"+seni.getMinutes()+":"+seni.getSeconds();
     var path = '';
     if(!add){
@@ -82,38 +82,32 @@ $("#user_insert_submit").mousedown(function(){
         }else{
         path = '../action/add_customer.php'; 
     }
-    var user_data = {db_name:base_name};
-    $.each($("#customer_data tbody tr td"), function(i){
-
-            if($(this).text()==false){
-                var name = $("#customer_data thead tr th:eq("+i+")").text();
-
-                user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
-                user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
-
-            }
-
-    });
-//            console.log(user_data);
-//            if(!search && !add){
-//                _saveData(path,{uid:$("#uid").val(),name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()});
-//            }else if(search){                
-//               _searchData({name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()}); 
-//            }else if(!search && add){
-//                $("#customers_tab > tbody").append("<tr id='r_00'><td class='t-right'>no_ID</td><td>"+$("#surname").val()+" "+$("#name").val()+" "+$("#patronymic")+"</td><td class='smaller'>"+$("#role").val()+"</td><td class='smaller'>"+$("#phone").val()+"</td><td class='smaller'><a href='mailto:"+$("#email").val()+"'>"+$("#email").val()+"</a></td><td class='smaller'>"+creation_time+"</td><td class='t-center'><a id='e_00' class='ico-info' title='Смотреть'></a></td></tr>");         
-//                       
-//                       var out_arg = new Array();
-//                      
-//                      $.each(d_bases, function(){
-//                            
-//                            var tmp = {db_name:this['db_name'],login:this['login'],password:this['password'],addr:this['addr'],charset:this['charset'],name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()};
-//                            
-//                            out_arg.push(tmp);
-//                        });
-//                        
-//                        _addBases(out_arg);
+    var user_data = {db_name:base_name}; 
+    
+//    $.ajax({
+//            url:'../action/sinchronisation.php',
+//            type:'post',
+//            dataType:'json',
+//            success:function(data){
+//                console.log(data);
+//            },
+//            error:function(data){
+//                console.lod(data['responseText']);
 //            }
-
+//        });
+    
+    
+//    $.each($("#customer_data tbody tr td"), function(i){
+//        
+//            if($(this).text()==false){
+//                var name = $("#customer_data thead tr th:eq("+i+")").text();
+//
+//                user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
+//                user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
+//
+//            }
+//
+//    });
 });
 
 $("#back").mousedown(function(){
@@ -373,8 +367,9 @@ function _searchData(arg){
             success:function(data){
                 var str_head = '';
                 var str_body = '';
-
-        $.each(data, function(index){
+console.log(data);
+        $.each(data, function(index, d){
+//            console.log(index+" => "+d);
                 if(this != ''){
                     str_head += "<th class='t-center'>"+index+"</th>";
                     str_body += "<td class='t-center'>"+this+"</td>";
