@@ -1,7 +1,5 @@
 <?php
-mysql_query("DROP TABLE IF EXISTS `tmp`");
-
-$query = "CREATE TABLE IF NOT EXISTS `tmp` (
+mysql_query("CREATE TABLE IF NOT EXISTS `tmp` (
         `id` int(11) NOT NULL auto_increment,
         `user_id`  int(11) NOT NULL,
         `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
@@ -13,9 +11,11 @@ $query = "CREATE TABLE IF NOT EXISTS `tmp` (
         `tablename` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `db_data_id`  int(11) NOT NULL,
         PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;";
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
 
-$result = mysql_query($query) or die($query);
+
+mysql_query("TRUNCATE TABLE `tmp`");
+
 
 $query = "SELECT `id` AS db_id, `db_name`, `login`, `password`, `addr`, `charset` FROM `db_data`";
 
@@ -140,6 +140,10 @@ function _getRole($id_role){
 function _insertToTmp($arr){
     
     $message = 1;
+    
+    sort($arr);
+    
+    reset($arr);
     
     foreach ($arr as $value) {
         

@@ -13,7 +13,9 @@ $cntrl_cu = insertToSinchro($get_cu);
 
 $difference = _verification($cntrl_cu);
 
-echo json_encode($cntrl_cu);
+$otvet = array("count"=>count($get_cu)); 
+
+echo json_encode($difference);
 
 function _verification($arr){
     
@@ -21,16 +23,24 @@ function _verification($arr){
     
     $customer = array();
     
+    $n = 0;
+    
     while ($var = mysql_fetch_assoc($result)){
         
         unset($var[id]);
         
-        array_push($customer, $var);
+        $tmp = $var;
+        
+        ksort($tmp);
+        
+        $tmps = array_diff($arr[$n], $var);
+//        
+        array_push($customer, $tmps);
+        
+        $n++;
     }
-    
-   $tmp = array_diff($arr, $customer);
-    
-    return $arr;
+//    $out = array('INS'=>  count($arr),"CU"=>  count($tmpc));
+    return $customer;
     
 }
 
@@ -38,7 +48,15 @@ function insertToSinchro($arr){
     
     $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
     
+    $out_arr = array();
+    
     foreach ($arr as $value) {
+        
+        ksort($value);
+        
+        unset($value[password]);
+        
+        array_push($out_arr, $value);
         
         $query .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]','$value[db_id]'),";
     }
@@ -46,8 +64,10 @@ function insertToSinchro($arr){
     $query = substr($query, 0,  strlen($query)-1);
     
     mysql_query($query);
+    
+//    ksort($arr);
         
-   return $arr;  
+   return $out_arr;  
 }
 
 function getBases(){
@@ -76,17 +96,6 @@ function getCustomers($array){
 
         mysql_query ("SET NAMES $value[charset]");
         
-        $result = mysql_query("SELECT * FROM `users`");
-            
-        while ($var = mysql_fetch_assoc($result)){
-            $var[db_id] = $value[id];
-            $var[tablename] = 'users';
-            $result = mysql_query("SELECT `name` FROM `roles` WHERE `id` = $var[role]");
-            $row = mysql_fetch_row($result);
-            $var[role] = $row[0];
-            array_push($persons, $var);
-        }
-        
         if(mysql_table_seek('customer', $value[db_name])){
             
             $result = mysql_query("SELECT * FROM `customer`");
@@ -95,8 +104,30 @@ function getCustomers($array){
                 $var[tablename] = 'customer';
                 $var[db_id] = $value[id];
                 $var[role] = 'Заказчик';
+                if($value[charset]=='cp1251'){
+                    $var[name] = iconv('cp1251', 'utf8', $var[name]);
+                    $var[surname] = iconv('cp1251', 'utf8', $var[surname]);
+                    $var[patronymic] = iconv('cp1251', 'utf8', $var[patronymic]);
+                }
                 array_push($persons, $var);
             }
+        }
+        
+        $result = mysql_query("SELECT * FROM `users`");
+           
+        while ($var = mysql_fetch_assoc($result)){
+            $var[db_id] = $value[id];
+            $var[tablename] = 'users';
+            $res = mysql_query("SELECT `name` FROM `roles` WHERE `id` = $var[role]");
+            $row = mysql_fetch_row($res);
+            $var[role] = $row[0];
+            if($value[charset]=='cp1251'){
+                    $var[name] = iconv('cp1251', 'utf8', $var[name]);
+                    $var[surname] = iconv('cp1251', 'utf8', $var[surname]);
+                    $var[patronymic] = iconv('cp1251', 'utf8', $var[patronymic]);
+                    $var[role] = iconv('cp1251', 'utf8', $var[role]);
+                }
+            array_push($persons, $var);
         }
         
         mysql_close();
@@ -104,7 +135,7 @@ function getCustomers($array){
     
     $all = array();
     
-    foreach ($persons as $key => $value) {
+    foreach ($persons as $value) {
         $email = $value[email];
         if($value[e_mail])$email = $value[e_mail];
         $password = $value[pwd];
@@ -115,9 +146,13 @@ function getCustomers($array){
     
     include '../query/connect.php';
     
-    return $all;
- 
+//    sort($all);
+//    
+//    reset($all);
+    
+    return $all; 
 }
+
 function mysql_table_seek($tablename, $dbname)
 {
     $rslt = mysql_query("SHOW TABLES FROM `{$dbname}` LIKE '" . mysql_real_escape_string(addCslashes($tablename, "\\%_")) . "';");
