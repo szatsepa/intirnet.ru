@@ -26,9 +26,17 @@ if(count($new_customers)){
 }
 
 $str_role = 0;
-if($attributes[r])$str_role = $attributes[r];
+$where = NULL;
 
-$customers = _allPersons("WHERE role = '$roles[$str_role]' GROUP BY surname, name, patronymic ORDER BY id");
+if($attributes[r]){
+    $str_role = $attributes[r];
+    
+    }
+    
+    $where = "WHERE role = '$roles[$str_role]' GROUP BY surname, name, patronymic ORDER BY id";
+    
+
+$customers = _allPersons($where);
 
 
 function updateBaseTable($arr){
@@ -79,6 +87,8 @@ function insertToThis($arr){
         $str_data = 'INSERT INTO `customer` (user_id,role,surname,name,patronymic,email,phone,tablename,db_data_id) VALUES ';
         
         foreach ($arr as $value) {
+//            echo "$value[tablename]/$value[db_data_id] =>>>> $value[role] $value[surname] $value[name] $value[patronymic]; <br>";
+            
             $str_data .= "($value[user_id],'$value[role]','$value[surname]','$value[name]','$value[patronymic]','$value[email]','$value[phone]','$value[tablename]',$value[db_data_id]),";
         }
 
@@ -103,6 +113,14 @@ function insertToBases($arr){
                     $patronymic = $value[men][patronymic];
                     $surname = $value[men][surname];
                     $phone = $value[men][phone];
+                     
+                     if($var[charset]=='cp1251'){
+                        $name = utf8_to_cp1251($value[men][name]);
+                        $patronymic = utf8_to_cp1251($value[men][patronymic]);
+                        $surname = utf8_to_cp1251($value[men][surname]); 
+                     }
+                     
+                    
                     if($value[men][e_mail]){
                         $email = $value[men][e_mail];
                     }else{
@@ -254,7 +272,15 @@ function _isWhoRealyti($men){
     
     mysql_close();
     
-    $tmp[men] = mysql_fetch_assoc($result);
+    $row = mysql_fetch_assoc($result);
+    
+    if($var[charset]=='cp1251'){
+        $row[name] = cp1251_to_utf8($row[name]);
+        $row[patronymic] = cp1251_to_utf8($row[patronymic]);
+        $row[surname] = cp1251_to_utf8($row[surname]); 
+    }
+    
+    $tmp[men] = $row;
     
     $tmp[d_base] = $men[db_data];
     

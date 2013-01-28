@@ -23,24 +23,31 @@ function _verification($arr){
     
     $customer = array();
     
+    $tmps = array();
+    
     $n = 0;
     
     while ($var = mysql_fetch_assoc($result)){
         
         unset($var[id]);
         
+        $var[db_id] = $var[db_data_id];
+        
+        unset($var[db_data_id]);
+        
         $tmp = $var;
         
         ksort($tmp);
         
-        $tmps = array_diff($arr[$n], $var);
+        if ( print_r($tmp, true) == print_r($$arr[$n], true) )$tmps[$n] = $tmp;
 //        
-        array_push($customer, $tmps);
+//        array_push($customer, $tmp);
         
         $n++;
     }
-//    $out = array('INS'=>  count($arr),"CU"=>  count($tmpc));
-    return $customer;
+//    $out = array('INS'=>  $arr[0],"CU"=>  $customer[0]);
+    
+    return $tmps;
     
 }
 

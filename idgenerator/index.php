@@ -18,6 +18,7 @@ if(isset($_COOKIE[di]) && $_COOKIE[di] != 'NULL'){
     $_SESSION[id] = $_COOKIE[di];
 }
 
+include '../func/cp_to_utf.php';
 include '../query/connect.php';   
 include ("../query/user.php");
 include ("../action/checkauth.php"); 
