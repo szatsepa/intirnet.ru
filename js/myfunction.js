@@ -44,19 +44,20 @@ function isValidEmail (email, strict)
 }
 
 function _sinchro(){
-    
+    var nechto = '';
      $.ajax({
             url:'../action/sinchronisation.php',
-            type:'post',
             dataType:'json',
+            data:{ugu:nechto},
+            type:'post',
+            cashe:false,
             success:function(data){
-                console.log(data);
-
-            },
-            error:function(data){
-                console.lod(data['responseText']);
+                nechto = data;
+                console.log(nechto);
             }
         });
+        
+        return false;
 
 } 
         
@@ -93,18 +94,7 @@ $(document).ready(function(){
 
     _sinchro();
     
-    setInterval(function(){
-        $.ajax({
-            url:'../action/sinchronisation.php',
-            dataType:'json',
-            success:function(data){
-                console.log(data);
-            },
-            error:function(data){
-                document.write(data['responseText']);
-            }
-        });
-        }, 12000);
+    setInterval('_sinchro()', 12000);
    
 });
 

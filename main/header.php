@@ -21,7 +21,7 @@ function checkRoles(){
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
 
 <head>
-    <meta http-equiv="Last-Modified" value="<?php echo date("r",(time() - 60));?>" />
+<!--    <meta http-equiv="Last-Modified" value="<?php echo date("r",(time() - 60));?>" />-->
     <meta name='yandex-verification' content='4a8d7fbb2bcbbdce' />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <?php   $title_header = $title;?>

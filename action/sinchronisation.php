@@ -1,7 +1,8 @@
 <?php
-header('Content-Type: text/html; charset=utf-8'); 
-
 include '../query/connect.php';
+include '../func/cp_to_utf.php';
+
+$aga = $_POST[ugu];
 
 mysql_query("TRUNCATE TABLE `sinchro_tmp`");
 
@@ -11,44 +12,17 @@ $get_cu = getCustomers($bases);
 
 $cntrl_cu = insertToSinchro($get_cu);
 
-$difference = _verification($cntrl_cu);
+$difference = _verification($cntrl_cu,$aga);
 
 $otvet = array("count"=>count($get_cu)); 
 
 echo json_encode($difference);
 
-function _verification($arr){
+function _verification($arr,$ugu){
     
-    $result = mysql_query("SELECT * FROM customer");
+    $ugu = date("i:s");
     
-    $customer = array();
-    
-    $tmps = array();
-    
-    $n = 0;
-    
-    while ($var = mysql_fetch_assoc($result)){
-        
-        unset($var[id]);
-        
-        $var[db_id] = $var[db_data_id];
-        
-        unset($var[db_data_id]);
-        
-        $tmp = $var;
-        
-        ksort($tmp);
-        
-        if ( print_r($tmp, true) == print_r($$arr[$n], true) )$tmps[$n] = $tmp;
-//        
-//        array_push($customer, $tmp);
-        
-        $n++;
-    }
-//    $out = array('INS'=>  $arr[0],"CU"=>  $customer[0]);
-    
-    return $tmps;
-    
+    return $arr[0]= $ugu;
 }
 
 function insertToSinchro($arr){
@@ -56,7 +30,7 @@ function insertToSinchro($arr){
     $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
     
     $out_arr = array();
-    
+        
     foreach ($arr as $value) {
         
         ksort($value);
@@ -81,11 +55,13 @@ function getBases(){
     
     $dbase = array();
 
-    $result = mysql_query("SELECT * FROM db_data");
+    $result = mysql_query("SELECT * FROM db_data ORDER BY id");
 
     while ($var = mysql_fetch_assoc($result)){
         array_push($dbase, $var);
     }
+    
+    
     
     return $dbase;
 }
@@ -112,9 +88,9 @@ function getCustomers($array){
                 $var[db_id] = $value[id];
                 $var[role] = 'Заказчик';
                 if($value[charset]=='cp1251'){
-                    $var[name] = iconv('cp1251', 'utf8', $var[name]);
-                    $var[surname] = iconv('cp1251', 'utf8', $var[surname]);
-                    $var[patronymic] = iconv('cp1251', 'utf8', $var[patronymic]);
+                    $var[name] = cp1251_to_utf8($var[name]);
+                    $var[surname] = cp1251_to_utf8($var[surname]);
+                    $var[patronymic] = cp1251_to_utf8($var[patronymic]);
                 }
                 array_push($persons, $var);
             }
@@ -153,9 +129,7 @@ function getCustomers($array){
     
     include '../query/connect.php';
     
-//    sort($all);
-//    
-//    reset($all);
+//    array_reverse($all);
     
     return $all; 
 }

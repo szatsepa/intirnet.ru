@@ -19,24 +19,15 @@ if(count($new_customers)){
     $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
     
     $already_added = insertToBases($real_customers);
-    
+//    
     updateBaseTable($already_added);
 
     
 }
 
-$str_role = 0;
-$where = NULL;
+$sort = intval($attributes[r]);
 
-if($attributes[r]){
-    $str_role = $attributes[r];
-    
-    }
-    
-    $where = "WHERE role = '$roles[$str_role]' GROUP BY surname, name, patronymic ORDER BY id";
-    
-
-$customers = _allPersons($where);
+$customers = _allPersons($sort,$roles);
 
 
 function updateBaseTable($arr){
@@ -174,6 +165,8 @@ function insertToBases($arr){
                         }
 
                     }
+                    
+//                    echo $var[db_name]."/".$var[charset]."==>>> $name $patronymic $surname;<br>";
                 }
             }
     }
@@ -181,11 +174,19 @@ function insertToBases($arr){
     return $already_added;
 }
 
-function _allPersons($sort){
+function _allPersons($sort,$roles){
+    
+    $where = "WHERE role = '$roles[0]' GROUP BY surname, name, patronymic ORDER BY id";
+
+    if($sort){
+
+        $where = "WHERE role = '".$roles[$sort]."' GROUP BY surname, name, patronymic ORDER BY id";
+    
+    }
     
     $customers = array();
 
-    $query = "SELECT * FROM `customer` $sort";
+    $query = "SELECT * FROM `customer` $where";
 
     $result = mysql_query($query) or die($query);
 
@@ -250,7 +251,10 @@ function realytiData($arr){
     //выбираем данные из реальных таблиц в базах родителях
     $tmp = array();
     foreach ($arr as $value) {
-        array_push($tmp, _isWhoRealyti($value));
+        $user = _isWhoRealyti($value);
+        if($user){
+            array_push($tmp, $user);
+            }
     }
     return $tmp;
 }
@@ -260,7 +264,7 @@ function _isWhoRealyti($men){
     $tmp = array();
     $result = mysql_query("SELECT * FROM `db_data` WHERE id = $men[db_data_id]");
     $db = mysql_fetch_assoc($result);
-  
+    $tmp[men] = array();
     
     mysql_close();
     
@@ -270,23 +274,35 @@ function _isWhoRealyti($men){
     
     $result = mysql_query("SELECT * FROM `$men[tablename]` WHERE id = $men[user_id]");
     
-    mysql_close();
     
-    $row = mysql_fetch_assoc($result);
     
-    if($var[charset]=='cp1251'){
-        $row[name] = cp1251_to_utf8($row[name]);
-        $row[patronymic] = cp1251_to_utf8($row[patronymic]);
-        $row[surname] = cp1251_to_utf8($row[surname]); 
+    $tmp[men] = mysql_fetch_assoc($result);
+    
+    $name = $tmp[men][name];
+    $patronymic = $tmp[men][patronymic];
+    $surname = $tmp[men][surname];
+    
+    if($db[charset]=='cp1251'){
+        $name = cp1251_to_utf8($name);
+        $patronymic = cp1251_to_utf8($patronymic);
+        $surname = cp1251_to_utf8($surname); 
     }
     
-    $tmp[men] = $row;
+//    $tmp[men] = $row;
     
     $tmp[d_base] = $men[db_data];
     
     $tmp[tablename] = $men[tablename];
     
-    if($tmp[men][role] != 3 && $men[tablename] == 'users')unset ($tmp);
+    if($tmp[men][role] != 3 && $men[tablename] == 'users')$tmp = NULL;
+    
+    $str_out = "      $db[db_name]/$db[charset] =>>> ".$name." ".$patronymic." ".$surname."<br>";
+    
+//    if($var[charset]=='cp1251')
+    
+//if($tmp)echo $str_out;
+
+    mysql_close();
     
     include '../query/connect.php';
     

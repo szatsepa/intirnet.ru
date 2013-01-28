@@ -93,9 +93,19 @@ function _personsData($tablename,$array,$charset){
         
         unset($var[user_id]);
         
+        if($charset == 'cp1251'){
+            $var[name] = cp1251_to_utf8($var[name]);
+            $var[patronymic] = cp1251_to_utf8($var[patronymic]);
+            $var[surname] = cp1251_to_utf8($var[surname]);
+        }
+        
         $tmp_arr = array_merge(_uniKeyEmail($var), $array);
 
         $tmp_arr[role] = _getRole($tmp_arr[role]);
+        
+        if($charset == 'cp1251'){
+           $tmp_arr[role] = cp1251_to_utf8($tmp_arr[role]); 
+        }
         
         $tmp_arr[charset] = $charset;
         
@@ -168,14 +178,8 @@ function _insertToTmp($arr){
         $patronymic = $value[patronymic];
         $surname = $value[surname];
         $role = $value[role];
-        if($value[charset] == 'cp1251'){
-            $name = cp1251_to_utf8($name);
-            $patronymic = cp1251_to_utf8($patronymic);
-            $surname = cp1251_to_utf8($surname);
-            $role = cp1251_to_utf8($role);
-        }
         
-        echo "$value[db_id]/$value[tablename]/$value[charset] =>> $surname $name $patronymic: $role;<br>";
+//        echo "$value[db_id]/$value[tablename]/$value[charset] =>> $surname $name $patronymic: $role;<br>";
         
        $query .= "('$value[user_id]','$surname','$name','$patronymic','$value[email]','$value[phone]',$value[db_id],'$value[tablename]','$role'),";
     
