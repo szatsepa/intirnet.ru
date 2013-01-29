@@ -2,8 +2,6 @@
 include '../query/connect.php';
 include '../func/cp_to_utf.php';
 
-$aga = $_POST[ugu];
-
 mysql_query("TRUNCATE TABLE `sinchro_tmp`");
 
 $bases = getBases();
@@ -12,17 +10,32 @@ $get_cu = getCustomers($bases);
 
 $cntrl_cu = insertToSinchro($get_cu);
 
-$difference = _verification($cntrl_cu,$aga);
+$difference = _verification($cntrl_cu);
 
 $otvet = array("count"=>count($get_cu)); 
 
 echo json_encode($difference);
 
-function _verification($arr,$ugu){
+function _verification($arr){
     
-    $ugu = date("i:s");
+    $tmp = array();
     
-    return $arr[0]= $ugu;
+    foreach ($arr as $value) {
+//    $value = $arr[0];
+        $query = "SELECT COUNT(*) FROM `customer` WHERE `tablename` = '$value[tablename]' AND `db_data_id` = '$value[db_id]' AND `user_id` = '$value[user_id]' AND `name` = '$value[name]' AND `surname` = '$value[surname]' AND `patronymic` = '$value[patronymic]' AND `email` = '$value[email]' AND `phone` = '$value[phone]' AND `role` = '$value[role]'";
+        
+        $result = mysql_query($query);
+        
+        $row = mysql_fetch_row($result);
+        
+        $value[check] = $row[0];
+        
+        if(!$row[0])array_push($tmp, $value);
+    }
+    
+//    $ugu = date("i:s");
+    
+    return $tmp;
 }
 
 function insertToSinchro($arr){

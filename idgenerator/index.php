@@ -27,9 +27,10 @@ include '../main/header.php';
 switch ($attributes[act]){
     
     case 'main':
-        include '../query/check_other_bases.php';
-        include '../query/check_customers.php';
-        include '../main/main.php';
+        include '../query/check_bases_add_tmp.php';
+        include '../action/clear_add_customer.php';
+        include '../query/read_customerlist.php';
+        include '../main/main.php'; 
         include '../main/main_menu.php';
         include '../main/customers.php';
         break;

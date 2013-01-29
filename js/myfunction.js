@@ -44,16 +44,14 @@ function isValidEmail (email, strict)
 }
 
 function _sinchro(){
-    var nechto = '';
      $.ajax({
             url:'../action/sinchronisation.php',
             dataType:'json',
-            data:{ugu:nechto},
             type:'post',
             cashe:false,
             success:function(data){
-                nechto = data;
-                console.log(nechto);
+//                console.log(data);
+//                document.write(data);
             }
         });
         

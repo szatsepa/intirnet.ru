@@ -2,7 +2,7 @@
   <input type="hidden" id="uid" value="">
   <form id="my_db">
       <?php 
-      foreach ($odb_tables as $value){
+      foreach ($have_base_here as $value){
      echo "<input type='hidden' name='$value[db_name]' id='$value[db_id]' value='$value[password]' title='$value[login]' alt='$value[charset]'>";     
       }
       ?>

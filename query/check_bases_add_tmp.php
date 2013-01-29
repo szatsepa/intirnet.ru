@@ -1,29 +1,72 @@
 <?php
-mysql_query("CREATE TABLE IF NOT EXISTS `tmp` (
-        `id` int(11) NOT NULL auto_increment,
-        `user_id`  int(11) NOT NULL,
-        `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `surname` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `patronymic` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `role` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `email` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `tablename` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-        `db_data_id`  int(11) NOT NULL,
-        PRIMARY KEY  (`id`)
-        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
+
+_clearTMP();
+
+$bases_here = _new_base_here(_base_here());
+
+$how_many_new_db = count($bases_here[added]);
+
+if($how_many_new_db != 0)_action_with_new_base($bases_here[added]);
+
+$have_base_here = $bases_here[all];
+
+$list_of_customers = lookingAll($have_base_here);
+
+_insertToTmp($list_of_customers);
 
 
-mysql_query("TRUNCATE TABLE `tmp`");
+function _action_with_new_base($arr){
+//    To Do пожее прописать действия и события при добавлении новой бази в соотв таблицу
+    
+//    echo "The table adds a new record!";
+}
 
+function _base_here(){
+    
+    $result = mysql_query("SELECT `db_data_id` AS db_id
+                             FROM `customer`
+                         GROUP BY `db_data_id`");
+    
+    $tmp = array();
+    
+    while ($var = mysql_fetch_row($result)){
+        array_push($tmp, $var[0]);
+    }
+    
+    return $tmp;
+}
 
-$odb_tables = get_Base();
+function _new_base_here($arr){
+    
+    $tmp = array();
+    
+    $tmpb = array();
+    
+    $result = mysql_query("SELECT  `id` AS db_id, `db_name`, `login`, `password`, `addr`, `charset` 
+                             FROM `db_data`");
+    
+    while ($var = mysql_fetch_assoc($result)){
+        array_push($tmp, $var);
+    }
+    
+    foreach ($tmp as $value) {
+        $value[flag] = 0;
+        foreach ($arr as $var){
+            if($value[db_id] == $var[db_id])$value[flag] = 1;
+        }
+        array_push($tmpb, $value);
+    }
+    
+    foreach ($tmpb as $key => $value) {
+        if($value[flag]==1)unset ($tmpb[$key]);
+    }
+    
+    return array('added'=>$tmpb,'all'=>$tmp);
+    
+}
 
-$persons_on_tmp = personsForTMP($odb_tables);
-
-_insertToTmp($persons_on_tmp);
-
-function personsForTMP($odb_tables){
+function lookingAll($odb_tables){
+    
     mysql_close();
 
     $persons_on_tmp = array();
@@ -37,22 +80,18 @@ function personsForTMP($odb_tables){
         mysql_select_db($value[db_name]);
 
         mysql_query ("SET NAMES $value[charset]");
-
-        $table_list = mysql_query("SHOW TABLES");
-
-        while($var = mysql_fetch_assoc($table_list)){
-            if(($var['Tables_in_'.$value[db_name]]) === 'customer' OR ($var['Tables_in_'.$value[db_name]]) === 'users'){
-
-                $tablename =   $var['Tables_in_'.$value[db_name]];
-
-                $tmp = array_merge($persons_on_tmp, _personsData($tablename,$value,$value[charset]));
-
-                $persons_on_tmp = $tmp;
-
-            }
+        
+//        echo "===================$value[db_name]=======================<br>";
+        
+        $tmp = array_merge($persons_on_tmp, _personsData('users',$value));
+        
+        if(mysql_table_seek('customer', $value[db_name])){
+            $tmp = array_merge($persons_on_tmp, _personsData('customer',$value));
         }
+        
+        $persons_on_tmp = $tmp;
 
-    mysql_close();
+        mysql_close();
 
     }
 
@@ -62,26 +101,11 @@ function personsForTMP($odb_tables){
     return $persons_on_tmp;
 }
 
-function get_Base(){
-    
-    $query = "SELECT `id` AS db_id, `db_name`, `login`, `password`, `addr`, `charset` FROM `db_data`";
-
-    $result = mysql_query($query) or die($query);
-
-    $odb_tables = array();
-
-    while($var = mysql_fetch_assoc($result)){
-        array_push($odb_tables, $var);
-    }
-
-    mysql_free_result($result);
-    
-    return $odb_tables;
-}
-
-function _personsData($tablename,$array,$charset){
+function _personsData($tablename,$array){
     
     unset($array[id]);
+    
+    $charset = $array[charset];
     
     $array[tablename] = $tablename;
     
@@ -108,11 +132,21 @@ function _personsData($tablename,$array,$charset){
         }
         
         $tmp_arr[charset] = $charset;
-        
+//        echo "    $tablename//$tmp_arr[charset] =>> $tmp_arr[name] $tmp_arr[patronymic] $tmp_arr[surname];($tmp_arr[role])<br>";
         array_push($tmp, $tmp_arr);
     }
+//    echo "<br>";
+//    print_r($tmp_arr);
+        
     return $tmp;
 }
+
+function mysql_table_seek($tablename, $dbname){
+    
+    $rslt = mysql_query("SHOW TABLES FROM `{$dbname}` LIKE '" . mysql_real_escape_string(addCslashes($tablename, "\\%_")) . "';");
+
+    return mysql_num_rows($rslt) > 0;
+} 
 
 function _uniKeyEmail($arr){
     $tmp = array();
@@ -196,4 +230,23 @@ function _insertToTmp($arr){
     return $message;
 }
 
+function _clearTMP(){
+    
+    mysql_query("CREATE TABLE IF NOT EXISTS `tmp` (
+        `id` int(11) NOT NULL auto_increment,
+        `user_id`  int(11) NOT NULL,
+        `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `surname` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `patronymic` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `role` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `email` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `tablename` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `db_data_id`  int(11) NOT NULL,
+        PRIMARY KEY  (`id`)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
+
+
+    mysql_query("TRUNCATE TABLE `tmp`");
+}
 ?>

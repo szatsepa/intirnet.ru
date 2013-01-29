@@ -309,10 +309,4 @@ function _isWhoRealyti($men){
     return ($tmp);
 }
 
-function mysql_table_seek($tablename, $dbname)
-{
-    $rslt = mysql_query("SHOW TABLES FROM `{$dbname}` LIKE '" . mysql_real_escape_string(addCslashes($tablename, "\\%_")) . "';");
-
-    return mysql_num_rows($rslt) > 0;
-} 
 ?>
