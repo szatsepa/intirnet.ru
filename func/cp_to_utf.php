@@ -98,4 +98,16 @@ function utf8_to_cp1251 ($txt)  {
     $txt = str_replace($out_arr,$in_arr,$txt);
     return $txt;
 }
+function checkRoles(){
+    
+    $result = mysql_query("SELECT role FROM customer GROUP BY role");
+    
+    $roles = array();
+    
+    while($var = mysql_fetch_assoc($result)){
+        array_push($roles, $var[role]);
+    }
+    
+    return $roles;
+}
 ?>

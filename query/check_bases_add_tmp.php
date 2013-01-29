@@ -4,22 +4,17 @@ _clearTMP();
 
 $bases_here = _new_base_here(_base_here());
 
-$how_many_new_db = count($bases_here[added]);
-
-if($how_many_new_db != 0)_action_with_new_base($bases_here[added]);
+if(count($bases_here[added])){
+    
+    mysql_query("TRUNCATE TABLE `customer`");
+    
+}
 
 $have_base_here = $bases_here[all];
 
 $list_of_customers = lookingAll($have_base_here);
 
 _insertToTmp($list_of_customers);
-
-
-function _action_with_new_base($arr){
-//    To Do пожее прописать действия и события при добавлении новой бази в соотв таблицу
-    
-//    echo "The table adds a new record!";
-}
 
 function _base_here(){
     

@@ -1,4 +1,6 @@
 <?php
+if(!$roles)$roles = checkRoles();
+
 $sort = intval($attributes[r]);
 
 $customers = _allPersons($sort,$roles);

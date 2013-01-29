@@ -3,19 +3,9 @@ header('Content-Type: text/html; charset=utf-8');
 echo '<?xml version="1.0" encoding="utf8"?>'; 
 
 $roles = checkRoles();
+$str_role = 0;
+if(isset($attributes[r]))$str_role = intval($attributes[r]);
 
-function checkRoles(){
-    
-    $result = mysql_query("SELECT role FROM customer GROUP BY role");
-    
-    $roles = array();
-    
-    while($var = mysql_fetch_assoc($result)){
-        array_push($roles, $var[role]);
-    }
-    
-    return $roles;
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
