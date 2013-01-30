@@ -22,6 +22,7 @@ function insertToBases($arr){
     $cnt = 0;
     $already_added = array();
     $tmp = array();
+    $str = '';
     
     foreach ($arr as $value) {
             if(count($value[d_base])){
@@ -31,6 +32,12 @@ function insertToBases($arr){
                     $patronymic = $value[men][patronymic];
                     $surname = $value[men][surname];
                     $phone = $value[men][phone];
+                    
+                    if($var[charset] == 'cp1251'){
+                        $patronymic = utf8_to_cp1251($value[men][patronymic]);
+                        $surname = utf8_to_cp1251($value[men][surname]);
+                        $name = utf8_to_cp1251($value[men][name]);
+                    }
                     
                     if($value[men][e_mail]){
                         $email = $value[men][e_mail];

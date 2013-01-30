@@ -64,9 +64,7 @@ function lookingAll($odb_tables){
     
     mysql_close();
 
-    $persons_on_tmp = array();
-
-    // получаем список таблиц в бд если есть таблицы customer or users забиваем в массив
+    $persons = array();
 
     foreach ($odb_tables as $value) {
 
@@ -76,64 +74,49 @@ function lookingAll($odb_tables){
 
         mysql_query ("SET NAMES $value[charset]");
         
-//        echo "===================$value[db_name]=======================<br>";
-        
-        $tmp = array_merge($persons_on_tmp, _personsData('users',$value));
-        
         if(mysql_table_seek('customer', $value[db_name])){
-            $tmp = array_merge($persons_on_tmp, _personsData('customer',$value));
+            
+            $result = mysql_query("SELECT * FROM `customer`");
+            
+            while ($var = mysql_fetch_assoc($result)){
+                $var[tablename] = 'customer';
+                $var[db_id] = $value[db_id];
+                $var[role] = 'Заказчик';
+                $var[database] = $value[db_name];
+                $var[charset] = $value[charset];
+                if($value[charset]=='cp1251'){
+                    $var[name] = cp1251_to_utf8($var[name]);
+                    $var[surname] = cp1251_to_utf8($var[surname]);
+                    $var[patronymic] = cp1251_to_utf8($var[patronymic]);
+                }
+                array_push($persons, $var);
+            }
         }
         
-        $persons_on_tmp = $tmp;
+        $result = mysql_query("SELECT * FROM `users`");
+           
+        while ($var = mysql_fetch_assoc($result)){
+            $var[db_id] = $value[db_id];
+            $var[tablename] = 'users';
+            $var[role] = _getRole($var[role]);
+            $var[database] = $value[db_name];
+            $var[charset] = $value[charset];
+            if($value[charset]=='cp1251'){
+                    $var[name] = iconv('cp1251', 'utf8', $var[name]);
+                    $var[surname] = iconv('cp1251', 'utf8', $var[surname]);
+                    $var[patronymic] = iconv('cp1251', 'utf8', $var[patronymic]);
+                    $var[role] = iconv('cp1251', 'utf8', $var[role]);
+                }
+            array_push($persons, $var);
+        }
 
         mysql_close();
 
     }
-
-
+    
     include '../query/connect.php';
     
-    return $persons_on_tmp;
-}
-
-function _personsData($tablename,$array){
-    
-    unset($array[id]);
-    
-    $charset = $array[charset];
-    
-    $array[tablename] = $tablename;
-    
-    $tmp = array();
-    
-    $result = mysql_query("SELECT * FROM `$tablename`");
-    
-    while($var = mysql_fetch_assoc($result)){
-        
-        unset($var[user_id]);
-        
-        if($charset == 'cp1251'){
-            $var[name] = cp1251_to_utf8($var[name]);
-            $var[patronymic] = cp1251_to_utf8($var[patronymic]);
-            $var[surname] = cp1251_to_utf8($var[surname]);
-        }
-        
-        $tmp_arr = array_merge(_uniKeyEmail($var), $array);
-
-        $tmp_arr[role] = _getRole($tmp_arr[role]);
-        
-        if($charset == 'cp1251'){
-           $tmp_arr[role] = cp1251_to_utf8($tmp_arr[role]); 
-        }
-        
-        $tmp_arr[charset] = $charset;
-//        echo "    $tablename//$tmp_arr[charset] =>> $tmp_arr[name] $tmp_arr[patronymic] $tmp_arr[surname];($tmp_arr[role])<br>";
-        array_push($tmp, $tmp_arr);
-    }
-//    echo "<br>";
-//    print_r($tmp_arr);
-        
-    return $tmp;
+    return $persons;
 }
 
 function mysql_table_seek($tablename, $dbname){
@@ -142,40 +125,6 @@ function mysql_table_seek($tablename, $dbname){
 
     return mysql_num_rows($rslt) > 0;
 } 
-
-function _uniKeyEmail($arr){
-    $tmp = array();
-    foreach ($arr as $key => $value) {
-        
-        if($key != 'e_mail' && $key != 'id'){
-           $tmp[$key] = $value; 
-        }else if($key == 'e_mail'){
-           $tmp[email] = $value; 
-        }else if($key == 'id'){
-           $tmp[user_id] = $value; 
-        }
-    }
-    return _uniKeyPWD($tmp);
-}
-
-function _uniKeyPWD($arr){
-    $tmp = array();
-    foreach ($arr as $key => $value) {
-        
-        if($key != 'secret_key' && $key != 'pwd'){
-           $tmp[$key] = $value; 
-        }else if($key == 'secret_key'){
-           $tmp[user_password] = $value; 
-        }else if($key == 'pwd'){
-            $tmp[user_password] = $value;
-        }
-    }
-    unset($tmp[password]);
-    unset($tmp[login]);
-    unset($tmp[pwd]);
-    
-    return $tmp;
-}
 
 function _getRole($id_role){
     
@@ -193,6 +142,8 @@ function _getRole($id_role){
 
 function _insertToTmp($arr){
     
+    mysql_query("TRUNCATE TABLE `tmp`");
+    
     $message = 1;
     
     sort($arr);
@@ -208,12 +159,8 @@ function _insertToTmp($arr){
         $surname = $value[surname];
         $role = $value[role];
         
-//        echo "$value[db_id]/$value[tablename]/$value[charset] =>> $surname $name $patronymic: $role;<br>";
-        
-       $query .= "('$value[user_id]','$surname','$name','$patronymic','$value[email]','$value[phone]',$value[db_id],'$value[tablename]','$role'),";
+        $query .= "('$value[id]','$surname','$name','$patronymic','$value[email]','$value[phone]','$value[db_id]','$value[tablename]','$role'),";
     
-        
-        
      }
      
      $query = substr($query,0,(strlen($query)-1));

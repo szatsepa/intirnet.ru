@@ -50,8 +50,20 @@ function _sinchro(){
             type:'post',
             cashe:false,
             success:function(data){
-//                console.log(data);
-//                document.write(data);
+                console.log(data);
+                $("#tab01").hide();
+                $("#response").remove();
+                var str_in = '<br><br><div id="response>"';
+//                 str_in += "<p>  ===>>>   "+this+"</p>";
+                $.each(data, function(index){
+//                    str_in += "<p>  ===>>>   "+this+"</p>";
+                    str_in += "<p>"+this['db_id']+"/"+this['tablename']+"/"+this['role']+" =>> "+this['user_id']+" | "+this['name']+" "+this['patronymic']+" "+this['surname']+";</p>"
+                });
+                str_in += "</div>"
+                $("#myTabs").append(str_in);
+            },
+            error:function(data){
+                document.write(data['responseText']);
             }
         });
         
@@ -92,7 +104,7 @@ $(document).ready(function(){
 
     _sinchro();
     
-    setInterval('_sinchro()', 12000);
+    setInterval('_sinchro()', 60000);
    
 });
 
