@@ -35,8 +35,9 @@
     <div  class="tabs box" id="myTabs">
         <ul> 
     	<li><a id="t01"><span>Список</span></a></li>
-    	<li><a id="t02"><span>Создать/Редактировать</span></a></li> 
+    	<li><a id="t02"><span>Редактировать</span></a></li> 
         <li><a id="t03"><span>Поиск</span></a></li>
+        <li><a id="t04"><span><img src="../design/circle.gif"</span></a></li>
     </ul>
     </div>
 <!-- class="ui-tabs-panel"-->

@@ -8,6 +8,7 @@ $(document).ready(function(){
     var pre_input = {};
 
     customers = $("#customers_tab > tbody").html(); 
+    $("#t04").hide();
 
     $.each($("#my_db > input"), function(){
 

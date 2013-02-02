@@ -14,6 +14,8 @@ $have_base_here = $bases_here[all];
 
 $list_of_customers = lookingAll($have_base_here);
 
+reset($have_base_here);
+
 _insertToTmp($list_of_customers);
 
 function _base_here(){
@@ -146,7 +148,7 @@ function _insertToTmp($arr){
     
     $message = 1;
     
-    sort($arr);
+//    sort($arr);
     
     reset($arr);
     
@@ -158,14 +160,18 @@ function _insertToTmp($arr){
         $patronymic = $value[patronymic];
         $surname = $value[surname];
         $role = $value[role];
+        $email = $value[email];
+        if($value[e_mail])$email = $value[e_mail];
         
-        $query .= "('$value[id]','$surname','$name','$patronymic','$value[email]','$value[phone]','$value[db_id]','$value[tablename]','$role'),";
+        $query .= "('$value[id]','$surname','$name','$patronymic','$email','$value[phone]','$value[db_id]','$value[tablename]','$role'),";
     
      }
      
      $query = substr($query,0,(strlen($query)-1));
      
      mysql_query($query) or die($query);
+     
+//     echo $query."<br>";
      
      if(count($arr != mysql_insert_id()))$message = NULL;
      
@@ -177,8 +183,8 @@ function _clearTMP(){
     mysql_query("CREATE TABLE IF NOT EXISTS `tmp` (
         `id` int(11) NOT NULL auto_increment,
         `user_id`  int(11) NOT NULL,
-        `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `surname` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+        `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,        
         `patronymic` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `role` varchar(255) character set utf8 collate utf8_bin NOT NULL,
         `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,

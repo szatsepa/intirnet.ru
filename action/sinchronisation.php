@@ -12,17 +12,17 @@ $cntrl_cu = insertToSinchro($get_cu);
 
 $difference = _verification($cntrl_cu);
 
-$otvet = array("count"=>count($get_cu)); 
+$need_chenges = _selectChanges($difference);
 
-echo json_encode($difference);
+$update_donors = _updateDonors($need_chenges,$bases);
+
+echo json_encode($update_donors); 
 
 //echo "$difference";
 
 function _verification($arr){
     
     $tmp = array();
-    
-    $str = '';
     
     foreach ($arr as $value) {
         
@@ -39,51 +39,115 @@ function _verification($arr){
           }
         
     }
-
-    return _selectChanges($tmp);
+//    
+    return $tmp;
 }
 
 function _selectChanges($arr){
     
-    $tmp = array();
+    $bmp = array();
     
     foreach ($arr as $value) {
         
-        $query = "SELECT id FROM `sinchro_tmp` WHERE `name` = '$value[name]' AND `surname` = '$value[surname]' AND `patronymic` = '$value[patronymic]' AND `email` = '$value[email]' AND `phone` = '$value[phone]' AND `role` = '$value[role]'";
+        $tmp = array();
         
+        
+        $new_name = $value[name];
+        $new_surname = $value[surname];
+        $new_patronymic = $value[patronymic];
+        $new_email = $value[email];
+        $new_phone = $value[phone];
+        $new_role = $value[role];
+    
+        $query = "SELECT id FROM `sinchro_tmp` WHERE `name` = '$new_name' AND `surname` = '$new_surname' AND `patronymic` = '$new_patronymic' AND `email` = '$new_email' AND `phone` = '$new_phone' AND `role` = '$new_role'";
+            
         $result = mysql_query($query);
         
         $row = mysql_fetch_row($result);
         
-        $res = mysql_query("SELECT * FROM `customer` WHERE id = $row[0]");
+        $id_query = "SELECT * FROM `customer` WHERE id = $row[0]";
+        
+        $res = mysql_query($id_query);
         
         $var = mysql_fetch_assoc($res);
         
-        $persons_list_qry = mysql_query("SELECT id FROM `customer` WHERE `name` = '$var[name]' AND `surname` = '$var[surname]' AND `patronymic` = '$var[patronymic]' AND `email` = '$var[email]' AND `phone` = '$var[phone]' AND `role` = '$var[role]'");
+        $index_query = "SELECT id FROM `customer` WHERE `name` = '$var[name]' AND `surname` = '$var[surname]' AND `patronymic` = '$var[patronymic]' AND `email` = '$var[email]' AND `phone` = '$var[phone]' AND `role` = '$var[role]'";
+        
+        $persons_list_qry = mysql_query($index_query);
        
         while($customerlist = mysql_fetch_assoc($persons_list_qry)){
             
-            $customerlist[name] = $value[name];
-            $customerlist[patronymic] = $value[patronymic];
-            $customerlist[surname] = $value[surname];
-            $customerlist[email] = $value[email];
-            $customerlist[phone] = $value[phone];
-            $customerlist[role] = $value[role];
+            $customerlist[name] = $new_name;
+            $customerlist[patronymic] = $new_patronymic;
+            $customerlist[surname] = $new_surname;
+            $customerlist['email'] = $var[email];
+            $customerlist[phone] = $new_phone;
+            $customerlist[role] = $new_role;
+             mysql_query("UPDATE `customer` SET `name` = '$new_name', `surname` = '$new_surname', `patronymic` = '$new_patronymic', `email` = '$customerlist[email]', `phone` = '$new_phone', `role` = '$new_role' WHERE id = $customerlist[id]");
+//            $customerlist[query] = $id_query;
             
-                array_push($tmp, $customerlist);                       
-        }         
+            $qry_customer = mysql_query("SELECT * FROM `customer` WHERE `id` = $customerlist[id]");
+        
+            array_push($bmp, mysql_fetch_assoc($qry_customer));                      
+        }
+   
+    }
+   
+    return $bmp;
+}
+
+function _updateDonors($arr, $bases){
+    
+    $tmp = array();
+    
+    mysql_close();
+    
+    foreach ($arr as $var) {
+        
+        $charset = $bases[$var[db_data_id]][charset];
+            
+            mysql_connect($bases[$var[db_data_id]][addr],$bases[$var[db_data_id]][login],$bases[$var[db_data_id]][password]);
+    
+            mysql_select_db($bases[$var[db_data_id]][db_name]);
+
+            mysql_query ("SET NAMES $charset");
+
+//                $var[role] = $row[0];
+//                $var[database] = $value[db_name];
+                $var[db_data_id] = $bases[$var[db_data_id]][db_name];
+                $em_key = 'e_mail';
+                if (!mysql_fields_seek($var[tablename], $em_key)){
+                    $em_key = 'email';
+                }
+                if($charset=='cp1251'){
+                        $var[name] = utf8_to_cp1251($var[name]);
+                        $var[surname] = utf8_to_cp1251($var[surname]);
+                        $var[patronymic] = utf8_to_cp1251($var[patronymic]);
+                        $var[role] =  utf8_to_cp1251($var[role]);
+                    }
+                    
+                     $query = "UPDATE `$var[tablename]` SET name = '$var[name]', patronymic = '$var[patronymic]', surname = '$var[surname]', $em_key = '$var[email]', phone = '$var[phone]' WHERE id = $var[user_id]";
+                     
+                     mysql_query($query);
+                     
+                     $var[query] = $query;
+                     
+                array_push($tmp, $var);
+//            }
+
+            mysql_close();
+            
+        
     }
     
-    foreach ($tmp as $value) {
-        mysql_query("UPDATE `customer` SET `name` = '$value[name]', `surname` = '$value[surname]', `patronymic` = '$value[patronymic]', `email` = '$value[email]', `phone` = '$value[phone]', `role` = '$value[role]' WHERE id = $value[id]");
-    }
+    include '../query/connect.php';
     
     return $tmp;
 }
 
 function insertToSinchro($arr){
     
-    array_reverse($arr);
+//    array_reverse($arr);
     
     $query = "INSERT INTO `sinchro_tmp` (`user_id`,`role`,`surname`,`name`,`patronymic`,`email`,`phone`,`tablename`,`db_data_id`) VALUES ";
     
@@ -116,7 +180,8 @@ function getBases(){
     $result = mysql_query("SELECT * FROM db_data ORDER BY id");
 
     while ($var = mysql_fetch_assoc($result)){
-        array_push($dbase, $var);
+        
+        $dbase[$var[id]] = $var;
     }
     
     
@@ -196,10 +261,21 @@ function getCustomers($array){
     return $all; 
 }
 
-function mysql_table_seek($tablename, $dbname)
-{
+function mysql_table_seek($tablename, $dbname){
+    
     $rslt = mysql_query("SHOW TABLES FROM `{$dbname}` LIKE '" . mysql_real_escape_string(addCslashes($tablename, "\\%_")) . "';");
 
     return mysql_num_rows($rslt) > 0;
-} 
+}
+
+function mysql_fields_seek($tablename, $field){
+    
+    $out = NULL;
+
+    $rslt = mysql_query("SELECT COUNT(`$field`) FROM `$tablename`");
+    
+    if($rslt)$out = mysql_num_rows($rslt);
+
+    return  $out;
+}
 ?>

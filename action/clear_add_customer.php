@@ -3,6 +3,8 @@ if(unnecessaryCustomers())clearCustomer();
 
 $have_new_customers = checkNewCustomers($have_base_here);
 
+reset($have_base_here);
+
 if(count($have_new_customers)>0){
     
     $real_customers = realytiData($have_new_customers);//выбираем данные из реальных таблиц в базах родителях
@@ -10,10 +12,14 @@ if(count($have_new_customers)>0){
     $already_added = insertToBases($real_customers);
     
     $list_of_customers = lookingAll($have_base_here);
+    
+    reset($have_base_here);
 
     _insertToTmp($list_of_customers);
     
     insertToThis(checkNewCustomers($have_base_here));
+    
+    reset($have_base_here);
        
 }
 

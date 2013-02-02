@@ -44,23 +44,17 @@ function isValidEmail (email, strict)
 }
 
 function _sinchro(){
+    $("#t04").show();
      $.ajax({
             url:'../action/sinchronisation.php',
-            dataType:'json',
+            dataType:'json', 
             type:'post',
-            cashe:false,
+            cashe:false, 
             success:function(data){
-                console.log(data);
-                $("#tab01").hide();
-                $("#response").remove();
-                var str_in = '<br><br><div id="response>"';
-//                 str_in += "<p>  ===>>>   "+this+"</p>";
-                $.each(data, function(index){
-//                    str_in += "<p>  ===>>>   "+this+"</p>";
-                    str_in += "<p>"+this['db_id']+"/"+this['tablename']+"/"+this['role']+" =>> "+this['user_id']+" | "+this['name']+" "+this['patronymic']+" "+this['surname']+";</p>"
-                });
-                str_in += "</div>"
-                $("#myTabs").append(str_in);
+                $("#t04").hide();
+                if(data){
+                    document.location = "index.php?act=main&r=0";
+                }                
             },
             error:function(data){
                 document.write(data['responseText']);
@@ -102,7 +96,7 @@ $(document).ready(function(){
     }
     
 
-    _sinchro();
+//    _sinchro();
     
     setInterval('_sinchro()', 60000);
    
