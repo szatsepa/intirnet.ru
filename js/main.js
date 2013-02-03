@@ -111,7 +111,6 @@ $("#user_insert_submit").mousedown(function(){
                 user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
             
         });
-        console.log(user_data);
         
         _saveData(path, user_data);
         
@@ -319,35 +318,40 @@ function _searchData(arg){
             dataType:'json',
             data:arg,
             success:function(data){
-                console.log(data);
-                document.write(data['query']);
+                console.log(data['customer']['email']);
+               
+                var email = data['customer']['email'];
+                var html_str = "<a href='mailto:'>";
+                console.log(email); 
+                console.log(data['query']);
+//                document.write(data['query']);
                 $("#tab01").show();
                 $("#tab02,#tab03").hide();
                 if(data['act'] == 'update'){
 
                 $("#r_"+$("#uid").val()+" td:eq(1)").text(data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']);
-                $("#r_"+$("#uid").val()+" td:eq(2)").text(data['customer']['phone']);
-                $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['email']);
+                $("#r_"+$("#uid").val()+" td:eq(3)").text(data['customer']['phone']);
+                $("#r_"+$("#uid").val()+" td:eq(4)").html(html_str);
 
                 $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
                 $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                 $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
 
-            }else if(data['act'] == 'add'){
+                }else if(data['act'] == 'add'){
 
-                $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"</td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-info' title='Смотреть'></a></td></tr>");         
+                    $("#customers_tab > tbody").append("<tr id='r_"+data['customer']['id']+"'><td class='t-right'>"+data['customer']['id']+"</td><td>"+data['customer']['surname']+" "+data['customer']['name']+" "+data['customer']['patronymic']+"</td><td class='smaller'>"+data['customer']['role']+"</td><td class='smaller'>"+data['customer']['phone']+"</td><td class='smaller'><a href='mailto:"+data['customer']['email']+"'>"+data['customer']['email']+"</a></td><td class='smaller'>"+data['customer']['creation_time']+"</td><td class='t-center'><a id='e_"+data['customer']['id']+"' class='ico-info' title='Смотреть'></a></td></tr>");         
 
-                var out_arg = new Array();
+                    var out_arg = new Array();
 
-                $.each(d_bases, function(){
+                    $.each(d_bases, function(){
 
-                    var tmp = {db_name:this['db_name'],login:this['login'],password:this['password'],addr:this['addr'],charset:this['charset'],name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()};
+                        var tmp = {db_name:this['db_name'],login:this['login'],password:this['password'],addr:this['addr'],charset:this['charset'],name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),phone2:$("#phone2").val(),fax:$("#fax").val(),email:$("#email").val(),postcode:$("#postcode").val(),address:$("#address").val(),comments:$("#comments").val(),tags:$("#tags").val(),role:$("#role").val()};
 
-                    out_arg.push(tmp);
-                });
+                        out_arg.push(tmp);
+                    });
 
-//                _addBases(out_arg);
-            }                    
+    //                _addBases(out_arg);
+                }                    
             },
             error:function(data){
                 document.write(data['responseText']);                     

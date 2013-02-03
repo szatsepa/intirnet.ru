@@ -6,6 +6,8 @@ include '../func/cp_to_utf.php';
 
 $uid = intval($_POST[id]);
 
+$new_customer = $_POST;
+
 $result = mysql_query("SELECT * FROM `customer` WHERE `id` = $uid");
 
 $old_customer = mysql_fetch_assoc($result);
@@ -18,73 +20,35 @@ while ($var = mysql_fetch_assoc($result)){
     
     $em_key = 'e_mail';
     
-    if($_POST[email])$em_key = 'email';
+    if($new_customer[email])$em_key = 'email';
     
-    $query = "UPDATE `customer` SET name = '$_POST[name]', patronymic = '$_POST[patronymic]', surname = '$_POST[surname]', phone = '$_POST[phone]', email = '$_POST[$em_key]' WHERE id = $var[id]";
+    $query = "UPDATE `customer` SET name = '$new_customer[name]', patronymic = '$new_customer[patronymic]', surname = '$new_customer[surname]', phone = '$new_customer[phone]', email = '$new_customer[$em_key]' WHERE id = $var[id]";
                 
     mysql_query($query);
 }
 
-$db_array = array();
+$qry = _updateDonors($old_customer,$new_customer, getDB());
 
-$result = mysql_query("SELECT * FROM `db_data`");
 
-while ($var = mysql_fetch_assoc($result)){
-    array_push($db_array, $var);
-}
-
-mysql_close();
-
-$qry = '';
-
-foreach ($db_array as $var) {
-        
-        $charset = $var[charset];
-            
-        mysql_connect($var[addr],$var[login],$var[password]);
-
-        mysql_select_db($var[db_name]);
-
-        mysql_query ("SET NAMES $charset");
-
-        $em_key = 'e_mail';
-        if (!mysql_fields_seek('customer', $em_key)){
-            $em_key = 'email';
-        }
-
-        $email = $_POST[email];
-        if($_POST[e_mail])$email = $_POST[e_mail];
-        $old_email = $old_customer[email];
-        if($old_customer[e_mail])$email = $old_customer[e_mail];
-        
-            
-        if($charset=='cp1251'){
-                $_POST[name] = utf8_to_cp1251($_POST[name]);
-                $_POST[surname] = utf8_to_cp1251($_POST[surname]);
-                $_POST[patronymic] = utf8_to_cp1251($_POST[patronymic]);
-                $_POST[role] =  utf8_to_cp1251($_POST[role]);
-            }
-            
-
-        $qry = "UPDATE `customer` SET name = '$_POST[name]', patronymic = '$_POST[patronymic]', surname = '$_POST[surname]', e_mail = '$email', phone = '$_POST[phone]' WHERE `name`= '$old_customer[name]' AND `patronymic` = '$old_customer[patronymic]' AND `surname` = '$old_customer[surname]' AND `e_mail` = '$old_customer[email]' AND `phone` = '$old_customer[phone]'";
-
-//        mysql_query($qry);
-//
-//        $qry = "UPDATE `users` SET name = '$_POST[name]', patronymic = '$_POST[patronymic]', surname = '$_POST[surname]', $em_key = '$email', phone = '$_POST[phone]' WHERE `name`= '$old_customer[name]' AND `patronymic` = '$old_customer[patronymic]' AND `surname` = '$old_customer[surname]' AND `email` = '$old_customer[email]' AND `phone` = '$old_customer[phone]'";
-//
-//        mysql_query($qry);
-
-        mysql_close();
-}
-
-$out = array('ok'=>  $db_array, 'query'=>$qry,'act'=>'update','customer'=>$old_customer);
+$out = array('ok'=>  0, 'query'=>$qry,'act'=>'update','customer'=>$old_customer);
 //
 //$aff = mysql_affected_rows();
 //
 //if($aff > 0)$out['ok'] = $aff;
 
 echo json_encode($out);
- 
+
+function getDB(){
+    $db_array = array();
+
+    $result = mysql_query("SELECT * FROM `db_data`");
+
+    while ($var = mysql_fetch_assoc($result)){
+        array_push($db_array, $var);
+    }
+    
+    return $db_array;
+}
 
 
 function mysql_table_seek($tablename, $dbname){
@@ -104,4 +68,58 @@ function mysql_fields_seek($tablename, $field){
 
     return  $out;
 }
+function _updateDonors($old, $new, $bases){
+    
+   
+    
+    foreach ($bases as $var) {
+        
+//        mysql_close();
+//        
+//        $charset = $var[charset]; 
+//            
+//        $link = mysql_connect($var[addr],$var[login],$var[password]);
+//
+//        mysql_select_db($var[db_name],$link);
+//
+//        mysql_query ("SET NAMES $charset");
+
+        $em_key = 'e_mail';
+        if (!mysql_fields_seek('customer', $em_key)){
+            $em_key = 'email';
+        }
+
+        $email = $new[email];
+        if($new[e_mail])$email = $new[e_mail];
+        $old_email = $old[email];
+        if($old[e_mail])$email = $old[e_mail];
+        
+            
+        if($charset=='cp1251'){
+                $new[name] = utf8_to_cp1251($new[name]);
+                $new[surname] = utf8_to_cp1251($new[surname]);
+                $new[patronymic] = utf8_to_cp1251($new[patronymic]);
+                $new[role] =  utf8_to_cp1251($new[role]);
+            }
+
+        $qry = "UPDATE `customer` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]', e_mail = '$email', phone = '$new[phone]' WHERE `name`= '$old[name]' AND `patronymic` = '$old[patronymic]' AND `surname` = '$old[surname]' AND `e_mail` = '$old[email]' AND `phone` = '$old[phone]'";
+        
+//        
+
+//        $qry = "$var[addr],$var[login],$var[password]";
+        
+//        mysql_query($qry);
+////
+////        $qry = "UPDATE `users` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]', $em_key = '$email', phone = '$new[phone]' WHERE `name`= '$old[name]' AND `patronymic` = '$old[patronymic]' AND `surname` = '$old[surname]' AND `email` = '$old[email]' AND `phone` = '$old[phone]'";
+////
+////        mysql_query($qry);
+
+
+    }
+            
+   
+    
+    return $qry;
+}
+
 ?>
