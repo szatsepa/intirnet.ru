@@ -37,7 +37,7 @@
     	<li><a id="t01"><span>Список</span></a></li>
     	<li><a id="t02"><span>Редактировать</span></a></li> 
         <li><a id="t03"><span>Поиск</span></a></li>
-        <li><a id="t04"><span><img src="../design/circle.gif"</span></a></li>
+        <li><a id="t04"><span><img src="../design/circle.gif" width="27" height="27"></span></a></li>
     </ul>
     </div>
 <!-- class="ui-tabs-panel"-->
@@ -138,9 +138,9 @@
    
 <!--        </fieldset>
     </form> -->
-<!--                <div class="box-01">
+                <div class="box-01">
 		    <p class="nom"><input value="Сохранить" class="input-submit" type="button" id="user_insert_submit"></p>
-		</div> -->
+		</div> 
    
         
         <fieldset id="fieldset_doc" style="display:none;">        

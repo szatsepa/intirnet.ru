@@ -53,7 +53,7 @@ function _sinchro(){
             success:function(data){
                 $("#t04").hide();
                 if(data){
-                    document.location = "index.php?act=main&r=0";
+//                    document.location.reload();
                 }                
             },
             error:function(data){
@@ -98,7 +98,7 @@ $(document).ready(function(){
 
 //    _sinchro();
     
-    setInterval('_sinchro()', 60000);
+//    setInterval('_sinchro()', 60000);
    
 });
 

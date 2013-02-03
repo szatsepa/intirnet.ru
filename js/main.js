@@ -6,8 +6,11 @@ $(document).ready(function(){
     var d_bases = new Array();
     var base_name = '';
     var pre_input = {};
+    
+    $("td.t-center").css({'cursor':'default'});
 
     customers = $("#customers_tab > tbody").html(); 
+    
     $("#t04").hide();
 
     $.each($("#my_db > input"), function(){
@@ -19,7 +22,7 @@ $(document).ready(function(){
 
     $("#products a").click(function(){
         $("#chap").text($(this).text());
-//        console.log();
+//        //console.log();
     });
     
     $("#tab02,#tab03").hide();
@@ -34,33 +37,42 @@ $(document).ready(function(){
         $("#user_insert_submit").val('Сохранить');
         add = false;
         search = false;
-//             base_name = $("#customers_tab tbody tr td:eq(5)").text(); 
+//        base_name = $("#customers_tab tbody tr td:eq(5)").text(); 
         _readCustomer({uid:id});
 
     }).css({'cursor':'pointer'});
-
+    
+    $("#customer_data tbody tr td").live('hover',function(){
+        if(this['cellIndex']>1 && this['cellIndex']<7){
+            $(this).css('cursor', 'pointer');
+        }
+        
+    });
 
     $("#customer_data tbody tr td").live('click',function(){
 
-//        var str = $(this).text();
-//        var index = $(this).index();
-//        var this_id = $(this).children();
-//
-////             this_id = "#"+this_id;
-//
-////        console.log($(pre_input).attr('id')!=$(this).children().attr('id'));
-//
-//        if($(pre_input).attr('id')!=$(this).children().attr('id')){
-//                var txt = $(pre_input).val();
-//                $(pre_input).parent().text(txt);
-//                $(pre_input).remove();
-//        }
-//
-//    if($(this).index() != 0 && $(this).children()[0] == undefined) {
-//        $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
-//
-//        pre_input = $(this).children();
-//    }
+        var str = $(this).text();
+        var index = $(this).index();
+        var this_id = $(this).children();
+
+//             this_id = "#"+this_id;
+
+//        //console.log(this['cellIndex']);
+
+        if($(pre_input).attr('id')!=$(this).children().attr('id')){
+                var txt = $(pre_input).val();
+                $(pre_input).parent().text(txt);
+                $(pre_input).remove();
+        }
+
+    if($(this).index() != 0 && $(this).children()[0] == undefined) {
+        if(this['cellIndex']>1 && this['cellIndex']<7){
+            
+            $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
+
+            pre_input = $(this).children();
+        }        
+    }
 
 });
 
@@ -83,33 +95,37 @@ $("#user_insert_submit").mousedown(function(){
         }else{
         path = '../action/add_customer.php'; 
     }
-    var user_data = {db_name:base_name}; 
+    var user_data = {}; 
     
-//    $.ajax({
-//            url:'../action/sinchronisation.php',
-//            type:'post',
-//            dataType:'json',
-//            success:function(data){
-//                console.log(data);
-//            },
-//            error:function(data){
-//                console.lod(data['responseText']);
-//            }
-//        });
-    
-    
-//    $.each($("#customer_data tbody tr td"), function(i){
-//        
-//            if($(this).text()==false){
-//                var name = $("#customer_data thead tr th:eq("+i+")").text();
-//
-//                user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
-//                user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
-//
-//            }
-//
-//    });
+    $.each($("#customer_data tbody tr td"), function(i){
+        
+            if($(this).text()==false){}
+                var name = $("#customer_data thead tr th:eq("+i+")").text();
+
+                if($($(this).children()).exists()) {
+                    user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
+                }else{
+                    user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).text();
+                }
+                
+                user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
+            
+        });
+        console.log(user_data);
+        
+        _saveData(path, user_data);
+        
 });
+
+// Один раз объявляем функцию, потом используем так, как в примере
+jQuery.fn.exists = function() {
+   return $(this).length;
+}
+
+//// Пример использования:
+//if($("#findID").exists()) {
+//   // exists
+//}
 
 $("#back").mousedown(function(){
         add = false;   
@@ -303,6 +319,8 @@ function _searchData(arg){
             dataType:'json',
             data:arg,
             success:function(data){
+                console.log(data);
+                document.write(data['query']);
                 $("#tab01").show();
                 $("#tab02,#tab03").hide();
                 if(data['act'] == 'update'){
@@ -328,11 +346,11 @@ function _searchData(arg){
                     out_arg.push(tmp);
                 });
 
-                _addBases(out_arg);
+//                _addBases(out_arg);
             }                    
             },
             error:function(data){
-                console.log(data['responseText']);                     
+                document.write(data['responseText']);                     
             }
         });
     }
@@ -349,10 +367,10 @@ function _searchData(arg){
             data:obj,
             success:function(data){
 
-//                        console.log(data);
+//                        //console.log(data);
             },
             error:function(data){
-                console.log(data['responseText']);
+                //console.log(data['responseText']);
             }
         });
         num++;
@@ -366,32 +384,33 @@ function _searchData(arg){
             dataType:'json',
             data:arg,
             success:function(data){
+                
                 var str_head = '';
                 var str_body = '';
-console.log(data);
+                
         $.each(data, function(index, d){
-//            console.log(index+" => "+d);
-                if(this != ''){
+            
+                if(this != ''){}
                     str_head += "<th class='t-center'>"+index+"</th>";
                     str_body += "<td class='t-center'>"+this+"</td>";
-                }
+                
 
         });
 
         str_head = "<tr>"+str_head+"</tr>";
         str_body = "<tr id='b0'>"+str_body+"</tr>";
 
-                    $("#uid").val(data['id']);
-                    $("#surname").val(data['surname']);
-                    $("#name").val(data['name']);
-                    $("#patronymic").val(data['patronymic']);
-                    $("#phone").val(data['phone']);
-                    $("#email").val(data['email']);
-                    $("#role").val(data['role']);
+//                    $("#uid").val(data['id']);
+//                    $("#surname").val(data['surname']);
+//                    $("#name").val(data['name']);
+//                    $("#patronymic").val(data['patronymic']);
+//                    $("#phone").val(data['phone']);
+//                    $("#email").val(data['email']);
+//                    $("#role").val(data['role']);
 
                 $("#customer_data thead").empty().append(str_head);
                 $("#customer_data tbody").empty().append(str_body);
-                $("#customer_data tbody tr td").css('cursor', 'pointer');
+//                $("#customer_data tbody tr td:eq(2) td:eq(3) td:eq(4) td:eq(5) td:eq(6)").css('cursor', 'pointer');
 
                     $("#tab01").hide();
                     $("#p-filter").hide();
