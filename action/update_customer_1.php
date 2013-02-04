@@ -1,5 +1,8 @@
 <?php
-$server_query = $_POST[addr]."&upd=1";
+
+include '../query/connect.php';
+
+include '../func/cp_to_utf.php';
 
 $uid = intval($_POST[id]);
 
@@ -24,9 +27,7 @@ while ($var = mysql_fetch_assoc($result)){
     mysql_query($query);
 }
 
-if(_updateDDB($old_customer,$new_customer, getDB())){
-    header("location:index.php?$server_query");
-}
+//$qry = _updateDonors($old_customer,$new_customer, getDB());
 
 
 $out = array('ok'=>  0, 'query'=>$qry,'act'=>'update','customer'=>$old_customer);
@@ -67,7 +68,7 @@ function mysql_fields_seek($tablename, $field){
 
     return  $out;
 }
-function _updateDDB($old, $new, $bases){
+function _updateDonors($old, $new, $bases){
     
    mysql_close();   
     
@@ -99,15 +100,17 @@ function _updateDDB($old, $new, $bases){
 
         $charset = $var[charset]; 
             
-        $link = mysql_connect($var[addr],$var[login],$var[password]);
+        $link = mysql_connect('193.124.133.29:3306/tmp/mysqld.sock',$var[login],$var[password]);
 
         mysql_select_db($var[db_name],$link);
 
         mysql_query ("SET NAMES $charset");
         
-        mysql_query($qry);        
-
-        mysql_query($qry_u);
+//        mysql_query($qry);
+////
+////        
+////
+////        mysql_query($qry);
         
         mysql_close();
 
@@ -115,7 +118,7 @@ function _updateDDB($old, $new, $bases){
             
    
     
-    return 1;
+    return $qry_u;
 }
 
 ?>

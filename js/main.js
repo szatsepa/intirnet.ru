@@ -43,7 +43,7 @@ $(document).ready(function(){
     }).css({'cursor':'pointer'});
     
     $("#customer_data tbody tr td").live('hover',function(){
-        if(this['cellIndex']>1 && this['cellIndex']<7){
+        if(this['cellIndex']>0 && this['cellIndex']<4){
             $(this).css('cursor', 'pointer');
         }
         
@@ -55,10 +55,6 @@ $(document).ready(function(){
         var index = $(this).index();
         var this_id = $(this).children();
 
-//             this_id = "#"+this_id;
-
-//        //console.log(this['cellIndex']);
-
         if($(pre_input).attr('id')!=$(this).children().attr('id')){
                 var txt = $(pre_input).val();
                 $(pre_input).parent().text(txt);
@@ -66,7 +62,7 @@ $(document).ready(function(){
         }
 
     if($(this).index() != 0 && $(this).children()[0] == undefined) {
-        if(this['cellIndex']>1 && this['cellIndex']<7){
+        if(this['cellIndex']>0 && this['cellIndex']<6){
             
             $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
 
@@ -85,34 +81,80 @@ $(document).ready(function(){
 
 
 $("#user_insert_submit").mousedown(function(){
-
-    var seni = new Date();
     
-    var creation_time = seni.getFullYear()+"-"+seni.getMonth()+"-"+seni.getDate()+" "+seni.getHours()+":"+seni.getMinutes()+":"+seni.getSeconds();
-    var path = '';
-    if(!add){
-        path = '../action/update_customer.php';
-        }else{
-        path = '../action/add_customer.php'; 
-    }
-    var user_data = {}; 
+    var user_data = {};
     
-    $.each($("#customer_data tbody tr td"), function(i){
+    if(add && !search){
+         var seni = new Date();
+    
+        var creation_time = seni.getFullYear()+"-"+seni.getMonth()+"-"+seni.getDate()+" "+seni.getHours()+":"+seni.getMinutes()+":"+seni.getSeconds();
+        var path = '';
+//        if(!add){
+//            path = '../action/update_customer_1.php';
+//            }else{}
+            path = '../action/add_customer.php'; 
         
-            if($(this).text()==false){}
-                var name = $("#customer_data thead tr th:eq("+i+")").text();
+         
 
-                if($($(this).children()).exists()) {
-                    user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
-                }else{
-                    user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).text();
-                }
-                
-                user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
-            
-        });
+        $.each($("#customer_data tbody tr td"), function(i){
+
+                if($(this).text()==false){}
+                    var name = $("#customer_data thead tr th:eq("+i+")").text();
+
+                    if($($(this).children()).exists()) {
+                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
+                    }else{
+                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).text();
+                    }
+
+                    user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
+
+            });
         
         _saveData(path, user_data);
+    }else if(!add && search){
+        
+           _searchData({name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),email:$("#email").val(),role:$("#role").val()}); 
+            
+    }else if(!add && !search){
+        var form_update = "<form id='upd_cu' action='index.php?act=update' method='post'><input type='hidden' name='addr' value="+$("#str_addr").val()+">";
+        
+        $.each($("#customer_data tbody tr td"), function(i){
+
+                if($(this).text()==false){}
+                
+                    var name = $("#customer_data thead tr th:eq("+i+")").text();
+                    
+                    form_update += "<input type='hidden' name='name' value='"+$("#customer_data thead tr th:eq("+i+")").text()+"'>";
+
+                    if($($(this).children()).exists()) {
+                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
+                        
+                        form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).children().val()+"'>";
+                        
+                    }else{
+                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).text();
+                        
+                        form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).text()+"'>";
+                    }
+
+                    user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
+                    
+                    form_update += "<input type='hidden' name='uid' value='"+$("#customer_data tbody tr td:eq(0)").text()+"'>";
+
+            });
+            
+            form_update += "</form>"
+            
+            $("#sbmt_btn").append(form_update);
+            
+            $("#upd_cu").submit();
+            
+//            document.write(form_update);
+            
+    }
+
+   
         
 });
 
@@ -255,7 +297,7 @@ $("#t03").mousedown(function(){
         $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
 
         $("#tab02").show();
-        $("#tab01").hide();
+        $("#tab01").hide(); 
 
         $("#user_insert_submit").val('Искать');
         add = false;
@@ -281,7 +323,7 @@ function _searchData(arg){
                         $("#customers_tab > tbody").empty();
                         var tab_str = '';
                         $.each(data, function(){
-                            tab_str += "<tr id='r_"+this['id']+"'><td class='t-right'>"+this['id']+"</td><td>"+this['surname']+" "+this['name']+" "+this['patronymic']+"</td><td class='smaller'>"+this['role']+"</td><td class='smaller'>"+this['phone']+"</td><td class='smaller'><a href='mailto:"+this['email']+"'>"+this['email']+"</a></td><td class='smaller t-center'>"+this['creation_time']+"</td><td class='t-center'><a id='e_"+this['id']+"' class='ico-info' title='Смотреть'></a></td></tr>";
+                            tab_str += "<tr id='r_"+this['id']+"'><td class='t-right'>"+this['id']+"</td><td>"+this['surname']+" "+this['name']+" "+this['patronymic']+"</td><td class='smaller'>"+this['role']+"</td><td class='smaller'>"+this['phone']+"</td><td class='smaller'><a href='mailto:"+this['email']+"'>"+this['email']+"</a></td><td class='t-center'><a id='e_"+this['id']+"' class='ico-info' title='Смотреть'></a></td></tr>";
                         });
 
                         $("#customers_tab > tbody").append(tab_str); 
@@ -318,11 +360,11 @@ function _searchData(arg){
             dataType:'json',
             data:arg,
             success:function(data){
-                console.log(data['customer']['email']);
-               
+                
                 var email = data['customer']['email'];
-                var html_str = "<a href='mailto:'>";
-                console.log(email); 
+
+                var html_str = "<a href='mailto:"+email+"'>"+email+"</a>";
+              
                 console.log(data['query']);
 //                document.write(data['query']);
                 $("#tab01").show();
@@ -419,6 +461,7 @@ function _searchData(arg){
                     $("#tab01").hide();
                     $("#p-filter").hide();
                     $("#tab02,#tab03").show();
+                    $("#cu_f, #cu_h").css('display', 'none');
                     $("#content").css({'padding':'10px'});
 
                     $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});

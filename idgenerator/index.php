@@ -55,6 +55,10 @@ switch ($attributes[act]){
         include '../main/administration.php';
         break;
     
+    case 'update' :
+        include '../action/update_customer.php';
+        break;
+    
     case 'info':
         phpinfo();
         break;
@@ -70,7 +74,7 @@ switch ($attributes[act]){
 //echo "C => ";
 //print_r($_COOKIE);
 //echo "<br>S => ";
-//print_r($_SESSION);
+//print_r($_SERVER);
 //echo "<br>A => ";
 //print_r($attributes);
 

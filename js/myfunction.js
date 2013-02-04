@@ -98,7 +98,7 @@ $(document).ready(function(){
 
 //    _sinchro();
     
-//    setInterval('_sinchro()', 60000);
+    setInterval('_sinchro()', 60000);
    
 });
 
