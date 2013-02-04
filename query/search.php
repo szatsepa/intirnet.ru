@@ -5,6 +5,8 @@ include '../query/connect.php';
 $out = array();
 
 foreach ($_POST as $key => $value) {
+    
+    $search_str = substr($value, 1,  strlen($value));
     if($value){
         $query = "SELECT * FROM customer WHERE `$key` LIKE '%$value%'";
 

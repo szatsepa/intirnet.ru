@@ -1,11 +1,13 @@
 <?php
-$server_query = $_POST[addr]."&upd=1";
+$server_query = $_POST[addr];
 
-$uid = intval($_POST[id]);
+$uid = intval($_POST[uid]);
 
 $new_customer = $_POST;
 
-$result = mysql_query("SELECT * FROM `customer` WHERE `id` = $uid");
+$query = "SELECT * FROM `customer` WHERE `id` = $uid";
+
+$result = mysql_query($query);
 
 $old_customer = mysql_fetch_assoc($result);
 
@@ -13,40 +15,55 @@ $query = "SELECT `id` FROM `customer` WHERE `name`= '$old_customer[name]' AND `p
 
 $result = mysql_query($query);
 
+$need_ch_array = array();
+
 while ($var = mysql_fetch_assoc($result)){
+    
+    $chng_cu = changeLocal($var,$new_customer);
+
+    $chng_cu[db] = getDB($chng_cu[db_data_id],$chng_cu[tablename]);
+    
+    array_push($need_ch_array, $chng_cu);
+}
+
+ mysql_close(); 
+
+foreach ($need_ch_array as $value) {
+    _updateDDB($chng_cu[id],$new_customer,$value[db]);
+}
+
+if(!mysql_fetch_assoc($result)){
+    
+    header("location:index.php?$server_query");
+}
+
+function changeLocal($arg, $new){
+    
+    $res = mysql_query("SELECT * FROM `customer` WHERE `id` = $arg[id]");
+    
+    $change_customer = mysql_fetch_assoc($res);
     
     $em_key = 'e_mail';
     
     if($new_customer[email])$em_key = 'email';
     
-    $query = "UPDATE `customer` SET name = '$new_customer[name]', patronymic = '$new_customer[patronymic]', surname = '$new_customer[surname]', phone = '$new_customer[phone]', email = '$new_customer[$em_key]' WHERE id = $var[id]";
-                
-    mysql_query($query);
-}
-
-if(_updateDDB($old_customer,$new_customer, getDB())){
-    header("location:index.php?$server_query");
-}
-
-
-$out = array('ok'=>  0, 'query'=>$qry,'act'=>'update','customer'=>$old_customer);
-//
-//$aff = mysql_affected_rows();
-//
-//if($aff > 0)$out['ok'] = $aff;
-
-echo json_encode($out);
-
-function getDB(){
-    $db_array = array();
-
-    $result = mysql_query("SELECT * FROM `db_data`");
-
-    while ($var = mysql_fetch_assoc($result)){
-        array_push($db_array, $var);
-    }
+    $query = "UPDATE `customer` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]' WHERE id = $change_customer[id]";
     
-    return $db_array;
+//    echo $query.'<br>';
+    mysql_query($query);
+    
+    return $change_customer;
+}
+
+function getDB($arg, $tablename){
+    
+    $result = mysql_query("SELECT * FROM `db_data` WHERE id = $arg");
+
+    $var = mysql_fetch_assoc($result);
+    
+    $var[tablename]=$tablename;
+    
+    return $var;
 }
 
 
@@ -67,23 +84,17 @@ function mysql_fields_seek($tablename, $field){
 
     return  $out;
 }
-function _updateDDB($old, $new, $bases){
+function _updateDDB($uid, $new, $base){
     
-   mysql_close();   
-    
-    foreach ($bases as $var) {
+       $charset = $base[charset];
+//            
+        $link = mysql_connect("$base[addr]","$base[login]","$base[password]")  or die("Could not connect: " . mysql_error());
         
-          
+        echo "$base[addr],$base[login],$base[password]<br>";
 
-        $em_key = 'e_mail';
-        if (!mysql_fields_seek('customer', $em_key)){
-            $em_key = 'email';
-        }
+        mysql_select_db($base[db_name])  or die("Could not select db: " . mysql_error());
 
-        $email = $new[email];
-        if($new[e_mail])$email = $new[e_mail];
-        $old_email = $old[email];
-        if($old[e_mail])$email = $old[e_mail];
+        mysql_query ("SET NAMES $charset");
         
             
         if($charset=='cp1251'){
@@ -93,27 +104,12 @@ function _updateDDB($old, $new, $bases){
                 $new[role] =  utf8_to_cp1251($new[role]);
             }
 
-        $qry = "UPDATE `customer` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]', e_mail = '$email', phone = '$new[phone]' WHERE `name`= '$old[name]' AND `patronymic` = '$old[patronymic]' AND `surname` = '$old[surname]' AND `e_mail` = '$old[email]' AND `phone` = '$old[phone]'";
+        $qry = "UPDATE `$base[tablename]` SET `name` = '$new[name]', `patronymic` = '$new[patronymic]', `surname` = '$new[surname]' WHERE `id` = $uid";
+       
+        echo "$base[db_name]<br>$qry<br>";
+        $res = mysql_query($qry)  or die("Could not query: " . mysql_error()); 
         
-        $qry_u = "UPDATE `users` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]', $em_key = '$email', phone = '$new[phone]' WHERE `name`= '$old[name]' AND `patronymic` = '$old[patronymic]' AND `surname` = '$old[surname]' AND `email` = '$old[email]' AND `phone` = '$old[phone]'";
-
-        $charset = $var[charset]; 
-            
-        $link = mysql_connect($var[addr],$var[login],$var[password]);
-
-        mysql_select_db($var[db_name],$link);
-
-        mysql_query ("SET NAMES $charset");
-        
-        mysql_query($qry);        
-
-        mysql_query($qry_u);
-        
-        mysql_close();
-
-    }
-            
-   
+        if($res)echo mysql_affected_rows()."<br>";
     
     return 1;
 }

@@ -43,7 +43,8 @@ $(document).ready(function(){
     }).css({'cursor':'pointer'});
     
     $("#customer_data tbody tr td").live('hover',function(){
-        if(this['cellIndex']>0 && this['cellIndex']<4){
+        var index = this['cellIndex'];
+        if($("#customer_data thead tr th:eq("+index+")").text()=='name' || $("#customer_data thead tr th:eq("+index+")").text() == 'surname' || $("#customer_data thead tr th:eq("+index+")").text()=='patronymic'){
             $(this).css('cursor', 'pointer');
         }
         
@@ -62,11 +63,18 @@ $(document).ready(function(){
         }
 
     if($(this).index() != 0 && $(this).children()[0] == undefined) {
-        if(this['cellIndex']>0 && this['cellIndex']<6){
+        
+        if($("#customer_data thead tr th:eq("+index+")").text()=='name' || $("#customer_data thead tr th:eq("+index+")").text() == 'surname' || $("#customer_data thead tr th:eq("+index+")").text()=='patronymic'){
             
             $(this).html("<input type='text' class='text_field' value='"+str+"' id='"+$("#customer_data thead tr th:eq("+index+")").text()+"'>");
 
             pre_input = $(this).children();
+            
+            $(pre_input).focus().select();
+            
+            console.log(pre_input);
+            
+            
         }        
     }
 
@@ -88,11 +96,8 @@ $("#user_insert_submit").mousedown(function(){
          var seni = new Date();
     
         var creation_time = seni.getFullYear()+"-"+seni.getMonth()+"-"+seni.getDate()+" "+seni.getHours()+":"+seni.getMinutes()+":"+seni.getSeconds();
-        var path = '';
-//        if(!add){
-//            path = '../action/update_customer_1.php';
-//            }else{}
-            path = '../action/add_customer.php'; 
+        
+        var     path = '../action/add_customer.php'; 
         
          
 
@@ -114,34 +119,42 @@ $("#user_insert_submit").mousedown(function(){
         _saveData(path, user_data);
     }else if(!add && search){
         
-           _searchData({name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),email:$("#email").val(),role:$("#role").val()}); 
+            var search_obj = {name:$("#name").val(),patronymic:$("#patronymic").val(),surname:$("#surname").val(),phone:$("#phone").val(),email:$("#email").val(),role:$("#role").val()};
+//            var new_obj = {};
+//            
+//            $.each(search_obj, function(index){
+//                
+//                var tmp = this.substr(1, this.length-1);
+//                
+//                new_obj[index] = tmp;
+//            });
+            
+           _searchData(search_obj); 
             
     }else if(!add && !search){
+        
         var form_update = "<form id='upd_cu' action='index.php?act=update' method='post'><input type='hidden' name='addr' value="+$("#str_addr").val()+">";
         
         $.each($("#customer_data tbody tr td"), function(i){
 
-                if($(this).text()==false){}
+                if($("#customer_data thead tr th:eq("+i+")").text() == 'name' || $("#customer_data thead tr th:eq("+i+")").text() == 'surname' || $("#customer_data thead tr th:eq("+i+")").text() == 'patronymic'){
                 
-                    var name = $("#customer_data thead tr th:eq("+i+")").text();
-                    
-                    form_update += "<input type='hidden' name='name' value='"+$("#customer_data thead tr th:eq("+i+")").text()+"'>";
+                        var name = $("#customer_data thead tr th:eq("+i+")").text();
 
-                    if($($(this).children()).exists()) {
-                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).children().val();
-                        
-                        form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).children().val()+"'>";
-                        
-                    }else{
-                        user_data[$("#customer_data thead tr th:eq("+i+")").text()] = $(this).text();
-                        
-                        form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).text()+"'>";
-                    }
 
-                    user_data['uid'] = $("#customer_data tbody tr td:eq(0)").text();
-                    
-                    form_update += "<input type='hidden' name='uid' value='"+$("#customer_data tbody tr td:eq(0)").text()+"'>";
 
+
+                        if(exists($(this).children())) {
+                            form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).children().val()+"'>";
+
+                        }else{
+                            form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).text()+"'>";
+                        }
+                     } 
+                     
+                    if($("#customer_data thead tr th:eq("+i+")").text() == 'id' ){
+                       form_update += "<input type='hidden' name='uid' value='"+$("#uid").val()+"'>";
+                    } 
             });
             
             form_update += "</form>"
@@ -150,8 +163,6 @@ $("#user_insert_submit").mousedown(function(){
             
             $("#upd_cu").submit();
             
-//            document.write(form_update);
-            
     }
 
    
@@ -159,8 +170,8 @@ $("#user_insert_submit").mousedown(function(){
 });
 
 // Один раз объявляем функцию, потом используем так, как в примере
-jQuery.fn.exists = function() {
-   return $(this).length;
+function exists(obj) {
+   return $(obj).length;
 }
 
 //// Пример использования:
@@ -270,22 +281,22 @@ $("#t01").mousedown(function(){
 });
 
 $("#t02").mousedown(function(){
-    $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
-    $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
-    $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
-
-    $("#tab02").show();
-    $("#tab01").hide();
-
-    $("#user_insert_submit").val('Сохранить');
-
-    $.each($("#customers_data input:text"),function(){
-
-        $(this).val('');
-    });
-
-    add = true;
-    search = false;
+//    $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+//    $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'});
+//    $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+//
+//    $("#tab02").show();
+//    $("#tab01").hide();
+//
+//    $("#user_insert_submit").val('Сохранить');
+//
+//    $.each($("#customers_data input:text"),function(){
+//
+//        $(this).val('');
+//    });
+//
+//    add = true;
+//    search = false;
 });
 
 $("#t03").mousedown(function(){
@@ -423,40 +434,49 @@ function _searchData(arg){
     });            
     }
 
-    function _readCustomer(arg){
-        $.ajax({
-            url:'../query/read_customer.php',
-            type:'post',
-            dataType:'json',
-            data:arg,
-            success:function(data){
-                
-                var str_head = '';
-                var str_body = '';
-                
-        $.each(data, function(index, d){
-            
-                if(this != ''){}
-                    str_head += "<th class='t-center'>"+index+"</th>";
-                    str_body += "<td class='t-center'>"+this+"</td>";
-                
+function _readCustomer(arg){
+    $.ajax({
+        url:'../query/read_customer.php',
+        type:'post',
+        dataType:'json',
+        data:arg,
+        success:function(data){
 
-        });
+            var str_head = '';
+            var str_body = '';
+            var n = 0;
 
-        str_head = "<tr>"+str_head+"</tr>";
-        str_body = "<tr id='b0'>"+str_body+"</tr>";
+    $.each(data, function(index, d){
 
-//                    $("#uid").val(data['id']);
-//                    $("#surname").val(data['surname']);
-//                    $("#name").val(data['name']);
-//                    $("#patronymic").val(data['patronymic']);
-//                    $("#phone").val(data['phone']);
-//                    $("#email").val(data['email']);
-//                    $("#role").val(data['role']);
+            if(this != ''){}
+                str_head += "<th class='t-center'>"+index+"</th>";str_body += "<td class='t-center'>"+this+"</td>";
+//                if(index == 'surname'){
+//                    str_body += "<td class='t-center'><input type='text' id='first_text_field'  class='text_field' value='"+this+"'></td>";
+////                    pre_input = $("#customer_data tbody tr td:eq("+n+")").children();
+//                }else{
+//                    
+//                }
+                
+                n++;
+
+    });
+    
+    str_head = "<tr>"+str_head+"</tr>";
+    str_body = "<tr id='b0'>"+str_body+"</tr>";
+
+                    $("#сid").val(data['id']);
+                    $("#surname").val(data['surname']);
+                    $("#name").val(data['name']);
+                    $("#patronymic").val(data['patronymic']);
+                    $("#phone").val(data['phone']);
+                    $("#email").val(data['email']);
+                    $("#role").val(data['role']);
 
                 $("#customer_data thead").empty().append(str_head);
                 $("#customer_data tbody").empty().append(str_body);
-//                $("#customer_data tbody tr td:eq(2) td:eq(3) td:eq(4) td:eq(5) td:eq(6)").css('cursor', 'pointer');
+//                $(pre_input).focus().select();
+//                console.log(pre_input);
+//                console.log($(pre_input).val());
 
                     $("#tab01").hide();
                     $("#p-filter").hide();

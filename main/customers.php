@@ -1,5 +1,6 @@
 <div id="content" class="box">   
   <input type="hidden" id="uid" value="">
+  <input type="hidden" id="сid" value="">
   <input type="hidden" id="str_addr" value="<?php echo $_SERVER [QUERY_STRING];?>">
   <form id="my_db">
       <?php 
@@ -18,7 +19,7 @@
           }      
     ?>
                     <!-- Tab01 -->
-                    <p class="box" id="chap"><strong><?php echo $roles[$str_role];?>.</strong></p>
+        <p class="box" id="chap"><strong><?php echo $roles[$str_role];?>.</strong></p>
         <p class="box" id="p-filter"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            
     
 <!-- Upload -->
@@ -114,29 +115,7 @@
                             <input value="" class="input-text" id="role"></p>
             <p><label for="email">Электронная почта:</label><br />
 			    <input value="" class="input-text email" id="email" type="text"></p><br />
-<!--            <p><label for="phone2">Дополнительный телефон:</label><br />
-			    <input size="30" value="" class="input-text" id="phone2" type="text"></p>-->
-            
         </div>
-<!--        <table id="customer_data" >
-            <thead>
-                
-            </thead>
-            <tbody>
-                
-            </tbody>            
-        </table>-->
-<!--         <p><label for="postcode">Почтовый индекс:</label><br />
-			    <input size="12" value="" class="input-text digits" id="postcode" minlength="6" maxlength="6" type="text"></p>
-         <p><label for="address">Почтовый адрес:</label><br />
-			    <input size="100" value="" class="input-text" id="address" type="text"></p>
-         <p><label for="comments">Комментарии:</label><br />
-			    <textarea cols="95" rows="3" class="input-text" id="comments"></textarea></p>
-         <p><label for="tags">Теги:</label><br />
-			    <input size="100" value="" class="input-text" id="tags" type="text"><br />
-            <span class="smaller low">несколько тегов разделяются запятыми</span></p>-->
-          
-   
         </fieldset>
     </form> 
                 <div class="box-01" id="sbmt_btn">
