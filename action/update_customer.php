@@ -26,13 +26,20 @@ while ($var = mysql_fetch_assoc($result)){
     array_push($need_ch_array, $chng_cu);
 }
 
- mysql_close(); 
-
+ mysql_close();
+// 
+// print_r($need_ch_array);
+// 
+// echo "<br>";
+ 
+ $mm = 1;
+ 
 foreach ($need_ch_array as $value) {
-    _updateDDB($chng_cu[id],$new_customer,$value[db]);
+    
+    $mm = $mm*(_updateDDB($value,$new_customer));
 }
 
-if(!mysql_fetch_assoc($result)){
+if($mm){
     
     header("location:index.php?$server_query");
 }
@@ -48,8 +55,7 @@ function changeLocal($arg, $new){
     if($new_customer[email])$em_key = 'email';
     
     $query = "UPDATE `customer` SET name = '$new[name]', patronymic = '$new[patronymic]', surname = '$new[surname]' WHERE id = $change_customer[id]";
-    
-//    echo $query.'<br>';
+
     mysql_query($query);
     
     return $change_customer;
@@ -84,13 +90,15 @@ function mysql_fields_seek($tablename, $field){
 
     return  $out;
 }
-function _updateDDB($uid, $new, $base){
+function _updateDDB($customer, $new){
     
-       $charset = $base[charset];
-//            
-        $link = mysql_connect("$base[addr]","$base[login]","$base[password]")  or die("Could not connect: " . mysql_error());
+        $base = $customer[db];
         
-        echo "$base[addr],$base[login],$base[password]<br>";
+        $uid = $customer[user_id];
+    
+        $charset = $base[charset];
+            
+        $link = mysql_connect("$base[addr]","$base[login]","$base[password]")  or die("Could not connect: " . mysql_error());
 
         mysql_select_db($base[db_name])  or die("Could not select db: " . mysql_error());
 
@@ -103,15 +111,12 @@ function _updateDDB($uid, $new, $base){
                 $new[patronymic] = utf8_to_cp1251($new[patronymic]);
                 $new[role] =  utf8_to_cp1251($new[role]);
             }
-
+            
         $qry = "UPDATE `$base[tablename]` SET `name` = '$new[name]', `patronymic` = '$new[patronymic]', `surname` = '$new[surname]' WHERE `id` = $uid";
-       
-        echo "$base[db_name]<br>$qry<br>";
+
         $res = mysql_query($qry)  or die("Could not query: " . mysql_error()); 
-        
-        if($res)echo mysql_affected_rows()."<br>";
     
-    return 1;
+    return mysql_affected_rows();
 }
 
 ?>

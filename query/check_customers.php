@@ -295,12 +295,6 @@ function _isWhoRealyti($men){
     $tmp[tablename] = $men[tablename];
     
     if($tmp[men][role] != 3 && $men[tablename] == 'users')$tmp = NULL;
-    
-    $str_out = "      $db[db_name]/$db[charset] =>>> ".$name." ".$patronymic." ".$surname."<br>";
-    
-//    if($var[charset]=='cp1251')
-    
-//if($tmp)echo $str_out;
 
     mysql_close();
     

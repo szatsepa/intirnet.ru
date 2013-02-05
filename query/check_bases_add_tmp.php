@@ -78,7 +78,7 @@ function lookingAll($odb_tables){
         
         if(mysql_table_seek('customer', $value[db_name])){
             
-            $result = mysql_query("SELECT * FROM `customer`");
+            $result = mysql_query("SELECT * FROM `customer` WHERE `status` <> 0");
             
             while ($var = mysql_fetch_assoc($result)){
                 $var[tablename] = 'customer';
@@ -95,7 +95,7 @@ function lookingAll($odb_tables){
             }
         }
         
-        $result = mysql_query("SELECT * FROM `users`");
+        $result = mysql_query("SELECT * FROM `users` WHERE `status` <> 0");
            
         while ($var = mysql_fetch_assoc($result)){
             $var[db_id] = $value[db_id];

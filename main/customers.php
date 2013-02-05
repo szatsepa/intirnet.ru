@@ -71,7 +71,7 @@
 <!--            <td class='smaller'><?php echo $value[db_data_id];?></td>-->
             <td class='t-center'>
                 <a id='e_<?php echo $value[id];?>' class='ico-info' title='Смотреть'></a>
-<!--                <a id='e_<?php echo $value[id];?>' class='ico-delete' title='Удалить'></a>-->
+                <a id='d_<?php echo $value[id];?>' class='ico-delete' title='Удалить'></a>
 <!--                <a id='set_<?php echo $value[id];?>' class='ico-user-02' title='Выбрать контакт'></a>-->
             </td>
         </tr>
