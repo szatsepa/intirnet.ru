@@ -80,18 +80,20 @@ function lookingAll($odb_tables){
             
             $result = mysql_query("SELECT * FROM `customer` WHERE `status` <> 0");
             
-            while ($var = mysql_fetch_assoc($result)){
-                $var[tablename] = 'customer';
-                $var[db_id] = $value[db_id];
-                $var[role] = 'Заказчик';
-                $var[database] = $value[db_name];
-                $var[charset] = $value[charset];
-                if($value[charset]=='cp1251'){
-                    $var[name] = cp1251_to_utf8($var[name]);
-                    $var[surname] = cp1251_to_utf8($var[surname]);
-                    $var[patronymic] = cp1251_to_utf8($var[patronymic]);
+            if($result){
+                while ($var = mysql_fetch_assoc($result)){
+                    $var[tablename] = 'customer';
+                    $var[db_id] = $value[db_id];
+                    $var[role] = 'Заказчик';
+                    $var[database] = $value[db_name];
+                    $var[charset] = $value[charset];
+                    if($value[charset]=='cp1251'){
+                        $var[name] = cp1251_to_utf8($var[name]);
+                        $var[surname] = cp1251_to_utf8($var[surname]);
+                        $var[patronymic] = cp1251_to_utf8($var[patronymic]);
+                    }
+                    array_push($persons, $var);
                 }
-                array_push($persons, $var);
             }
         }
         

@@ -51,13 +51,10 @@ function _sinchro(){
             type:'post',
             cashe:false, 
             success:function(data){
-                $("#t04").hide();
-                if(data){
-//                    document.location.reload();
-                }                
+                $("#t04").hide();                
             },
             error:function(data){
-                document.write(data['responseText']);
+                console.log(data['responseText']);
             }
         });
         

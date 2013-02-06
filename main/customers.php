@@ -37,7 +37,7 @@
     <div  class="tabs box" id="myTabs">
         <ul> 
     	<li><a id="t01"><span>Список</span></a></li>
-    	<li><a id="t02"><span>Создать/Редактировать</span></a></li> 
+    	<li><a id="t02"><span>Создать</span></a></li> 
         <li><a id="t03"><span>Поиск</span></a></li>
         <li><a id="t04"><span><img src="../design/circle.gif" width="27" height="27"></span></a></li>
     </ul>
@@ -112,7 +112,7 @@
 			    <input value="" class="input-text required" id="name" type="text"></p>
             
             <p><label for="role">Роль:</label><br />
-                            <input value="" class="input-text" id="role"></p>
+                            <input value="Заказчик" class="input-text" id="role" readonly type="text"></p>
             <p><label for="email">Электронная почта:</label><br />
 			    <input value="" class="input-text email" id="email" type="text"></p><br />
         </div>
