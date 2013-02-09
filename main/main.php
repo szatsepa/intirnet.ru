@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+<!--<<<<<<< HEAD-->
 <body>
     
 
@@ -26,7 +26,7 @@
         });        
     </script>
            
-=======
+<!--=======
 <?php
 unset($_SESSION[auth]);
 unset($_SESSION[user]);
@@ -96,4 +96,4 @@ if(isset($attributes[entry]) && $attributes[entry] == 0){
             }
     });
 </script>
->>>>>>> branch 'master' of https://github.com/szatsepa/dimon_app.git
+>>>>>>> branch 'master' of https://github.com/szatsepa/dimon_app.git-->
