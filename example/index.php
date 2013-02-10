@@ -25,14 +25,16 @@ include 'view/header.php';
 
 switch ($attributes[act]){
     
-    case 'view':
+    case 'main':
 //        include 'query/check_bases_add_tmp.php';
 //        include 'action/clear_add_customer.php';
 //        include 'query/read_customerlist.php'; 
         include 'view/main.php'; 
         include 'view/main_menu.php';
 //        include 'view/customers.php';
-        include 'query/connect_1.php';
+//        include 'query/connect_1.php'; 
+//        на время сделаем переадресацию на далее
+        header("location:index.php?act=res");
         break;
     
     case 'srch':
@@ -72,6 +74,13 @@ switch ($attributes[act]){
         include 'view/main_menu.php';
         include 'query/connect_1.php';
         include 'view/tablelist.php';
+        break;
+    
+    case 'table':
+        include 'view/main.php'; 
+        include 'view/main_menu.php';
+        include 'query/read_table.php';
+        include 'view/view_table.php';
         break;
     
     case 'info':

@@ -18,7 +18,7 @@ if(!isset($_SESSION[id]) and isset($attributes[act])){
 if(isset($_SESSION[id]) and !isset($attributes[act])){
     
 //    unset($attributes[act]);
-    header("location:index.php?act=view");
+    header("location:index.php?act=main");
 
 }
 

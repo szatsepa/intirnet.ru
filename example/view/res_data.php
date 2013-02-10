@@ -18,7 +18,7 @@
                     <th class="t-center">Data base</th>
                     <th class="t-center">Login</th>
                     <th class="t-center">Password</th>
-                    <th class="t-center">Address</th>
+                    <th class="t-center">Server</th>
                     <th class='t-center'>Charset</th>
                     <th class='t-center'>Action</th>
                 </tr>
@@ -51,7 +51,7 @@ foreach ($res_data as $value) {
                                     <input size="50" value="" class="input-text required" id="db_login" type="text"/></p>
                     <p><label for="phone">Password:</label><br />
                                     <input size="30" value="" class="input-text required" id="db_password" type="text"/></p>
-                    <p><label for="fax">Address:</label><br />
+                    <p><label for="fax">Server:</label><br />
                                     <input size="30" value="" class="input-text" id="db_addr" type="text"/></p>
                     <p><label for="postcode">Charset:</label><br />
                                     <input size="12" value="" class="input-text digits" id="db_charset" minlength="9" maxlength="9" type="text"></p>
