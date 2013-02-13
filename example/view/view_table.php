@@ -6,6 +6,7 @@
       <input type="hidden" id="db_l" value="<?php echo $attributes[db_login];?>">
       <input type="hidden" id="db_p" value="<?php echo $attributes[db_pwd];?>">
       <input type="hidden" id="db_c" value="<?php echo $attributes[db_charset];?>">
+      <input type="hidden" id="db_t" value="<?php echo $attributes[db_tablename];?>">
 <!-- Tab01 -->
     <br><br>
     <p class="box" id="chap"><strong>Tаблицa базы данных - <?php echo $attributes[db_tablename];?>.</strong></p>
@@ -44,7 +45,7 @@
         
         
     </div> <!-- /tab01 -->
-    <div id="tab02">
+<!--    <div id="tab02">
 
-    </div> <!-- /tab02 -->
+    </div>  /tab02 -->
 </div>

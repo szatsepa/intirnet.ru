@@ -83,6 +83,10 @@ switch ($attributes[act]){
         include 'view/view_table.php';
         break;
     
+    case 'edata':
+        include 'query/update_table.php';
+        break;
+    
     case 'info':
         phpinfo();
         break;

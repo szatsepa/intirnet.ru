@@ -19,6 +19,8 @@ $(document).ready(function(){
 
             var str_form = "<form id='db_info' action='index.php?act=dbinfo' method='post'><input type='hidden' name='db_charset' value='"+$(ri).children("td:eq(5)").text()+"'><input type='hidden' name='db_server' value='"+$(ri).children("td:eq(4)").text()+"'><input type='hidden' name='db_pwd' value='"+$(ri).children("td:eq(3)").text()+"'><input type='hidden' name='db_login' value='"+$(ri).children("td:eq(2)").text()+"'><input type='hidden' name='db_name' value='"+$(ri).children("td:eq(1)").text()+"'></form>"
             
+//            console.log(str_form);
+            
             $("#tab02").append(str_form);
             
             $("#db_info").submit();
