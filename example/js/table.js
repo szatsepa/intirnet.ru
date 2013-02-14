@@ -17,7 +17,7 @@ $(document).ready(function(){
         
         var str_button = "<p><input id='save_data' type='button' value='Сохранить'></p>";
                 
-        var db = '{"db_server":"'+$("#db_s").val()+'","db_name":"'+$("#db_n").val()+'","db_login":"'+$("#db_l").val()+'","db_password":"'+$("#db_p").val()+'","db_charset":"'+$("#db_c").val()+'","db_tablename":"'+$("#db_t").val()+'"}';
+        var db = '{"db_server":"'+$("#db_s").val()+'","db_name":"'+$("#db_n").val()+'","db_login":"'+$("#db_l").val()+'","db_pwd":"'+$("#db_p").val()+'","db_charset":"'+$("#db_c").val()+'","db_tablename":"'+$("#db_t").val()+'"}';
         
         var str_hidden = "<input class='data_hide' type='hidden' name='db_data' value='"+db+"'>";
         
@@ -50,7 +50,7 @@ $(document).ready(function(){
                 }
         }
         
-    });
+    }).css({'cursor':'pointer','text-decoration':'underline'});
     
     $("#save_data").live('click',function(){
         

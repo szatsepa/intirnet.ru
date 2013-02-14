@@ -81,6 +81,7 @@ switch ($attributes[act]){
         include 'view/main_menu.php';
         include 'query/read_table.php';
         include 'view/view_table.php';
+//        print_r($attributes);
         break;
     
     case 'edata':

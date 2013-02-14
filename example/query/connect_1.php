@@ -4,10 +4,6 @@ mysql_close();
 
 $dbname = $attributes[db_name];
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 mysql_connect("$attributes[db_server]","$attributes[db_login]","$attributes[db_pwd]") or die ("Ошибка 1 ".  mysql_errno());
 
 mysql_select_db($dbname);
