@@ -62,11 +62,28 @@ $(document).ready(function(){
             }           
          });
         
-        console.log(str_user);
-        
         $("#edit_data").append("<input class='data_hide' type='hidden' name='us_data' value='{"+str_user.substr(0,str_user.length-1)+"}'>").submit();
         
         
+    });
+    
+    $("#find_btn").click(function(){
+        
+        var str_form = "<form id='find_f' action='index.php?act=table&find=1' method='post'>";
+        str_form += "<input type='hidden' name='db_name' value='"+$("#db_n").val()+"'>";
+        str_form += "<input type='hidden' name='db_server' value='"+$("#db_s").val()+"'>";
+        str_form += "<input type='hidden' name='db_tablename' value='"+$("#db_t").val()+"'>";
+        str_form += "<input type='hidden' name='db_login' value='"+$("#db_l").val()+"'>";
+        str_form += "<input type='hidden' name='db_pwd' value='"+$("#db_p").val()+"'>";
+        str_form += "<input type='hidden' name='db_charset' value='"+$("#db_c").val()+"'>";
+        str_form += "<input type='hidden' name='db_name' value='"+$("#db_n").val()+"'>";
+        str_form += "<input type='hidden' name='db_field' value='"+$("#fields option:selected").val()+"'>";
+        str_form += "<input type='hidden' name='str_find' value='"+$("#finde_string").val()+"'>";
+        str_form += "</form>";
+        
+        $("#tab02").append(str_form);
+        $("#find_f").submit();
+//        console.log();
     });
     
 });

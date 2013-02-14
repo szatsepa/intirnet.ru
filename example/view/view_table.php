@@ -12,6 +12,20 @@
     <p class="box" id="chap"><strong>Tаблицa базы данных - <?php echo $attributes[db_tablename];?>.</strong></p>
                     
     <div  class="tabs box" id="myTabs">
+        <ul> 
+<!--            <li><a id="t01"><span>Список</span></a></li>-->
+<!--            <a id="t03"><span>Поиск</span></a>-->
+            <form id="finde_form">
+                <li>Выберите поле&nbsp;&nbsp;&nbsp;&nbsp;<select id="fields">
+                        <?php
+                        foreach ($fields_name as $value) {
+                            echo '<option value="'.$value.'">'.$value.'</option>';
+                        }
+                        ?>
+                    </select>&nbsp;&nbsp;&nbsp;&nbsp;<input id="finde_string" value="">&nbsp;&nbsp;&nbsp;&nbsp;<input id="find_btn" type="button" value="Искать"></li>
+    <!--            <li><a id="t04"><span><img src="../design/circle.gif" width="27" height="27"></span></a></li>-->
+            </form>
+        </ul>
     </div>
 
     <div id="tab01">
@@ -45,7 +59,8 @@
         
         
     </div> <!-- /tab01 -->
-<!--    <div id="tab02">
+    <div id="tab02"> 
 
-    </div>  /tab02 -->
+    </div> 
+<!--    /tab02 -->
 </div>

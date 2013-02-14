@@ -24,11 +24,13 @@ while ($var = mysql_fetch_row($qry_fields)){
     array_push($fields_name, $var[0]);
 }
 
-//print_r($fields_name);
-//
-//echo "<br>";
+$where = '';
 
-$result = mysql_query("SELECT * FROM `$attributes[db_tablename]");
+if(isset($attributes[find]) && $attributes[find]==1){
+    $where = "WHERE `$attributes[db_field]` LIKE '%".$attributes[str_find]."%'";
+}
+
+$result = mysql_query("SELECT * FROM `$attributes[db_tablename]` $where"); 
 
 $rows = array();
 
