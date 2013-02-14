@@ -17,7 +17,7 @@ $(document).ready(function(){
             id = id.substr(2);
             var ri = $(this).parents().get(1);
 
-            var str_form = "<form id='db_info' action='index.php?act=dbinfo' method='post'><input type='hidden' name='db_charset' value='"+$(ri).children("td:eq(5)").text()+"'><input type='hidden' name='db_server' value='"+$(ri).children("td:eq(4)").text()+"'><input type='hidden' name='db_pwd' value='"+$(ri).children("td:eq(3)").text()+"'><input type='hidden' name='db_login' value='"+$(ri).children("td:eq(2)").text()+"'><input type='hidden' name='db_name' value='"+$(ri).children("td:eq(1)").text()+"'></form>"
+            var str_form = "<form id='db_info' action='index.php?act=dbinfo' method='post'><input type='hidden' name='db_charset' value='"+$(ri).children("td:eq(6)").text()+"'><input type='hidden' name='db_server' value='"+$(ri).children("td:eq(5)").text()+"'><input type='hidden' name='db_pwd' value='"+$(ri).children("td:eq(4)").text()+"'><input type='hidden' name='db_login' value='"+$(ri).children("td:eq(3)").text()+"'><input type='hidden' name='db_name' value='"+$(ri).children("td:eq(2)").text()+"'></form>";
             
 //            console.log(str_form);
             

@@ -46,11 +46,11 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 <!--                <li <?php echo $roles_active;?>>
                     <a href="index.php?act=main">Клиенты ресурсов</a>
                     <ul id="products">
-                        <?php 
+                        <?php // 
                         
-                        foreach ($roles as $key => $value) {
-                            echo '<li><a href="index.php?act=main&r='.$key.'">'.$value.'</a></li>';
-                        }                       
+//                        foreach ($roles as $key => $value) {
+//                            echo '<li><a href="index.php?act=main&r='.$key.'">'.$value.'</a></li>';
+//                        }                       
                         ?>
                     </ul>
                 </li>-->

@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th class="t-center">ID</th>
+                    <th class="t-center">Название</th>
                     <th class="t-center">Data base</th>
                     <th class="t-center">Login</th>
                     <th class="t-center">Password</th>
@@ -28,7 +29,7 @@
 <?php
 
 foreach ($res_data as $value) {
-     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'><a class='db_link' id='a_$value[id]'>$value[addr]</a></td><td class='smaller t-center'>$value[charset]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
+     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[inet_name]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'><a class='db_link' id='a_$value[id]'>$value[addr]</a></td><td class='smaller t-center'>$value[charset]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
 }
 ?>
             </tbody>

@@ -74,6 +74,7 @@ switch ($attributes[act]){
         include 'view/main_menu.php';
         include 'query/connect_1.php';
         include 'view/tablelist.php';
+//        print_r($attributes);
         break;
     
     case 'table':
