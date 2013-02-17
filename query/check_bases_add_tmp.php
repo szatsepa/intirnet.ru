@@ -4,11 +4,11 @@ _clearTMP();
 
 $bases_here = _new_base_here(_base_here());
 
-if(count($bases_here[added])){
-    
-    mysql_query("TRUNCATE TABLE `customer`");
-    
-}
+//if(count($bases_here[added])){
+////    eжели в таблицу добавлена новая база очищаем таб клиентов TO DO в сете новых идей пропустить операцию !!!
+////    mysql_query("TRUNCATE TABLE `customer`");
+//    
+//}
 
 $have_base_here = $bases_here[all];
 
@@ -19,7 +19,7 @@ reset($have_base_here);
 _insertToTmp($list_of_customers);
 
 function _base_here(){
-    
+//   сотрим из каких баз состоит список клиентов 
     $result = mysql_query("SELECT `db_data_id` AS db_id
                              FROM `customer`
                          GROUP BY `db_data_id`");
@@ -34,7 +34,7 @@ function _base_here(){
 }
 
 function _new_base_here($arr){
-    
+//    определяем не добавлены ли новые базы в таблицу
     $tmp = array();
     
     $tmpb = array();
@@ -172,8 +172,6 @@ function _insertToTmp($arr){
      $query = substr($query,0,(strlen($query)-1));
      
      mysql_query($query) or die($query);
-     
-//     echo $query."<br>";
      
      if(count($arr != mysql_insert_id()))$message = NULL;
      

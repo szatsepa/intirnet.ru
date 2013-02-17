@@ -10,24 +10,24 @@ if($unnecessary > 0){
        $max_id = clearCustomer();
 }
 
-$new_customers = checkNewCustomers($odb_tables);
+//$new_customers = checkNewCustomers($odb_tables);
+//
+//insertToThis($new_customers);
 
-insertToThis($new_customers);
-
-if(count($new_customers)){
-    
-    $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
-    
-    $already_added = insertToBases($real_customers);
+//if(count($new_customers)){
 //    
-    updateBaseTable($already_added);
+//    $real_customers = realytiData($new_customers);//выбираем данные из реальных таблиц в базах родителях
+//    
+//    $already_added = insertToBases($real_customers);
+////    
+//    updateBaseTable($already_added);
+//
+//    
+//}
 
-    
-}
-
-$sort = intval($attributes[r]);
-
-$customers = _allPersons($sort,$roles);
+//$sort = intval($attributes[r]);
+//
+//$customers = _allPersons($sort,$roles);
 
 
 function updateBaseTable($arr){

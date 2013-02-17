@@ -7,11 +7,11 @@ $customers = _allPersons($sort,$roles);
 
 function _allPersons($sort,$roles){
     
-    $where = "WHERE role = '$roles[0]' GROUP BY surname, name, patronymic ORDER BY id";
+    $where = "WHERE role = '$roles[0]' ORDER BY id";
 
     if($sort){
 
-        $where = "WHERE role = '".$roles[$sort]."' GROUP BY surname, name, patronymic ORDER BY id";
+        $where = "WHERE role = '".$roles[$sort]."' ORDER BY id";
     
     }
     

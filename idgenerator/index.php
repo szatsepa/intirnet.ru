@@ -20,16 +20,16 @@ if(isset($_COOKIE[di]) && $_COOKIE[di] != 'NULL'){
 
 include '../func/cp_to_utf.php';
 include '../query/connect.php';   
-include ("../query/user.php");
-include ("../action/checkauth.php"); 
+include '../query/user.php';
+include '../action/checkauth.php'; 
+include '../query/check_bases_add_tmp.php';
+include '../action/clear_add_customer.php';
+include '../query/read_customerlist.php'; 
 include '../main/header.php';
 
 switch ($attributes[act]){
     
-    case 'main':
-        include '../query/check_bases_add_tmp.php';
-        include '../action/clear_add_customer.php';
-        include '../query/read_customerlist.php'; 
+    case 'main':        
         include '../main/main.php'; 
         include '../main/main_menu.php';
         include '../main/customers.php';

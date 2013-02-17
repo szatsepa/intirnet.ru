@@ -53,7 +53,7 @@
                     <th class="t-center">Роль</th>
                     <th class="t-center">Телефон</th>
                     <th class="t-center">Email</th>
-<!--                    <th class="t-center">Database.</th>-->
+                    <th class="t-center">Database.</th>
                     <th class='t-center'>Действ.</th>
                 </tr>
             </thead> 
@@ -68,7 +68,7 @@
             <td class='smaller'><?php echo $value[role];?></td>
             <td class='smaller'><?php echo $value[phone];?></td>
             <td class='smaller'><a href='mailto:<?php echo $value[email];?>'><?php echo $value[email];?></a></td>
-<!--            <td class='smaller'><?php echo $value[db_data_id];?></td>-->
+            <td class='smaller'><?php echo $value[db_data_id];?></td>
             <td class='t-center'>
                 <a id='e_<?php echo $value[id];?>' class='ico-info' title='Смотреть'></a>
                 <a id='d_<?php echo $value[id];?>' class='ico-delete' title='Удалить'></a>
