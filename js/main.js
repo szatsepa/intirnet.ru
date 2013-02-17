@@ -7,6 +7,12 @@ $(document).ready(function(){
     var base_name = '';
     var pre_input = {};
     
+    
+    
+    var w_content = $("#content").width();
+    
+    $("#tab03, #customer_data").css({'width':w_content});
+    
     $("td.t-center").css({'cursor':'default'});
 
     customers = $("#customers_tab > tbody").html(); 
@@ -420,7 +426,7 @@ function _searchData(arg){
 //                        //console.log(data);
             },
             error:function(data){
-                //console.log(data['responseText']);
+                console.log(data['responseText']);
             }
         });
         num++;
@@ -442,14 +448,8 @@ function _readCustomer(arg){
     $.each(data, function(index, d){
 
             if(this != ''){}
-                str_head += "<th class='t-center'>"+index+"</th>";str_body += "<td class='t-center'>"+this+"</td>";
-//                if(index == 'surname'){
-//                    str_body += "<td class='t-center'><input type='text' id='first_text_field'  class='text_field' value='"+this+"'></td>";
-////                    pre_input = $("#customer_data tbody tr td:eq("+n+")").children();
-//                }else{
-//                    
-//                }
-                
+                str_head += "<th class='t-center'>"+index+"</th>";
+                str_body += "<td class='t-center'>"+this+"</td>";                
                 n++;
 
     });
@@ -467,19 +467,34 @@ function _readCustomer(arg){
 
                 $("#customer_data thead").empty().append(str_head);
                 $("#customer_data tbody").empty().append(str_body);
-//                $(pre_input).focus().select();
-//                console.log(pre_input);
-//                console.log($(pre_input).val());
 
                     $("#tab01").hide();
                     $("#p-filter").hide();
                     $("#tab02,#tab03").show();
                     $("#cu_f, #cu_h").css('display', 'none');
-                    $("#content").css({'padding':'10px'});
+                    $("#customer_data").css({'padding':'10px'});
 
                     $("#t01 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
                     $("#t02 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% 0px transparent','color':'#fff','font-weight':'bold'}); 
                     $("#t03 span").css({'background':'url("../design/tabs-r.gif") no-repeat scroll 100% -100px transparent','color':'rgb(48, 48, 48)','font-weight':'normal'});
+                    
+                    var b_scale = 1*(w_content/$("#customer_data").width());
+                    
+                    $("html").css({ zoom: b_scale, transform: "scale("+b_scale+")", transformOrigin: "0 0" });
+                    $("html").css({"-moz-transform": "scale("+b_scale+")"});
+	
+                    if ($.browser.msie) {
+
+                            $("body").css({ zoom: b_scale, transform: "scale("+b_scale+")", transformOrigin: "0 0" });	
+                            if ($.browser.version == 8.0) {
+                                    $("body").css({ zoom: b_scale, transform: "scale("+b_scale+")", transformOrigin: "0 0" });
+                            }
+
+                    }
+
+                    if ($.browser.opera) {
+                            $("html").css({"-o-transform": "scale("+b_scale+")"});
+                    }
             },
             error:function(data){
                 document.write(data['responseText']);

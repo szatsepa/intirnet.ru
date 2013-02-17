@@ -113,9 +113,9 @@
                     console.log(data);
                     var addr_str = '';
                     if(data['check']==1){
-                        addr_str = "index.php?act=main&ch=1";
+                        addr_str = "index.php?act=res&ch=1";
                     }else{
-                        addr_str = "index.php?act=main";
+                        addr_str = "index.php?act=res";
                     }
                     if(data['ok'] == 1){
                         document.location = addr_str;

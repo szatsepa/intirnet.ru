@@ -28,7 +28,7 @@ if(isset($attributes[r]))$str_role = intval($attributes[r]);
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/style.css" /> <!-- GRAPHIC THEME -->
     <link rel="stylesheet" media="screen,projection" type="text/css" href="../css/mystyle.css" /> <!-- WRITE YOUR CSS CODE HERE -->
     <script type="text/javascript" src="../js/jquery-1.8b1.js"></script>
-<!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>-->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script type="text/javascript" src="../js/myfunction.js"></script> 
     <script type="text/javascript" src="../js/<?php echo $attributes[act];?>.js"></script>    
 </head>

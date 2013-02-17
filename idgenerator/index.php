@@ -55,6 +55,22 @@ switch ($attributes[act]){
         include '../main/administration.php';
         break;
     
+    case 'dbinfo':
+        include '../main/main.php'; 
+        include '../main/main_menu.php';
+        include '../query/connect_1.php';
+        include '../main/tablelist.php';
+//        print_r($attributes);
+        break;
+    
+    case 'table':
+        include '../main/main.php'; 
+        include '../main/main_menu.php';
+        include '../query/read_table.php';
+        include '../main/view_table.php';
+//        print_r($attributes);
+        break;
+    
     case 'update' :
         include '../action/update_customer.php';
         break;

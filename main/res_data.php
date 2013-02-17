@@ -30,16 +30,16 @@
                     <th class="t-center">Password</th>
                     <th class="t-center">Address</th>
                     <th class='t-center'>Charset</th>
-                    <th class='t-center'>Query</th>
+                    <th class='t-center'>Name</th>
                     <th class='t-center'>Action</th>
                 </tr>
             </thead> 
             <tbody>
                 
 <?php
-
+//     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'>$value[addr]</td><td class='smaller t-center'>$value[charset]</td><td class='smaller t-center'>$value[db_query]</td><td class='t-center'><a id='v_$value[id]' class='ico-info' title='Смотреть'></a><a id='v_"+$value['ins']+"' class='ico-info' title='Смотреть'><a><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
 foreach ($res_data as $value) {
-     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'>$value[addr]</td><td class='smaller t-center'>$value[charset]</td><td class='smaller t-center'>$value[db_query]</td><td class='t-center'><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
+     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'>$value[addr]</td><td class='smaller t-center'>$value[charset]</td><td class='smaller t-center'><a href='http://$value[inet_address]' target='_blank'>$value[inet_name]</a></td><td class='t-center'><a id='v_$value[id]' class='ico-info' title='Смотреть'></a>&nbsp;<a id='e_$value[id]' class='ico-edit' title='Редактировать'></a>&nbsp;<a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
 }
 ?>
             </tbody>
@@ -65,6 +65,10 @@ foreach ($res_data as $value) {
 			    <input size="30" value="" class="input-text" id="db_addr" type="text"/></p>
             <p><label for="postcode">Charset:</label><br />
                             <input size="12" value="" class="input-text digits" id="db_charset" minlength="9" maxlength="9" type="text"></p>
+            <p><label for="postcode">Имя сайта:</label><br />
+                            <input size="30" value="" class="input-text digits" id="db_s_name" type="text"></p>
+            <p><label for="postcode">Адрес сайта<small>(без - http://)</small>:</label><br />
+                            <input size="50" value="" class="input-text digits" id="db_s_address" type="text"></p>
             </div>
         </fieldset>
     

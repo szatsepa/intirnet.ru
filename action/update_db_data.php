@@ -2,7 +2,14 @@
 
 include '../query/connect.php';
 
-$query = "UPDATE `db_data` SET db_name = '$_POST[db_name]', `login` = '$_POST[login]', `password` = '$_POST[password]', `addr` = '$_POST[addr]', `charset` = '$_POST[charset]', `db_query` = '$_POST[db_query]' WHERE id = $_POST[id]";
+$query = "UPDATE `db_data` SET db_name = '$_POST[db_name]', 
+                                `login` = '$_POST[login]', 
+                                `password` = '$_POST[password]', 
+                                `addr` = '$_POST[addr]', 
+                                `charset` = '$_POST[charset]',
+                                `inet_name` = '$_POST[net_name]',
+                                `inet_address` = '$POST[net_addr]'
+                            WHERE id = $_POST[id]";
 
 mysql_query($query);
 
