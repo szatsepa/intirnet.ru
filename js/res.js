@@ -67,6 +67,8 @@ $(document).ready(function(){
     $(".ico-info").live('click',function(){
         var tr_obj = $(this).parent().parent();
         var row = tr_obj[0].rowIndex;
+        var id = this.id;
+        id = id.substr(2);
         var str_form = "<form action='index.php?act=dbinfo' method='post' id='f_dbinfo'>";
         str_form += "<input type='hidden' name='db_id' value='"+$("#db_tab tbody tr:eq("+(row-1)+") td:eq(0)").text()+"'>";
         str_form += "<input type='hidden' name='db_server' value='"+$("#db_tab tbody tr:eq("+(row-1)+") td:eq(4)").text()+"'>";

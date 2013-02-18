@@ -15,8 +15,9 @@ $(document).ready(function(){
         var db_login = $("#db_l").val();
         var db_pwd = $("#db_p").val();
         var db_char = $("#db_c").val();
+        var db_id = $("#db_i").val();
         
-        var str_form = "<form id='look_t' action='index.php?act=table' method='post'><input type='hidden' name='db_name' value='"+db_name+"'><input type='hidden' name='db_server' value='"+db_server+"'><input type='hidden' name='db_tablename' value='"+db_tablename+"'><input type='hidden' name='db_login' value='"+db_login+"'><input type='hidden' name='db_pwd' value='"+db_pwd+"'><input type='hidden' name='db_charset' value='"+db_char+"'></form>";
+        var str_form = "<form id='look_t' action='index.php?act=table' method='post'><input type='hidden' name='db_id' value='"+db_id+"'><input type='hidden' name='db_name' value='"+db_name+"'><input type='hidden' name='db_server' value='"+db_server+"'><input type='hidden' name='db_tablename' value='"+db_tablename+"'><input type='hidden' name='db_login' value='"+db_login+"'><input type='hidden' name='db_pwd' value='"+db_pwd+"'><input type='hidden' name='db_charset' value='"+db_char+"'></form>";
 //       console.log(str_form); 
        $("body").append(str_form);
        

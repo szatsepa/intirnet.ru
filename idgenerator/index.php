@@ -64,6 +64,7 @@ switch ($attributes[act]){
         break;
     
     case 'table':
+        include '../query/this_fields.php';
         include '../main/main.php'; 
         include '../main/main_menu.php';
         include '../query/read_table.php';
