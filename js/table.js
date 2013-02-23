@@ -42,7 +42,9 @@ $(document).ready(function(){
             success:function(data){
                 if(data['query']>0){
                     $("#tab02").append("<span><p><strong>В таблицу добавлено "+data['query']+" записей!</strong></p></span>").css({'background-color':'#afdf6f'});
+                    
                 }
+                _sincro();
             },
             error:function(data){
                 console.log("ERROR "+data['responseText']);
@@ -114,6 +116,22 @@ $(document).ready(function(){
         $("#find_f").submit();
 //        console.log();
     });
+    
+    function _sincro(){
+        $.ajax({
+            url:'../action/sinchro.php',
+            type:'post',
+            dataType:'text',
+            success:function(data){
+                console.log(data);
+                
+                $("#tab02").empty().append("<span><p>"+data+"</p></span>")
+            },
+            error:function(data){
+                document.write(data['responseText']);
+            }
+        });
+    }
     
 });
 

@@ -19,7 +19,7 @@
     <div  class="tabs box" id="myTabs">
         <ul> 
             <form id="finde_form">
-                <li>Выберите поле&nbsp;&nbsp;&nbsp;&nbsp;<select id="fields">
+                <li>&nbsp;&nbsp;Выберите поле&nbsp;&nbsp;&nbsp;&nbsp;<select id="fields">
                         <?php
                         foreach ($fields_name as $value) {
                             echo '<option value="'.$value.'">'.$value.'</option>';
