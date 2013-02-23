@@ -4,8 +4,6 @@ mysql_close();
 
 $dbname = $attributes[db_name];
 
-//echo "$attributes[db_server]","$attributes[db_login]","$attributes[db_pwd]<br>";
-
 mysql_connect("$attributes[db_server]","$attributes[db_login]","$attributes[db_pwd]") or die ("Ошибка - ".  mysql_errno());
 
 mysql_select_db($dbname);
@@ -40,5 +38,19 @@ while ($row = mysql_fetch_assoc($result)){
 
 mysql_free_result($result);
 
-//print_r($rows);
+//print_r($fields_sinonim);
+
+$tmp = array();
+
+$ctmp = array();
+
+foreach ($rows as $value){
+    foreach ($value as $key => $var) {
+        if($fields_sinonim[$key])$tmp[$fields_sinonim[$key]] = $var;
+    }
+    
+    array_push($ctmp, $tmp);
+}
+
+$j_customers = json_encode($ctmp);
 ?>

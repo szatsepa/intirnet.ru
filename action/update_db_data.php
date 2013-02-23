@@ -2,7 +2,7 @@
 
 include '../query/connect.php';
 
-$query = "UPDATE `db_data` SET db_name = '$_POST[db_name]', 
+$query = "UPDATE `db_data` SET `db_name` = '$_POST[db_name]', 
                                 `login` = '$_POST[login]', 
                                 `password` = '$_POST[password]', 
                                 `addr` = '$_POST[addr]', 

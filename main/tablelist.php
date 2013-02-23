@@ -35,7 +35,14 @@ $rows = ceil($count_tables/4);
             <tbody>
                 <?php
                 for($i=0;$i<$rows;$i++){
-                    echo "<tr><td class='t-left'><input type='checkbox' id='".$tables[($i*4)][0]."' title='Отметить таблицу'>&nbsp;<a class='db_table' id='".$tables[($i*4)][0]."'>".$tables[($i*4)][0]."</a></td><td class='t-left'><input type='checkbox' id='".$tables[($i*4)+1][0]."' title='Отметить таблицу'>&nbsp;<a class='db_table' id='".$tables[($i*4)+1][0]."'>".$tables[($i*4)+1][0]."</a></td><td class='t-left'><input type='checkbox' id='".$tables[($i*4)+2][0]."' title='Отметить таблицу'>&nbsp;<a class='db_table' id='".$tables[($i*4)+2][0]."'>".$tables[($i*4)+2][0]."</a></td><td class='t-left'><input type='checkbox' id='".$tables[($i*4+3)][0]."' title='Отметить таблицу'>&nbsp;<a class='db_table' id='".$tables[($i*4)+3][0]."'>".$tables[($i*4)+3][0]."</a></td></tr>";
+                    $style_1 = $style_2 = $style_3 = $style_4 = '';
+                    $checked_1 = $checked_2 = $checked_3 = $checked_4 = '';
+                    
+                    if(in_array($tables[($i*4)][0], $is_tables)){$style_1 = "style='background-color: #afffaf'";$checked_1 = 'checked';}
+                    if(in_array($tables[($i*4)+1][0], $is_tables)){$style_2 = "style='background-color: #afffaf'";$checked_2 = 'checked';}
+                    if(in_array($tables[($i*4)+2][0], $is_tables)){$style_3 = "style='background-color: #afffaf'";$checked_3 = 'checked';}
+                    if(in_array($tables[($i*4)+3][0], $is_tables)){$style_4 = "style='background-color: #afffaf'";$checked_4 = 'checked';}
+                    echo "<tr><td class='t-left' $style_1><input type='checkbox' id='".$tables[($i*4)][0]."' title='Отметить таблицу' $checked_1>&nbsp;<a class='db_table' id='".$tables[($i*4)][0]."'>".$tables[($i*4)][0]."</a></td><td class='t-left' $style_2><input type='checkbox' id='".$tables[($i*4)+1][0]."' title='Отметить таблицу' $checked_2>&nbsp;<a class='db_table' id='".$tables[($i*4)+1][0]."'>".$tables[($i*4)+1][0]."</a></td><td class='t-left' $style_3><input type='checkbox' id='".$tables[($i*4)+2][0]."' title='Отметить таблицу' $checked_3>&nbsp;<a class='db_table' id='".$tables[($i*4)+2][0]."'>".$tables[($i*4)+2][0]."</a></td><td class='t-left' $style_4><input type='checkbox' id='".$tables[($i*4+3)][0]."' title='Отметить таблицу' $checked_4>&nbsp;<a class='db_table' id='".$tables[($i*4)+3][0]."'>".$tables[($i*4)+3][0]."</a></td></tr>";
                  }
                 
                 ?>

@@ -7,7 +7,7 @@ $unnecessary = unnecessaryCustomers();
 
 
 if($unnecessary > 0){
-       $max_id = clearCustomer();
+//       $max_id = clearCustomer();
 }
 
 //$new_customers = checkNewCustomers($odb_tables);

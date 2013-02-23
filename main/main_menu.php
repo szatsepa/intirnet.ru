@@ -44,6 +44,39 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 <!-- /padding -->
             <ul class="box">				
                 
+                <li <?php echo $users_active;?>>
+                    <a href="index.php?act=res">Ресурсы и базы</a>
+                    <?php
+                    if(isset($res_data) && count($res_data) > 0){
+//                       print_r($res_data); 
+                        ?>
+                    
+                        <ul id="bases">
+                        <?php 
+                        
+                        foreach ($res_data as  $value) { ?>
+                            <li>
+                           
+                            <form action='index.php?act=dbinfo' method='post'>
+                            <a class="base_link"><?php echo$value[inet_name];?></a>
+                            <input type='hidden' name='db_id' value='<?php echo $value[id]; ?>'>
+                            <input type='hidden' name='db_server' value='<?php echo $value[addr]; ?>'>
+                            <input type='hidden' name='db_login' value='<?php echo $value[login]; ?>'>
+                            <input type='hidden' name='db_pwd' value='<?php echo $value[password]; ?>'>
+                            <input type='hidden' name='db_name' value='<?php echo $value[db_name]; ?>'>
+                            <input type='hidden' name='db_charset' value='<?php echo $value[charset]; ?>'>
+                            </form></li>
+                            <?php
+                        }
+//                        
+                        ?>
+                    </ul>
+                   <?php }
+                    
+                    ?>
+                </li>  
+                
+                
                 <li <?php echo $roles_active;?>>
                     <a href="index.php?act=main">Клиенты ресурсов</a>
                     <?php
@@ -63,9 +96,6 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                     ?>
                 </li>
                 
-                <li <?php echo $users_active;?>>
-                    <a href="index.php?act=res">Ресурсы и базы</a>
-                </li>   
 				
                 <li <?php echo $kabagent_active;?>>
                     <a href="index.php?act=adm">Администрация</a>
@@ -79,7 +109,9 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 
 <script type="text/javascript">
     $(document).ready(function(){
-//        $("#logo").css({'width':'200px','height':'100px','padding':'4px 0px 0 0px','backgroung-color':'rgb(234, 234, 234)'});
+        $("a.base_link").click(function(){
+            $(this).parent().submit();
+        }).css({'cursor':'pointer'});
     });
 </script>		
 <?php

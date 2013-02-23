@@ -14,11 +14,11 @@ while ($var = mysql_fetch_row($qry_fields)){
 
 class TableFields{
     
-    var $table;
+    var $table = "table_fields";
     var $fields = array();
     
-    function TableFields($tablename){
-        $this->table = $tablename;
+    function TableFields(){
+        
     }
     
     function getData(){
@@ -31,20 +31,41 @@ class TableFields{
         return $tmp;
     }
     
-    function isTables($tablename){
+    function isTables($tablename, $db_id){
         
         mysql_close();
         
         include '../query/connect.php';
         
-        $result = mysql_query("SELECT Count(*) FROM `table_fields` WHERE `tablename` = '$tablename'");
+        $result = mysql_query("SELECT Count(*) FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id'");
+
+        return mysql_result($result, 0, 0);
+    }
+    
+    function getFieldsinDB($tablename, $db_id){
         
-        $row = mysql_fetch_row($result);
+        mysql_close();
         
-        return $row[0];
+        include '../query/connect.php';
+        
+        $tmp = array();
+        
+        $result = mysql_query("SELECT `field_name`,`this_name` FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id'");
+        
+//        echo "SELECT `field_name`,`this_name` FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id'  <br>";
+
+        while ($var = mysql_fetch_assoc($result)){
+            $tmp[$var[field_name]] = $var[this_name];
+        }
+        
+        return $tmp;
     }
 }
 
-$f_table = new TableFields("table_fields");
+$f_table = new TableFields();
+
+$count_f = $f_table->isTables($attributes[db_tablename], $attributes[db_id]);
+
+ $fields_sinonim = $f_table->getFieldsinDB($attributes[db_tablename], $attributes[db_id]) ;
 
 ?>

@@ -43,16 +43,18 @@ $(document).ready(function(){
                 }
             });
         }else{ 
+//            console.log(out);
             $.ajax({
                 url:'../action/add_db_data.php',
                 type:'post',
                 dataType:'json',
                 data:out,
                 success:function(data){
+//                    console.log(data);
                     $("#tab01").show();
                     $("#tab02").hide();
                     if(data['ins'] > 0){
-                        $("#db_tab > tbody").append("<tr id='r_"+data['ins']+"'><td class='t-right'>"+data['ins']+"</td><td>"+data['ok']['db_name']+"</td><td class='smaller'>"+data['ok']['login']+"</td><td class='smaller'>"+data['ok']['password']+"</td><td class='smaller t-center'>"+data['ok']['addr']+"</td><td class='smaller t-center'>"+data['ok']['charset']+"</td><td class='smaller t-center'><a href='http://"+data['ok']['inet_address']+"' target='_blank'>"+data['ok']['inet_name']+"</a></td><td class='t-center'><a id='v_"+data['ins']+"' class='ico-info' title='Смотреть'></a>&nbsp;<a id='e_"+data['ins']+"' class='ico-edit' title='Редактировать'></a>&nbsp;<a id='del_"+data['ins']+"' class='ico-delete' title='Удалить'></a></td></tr>");                            
+                        $("#db_tab > tbody").append("<tr id='r_"+data['ins']+"'><td class='t-right'>"+data['ins']+"</td><td>"+data['ok']['db_name']+"</td><td class='smaller'>"+data['ok']['login']+"</td><td class='smaller'>"+data['ok']['password']+"</td><td class='smaller t-center'>"+data['ok']['addr']+"</td><td class='smaller t-center'>"+data['ok']['charset']+"</td><td class='smaller t-center'><a href='http://"+data['ok']['inet_addr']+"' target='_blank'>"+data['ok']['inet_name']+"</a></td><td class='t-center'><a id='v_"+data['ins']+"' class='ico-info' title='Смотреть'></a>&nbsp;<a id='e_"+data['ins']+"' class='ico-edit' title='Редактировать'></a>&nbsp;<a id='del_"+data['ins']+"' class='ico-delete' title='Удалить'></a></td></tr>");                            
                     }
 
                 },

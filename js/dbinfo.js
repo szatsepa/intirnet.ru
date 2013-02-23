@@ -3,8 +3,15 @@ $(document).ready(function(){
     $("a.db_table").css({'cursor':'pointer','text-decoration':'underline','font-size':'1.1em'});
     $("#tab02").hide();
     
+    var show_tab02 = true;
+    
     $("#tab01 table tbody tr td input:checkbox").mouseup(function(){
-        $("#tab02").show();
+        if(show_tab02){
+            $("#tab02").show();
+        }else{
+            $("#tab02").hide();
+        }
+        show_tab02 = !show_tab02;
     });
     
     $("a.db_table").click(function(){

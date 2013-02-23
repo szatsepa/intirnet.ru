@@ -9,6 +9,8 @@ $tablename = trim($_POST[tablename]);
 
 $tmp = array();
 
+if(count($fields)==0)exit ();
+
 foreach ($fields as $key => $value) {
     
     $field = trim($value);
@@ -42,7 +44,7 @@ if(count($tmp)>0){
 
 
 
-echo json_encode(array('out'=>  mysql_insert_id(),'error'=>  mysql_errno(),'cntrl'=>$q_count));
+echo json_encode(array('out'=> mysql_affected_rows(),'error'=>  mysql_errno(),'cntrl'=>$q_count));
 
 mysql_close();
 ?>

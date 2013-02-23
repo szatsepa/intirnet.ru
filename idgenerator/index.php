@@ -22,8 +22,8 @@ include '../func/cp_to_utf.php';
 include '../query/connect.php';   
 include '../query/user.php';
 include '../action/checkauth.php'; 
-include '../query/check_bases_add_tmp.php';
-include '../action/clear_add_customer.php';
+//include '../query/check_bases_add_tmp.php';
+//include '../action/clear_add_customer.php';
 include '../query/read_customerlist.php'; 
 include '../main/header.php';
 
@@ -56,20 +56,22 @@ switch ($attributes[act]){
         break;
     
     case 'dbinfo':
+        include '../query/us_table.php';
         include '../main/main.php'; 
         include '../main/main_menu.php';
         include '../query/connect_1.php';
         include '../main/tablelist.php';
-//        print_r($attributes);
+//        
         break;
     
     case 'table':
+        print_r($attributes);
         include '../query/this_fields.php';
         include '../main/main.php'; 
         include '../main/main_menu.php';
         include '../query/read_table.php';
         include '../main/view_table.php';
-//        print_r($attributes);
+        
         break;
     
     case 'update' :

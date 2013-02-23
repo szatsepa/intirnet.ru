@@ -1,24 +1,23 @@
-<div id="content" class="box">   
+<div id="content" class="box"> 
       <input type="hidden" id="uid" value="">
       <input type="hidden" id="str_addr" value="<?php echo $_SERVER [QUERY_STRING];?>">
       <input type="hidden" id="db_i" value="<?php echo $attributes[db_id];?>">
       <input type="hidden" id="db_t" value="<?php echo $attributes[db_tablename];?>">
-      <input type="hidden" id="is_table" value="<?php echo $f_table->isTables($attributes[db_tablename]);?>">
-<!--      <form id="this_fields">
-          <?php
-          foreach ($this_fields as $value) {
-//              echo "<input type='hidden' name='$value' value='$value'>";
-          }
-          ?>
-      </form>-->
+      <input type="hidden" id="is_table" value="<?php echo $count_f;?>">
+      <input type="hidden" id="customers" value='<?php echo $j_customers;?>'>
+      <input type="hidden" id="db_n" value="<?php echo $dbname;?>">
+      <input type="hidden" id="db_s" value="<?php echo $attributes[db_server];?>">
+      <input type="hidden" id="db_l" value="<?php echo $attributes[db_login];?>">
+      <input type="hidden" id="db_p" value="<?php echo $attributes[db_pwd];?>">
+      <input type="hidden" id="db_c" value="<?php echo $attributes[db_charset];?>">
+      
+
 <!-- Tab01 -->
     <br><br>
-    <p class="box" id="chap"><strong>Tаблицa базы данных - <?php echo $attributes[db_tablename];?>.</strong></p>
+    <p class="box" id="chap"><strong>Tаблицa базы данных - <?php echo $attributes['db_tablename'];?>.</strong></p>
                     
     <div  class="tabs box" id="myTabs">
         <ul> 
-<!--            <li><a id="t01"><span>Список</span></a></li>-->
-<!--            <a id="t03"><span>Поиск</span></a>-->
             <form id="finde_form">
                 <li>Выберите поле&nbsp;&nbsp;&nbsp;&nbsp;<select id="fields">
                         <?php
@@ -47,13 +46,7 @@
                    <?php 
                    } ?>
                 </tr>
-<!--                <tr>
-                    <?php //
- foreach ($fields_name as $value) {
-//     echo "<td class='t-center'></td>";
- }
-                    ?>
-                </tr>-->
+
             </thead> 
             <tbody>
                 <?php 
@@ -81,13 +74,15 @@
             <th class="t-center"><?php echo $value;?></th>
 
             <?php 
-            } ?> 
+            } 
+            reset($this_fields);
+            ?> 
         </tr>
     </thead>
     <tbody>
         <tr>
-            <?php foreach ($this_fields as $var){
-                echo "<td class='t-left'></td>";
+            <?php foreach ($this_fields as $value){
+                echo "<td class='t-left'>$fields_sinonim[$value]</td>";
             }?>
         </tr>
     </tbody>
@@ -97,7 +92,7 @@
         
 </div> <!-- /tab01 -->
     <div id="tab02"> 
-        <br><input type="button" id="save_fields" value="Запомнить псевдоним поля">
+        <br><p><input type="button" id="save_fields" value="Запомнить псевдонимы полей"></p>
     </div> 
 <!--    /tab02 -->
 </div>
