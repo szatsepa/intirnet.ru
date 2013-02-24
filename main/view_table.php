@@ -1,15 +1,15 @@
 <div id="content" class="box"> 
       <input type="hidden" id="uid" value="">
       <input type="hidden" id="str_addr" value="<?php echo $_SERVER [QUERY_STRING];?>">
-      <input type="hidden" id="db_i" value="<?php echo $attributes[db_id];?>">
-      <input type="hidden" id="db_t" value="<?php echo $attributes[db_tablename];?>">
+      <input type="hidden" id="db_i" value="<?php echo $attributes['db_id'];?>">
+      <input type="hidden" id="db_t" value="<?php echo $attributes['db_tablename'];?>">
       <input type="hidden" id="is_table" value="<?php echo $count_f;?>">
       <input type="hidden" id="customers" value='<?php echo $j_customers;?>'>
       <input type="hidden" id="db_n" value="<?php echo $dbname;?>">
-      <input type="hidden" id="db_s" value="<?php echo $attributes[db_server];?>">
-      <input type="hidden" id="db_l" value="<?php echo $attributes[db_login];?>">
-      <input type="hidden" id="db_p" value="<?php echo $attributes[db_pwd];?>">
-      <input type="hidden" id="db_c" value="<?php echo $attributes[db_charset];?>">
+      <input type="hidden" id="db_s" value="<?php echo $attributes['db_server'];?>">
+      <input type="hidden" id="db_l" value="<?php echo $attributes['db_login'];?>">
+      <input type="hidden" id="db_p" value="<?php echo $attributes['db_pwd'];?>">
+      <input type="hidden" id="db_c" value="<?php echo $attributes['db_charset'];?>">
       
 
 <!-- Tab01 -->
@@ -81,13 +81,15 @@
     </thead>
     <tbody>
         <tr>
-            <?php foreach ($this_fields as $value){
-                echo "<td class='t-left'>$fields_sinonim[$value]</td>";
+            <?php foreach ($this_fields as $key){
+                echo "<td class='t-left'>$fields_sinonim[$key]</td>";
             }?>
         </tr>
     </tbody>
 </table>
-
+<?php
+//print_r($fields_sinonim);
+?>
 
         
 </div> <!-- /tab01 -->

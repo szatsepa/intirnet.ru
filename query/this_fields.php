@@ -50,12 +50,12 @@ class TableFields{
         
         $tmp = array();
         
-        $result = mysql_query("SELECT `field_name`,`this_name` FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id'");
+        $result = mysql_query("SELECT `field_name`,`this_name` FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id' ORDER BY `id`");
         
 //        echo "SELECT `field_name`,`this_name` FROM `table_fields` WHERE `tablename` = '$tablename' AND `db_id` = '$db_id'  <br>";
 
         while ($var = mysql_fetch_assoc($result)){
-            $tmp[$var[field_name]] = $var[this_name];
+            $tmp[$var['this_name']] = $var['field_name'];
         }
         
         return $tmp;
@@ -64,8 +64,8 @@ class TableFields{
 
 $f_table = new TableFields();
 
-$count_f = $f_table->isTables($attributes[db_tablename], $attributes[db_id]);
+$count_f = $f_table->isTables($attributes['db_tablename'], $attributes['db_id']);
 
- $fields_sinonim = $f_table->getFieldsinDB($attributes[db_tablename], $attributes[db_id]) ;
+ $fields_sinonim = $f_table->getFieldsinDB($attributes['db_tablename'], $attributes['db_id']) ;
 
 ?>
