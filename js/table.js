@@ -51,6 +51,8 @@ $(document).ready(function(){
         }
         
     $("#save_customers").live('click',function(){
+        
+        $("#resp").remove();
                 
         var output = {'db_id':$("#db_i").val(), 'tablename':$("#db_t").val(), 'charset':$("#db_c").val(),'cdata':$("#customers").val()};
         
@@ -144,7 +146,8 @@ $(document).ready(function(){
             dataType:'text',
             data:{tablename:tablename},
             success:function(data){
-                $("#tab02").append(data);
+//                $("#resp").remove();
+                $("#tab02").append("<p id='resp'>"+data+"</p>");
 //                $.each(data, function(index){
 //                    $.each(this, function(index){
 //                        if(index != 'tables'){

@@ -110,4 +110,15 @@ function checkRoles(){
     
     return $roles;
 }
+
+function mysql_fields_seek($tablename, $field){
+    
+    $out = NULL;
+
+    $rslt = mysql_query("SELECT COUNT(`$field`) FROM `$tablename`");
+    
+    if($rslt)$out = mysql_num_rows($rslt);
+
+    return  $out;
+}
 ?>
