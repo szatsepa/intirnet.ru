@@ -1,7 +1,7 @@
 <?php
 include '../action/check_differences.php';
 
-$qstring = $_SERVER[QUERY_STRING];
+$qstring = $_SERVER['QUERY_STRING'];
 
 $qstring = "index.php?".str_replace('&chng=1', "", $qstring)."&chng=1";
 
@@ -26,14 +26,14 @@ if($_SESSION[auth] == 1) {
 $roles_active    = "";
 $users_active    = "";
 $kabagent_active = "";
-if ($attributes[act] == "main") $roles_active = 'id="submenu-active"';
-if ($attributes[act] == "res") $users_active = 'id="submenu-active"';
-if ($attributes[act] == "adm" ) $kabagent_active = 'id="submenu-active"';
-if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
+if ($attributes['act'] == "main") $roles_active = 'id="submenu-active"';
+if ($attributes['act'] == "res") $users_active = 'id="submenu-active"';
+if ($attributes['act'] == "adm" ) $kabagent_active = 'id="submenu-active"';
+if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
 ?>
 <!-- Columns -->
 	<div id="cols" class="box"><!-- Aside (Left Column) -->
-<!--            <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>-->
+<!--            <input type="hidden" id="rem" value="<?php echo $_SESSION['rem'];?>"/>-->
 		<div id="aside" class="box">
 
                     <div class="padding box">
@@ -42,7 +42,7 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                             <p id="logo"><a href="#"><img src="../images/logo.gif" alt="Our logo" title="Visit Site" /></a></p>
                     </div>	
 <!-- /padding -->
-            <ul class="box">				
+            <ul class="box" id="m_menu">				
                 
                 <li <?php echo $users_active;?>>
                     <a href="index.php?act=res">Ресурсы и базы</a>
@@ -52,25 +52,27 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                         ?>
                     
                         <ul id="bases">
-                        <?php 
-                        
-                        foreach ($res_data as  $value) { ?>
-                            <li>
-                           
-                            <form action='index.php?act=dbinfo' method='post'>
-                            <a class="base_link"><?php echo$value[inet_name];?></a>
-                            <input type='hidden' name='db_id' value='<?php echo $value[id]; ?>'>
-                            <input type='hidden' name='db_server' value='<?php echo $value[addr]; ?>'>
-                            <input type='hidden' name='db_login' value='<?php echo $value[login]; ?>'>
-                            <input type='hidden' name='db_pwd' value='<?php echo $value[password]; ?>'>
-                            <input type='hidden' name='db_name' value='<?php echo $value[db_name]; ?>'>
-                            <input type='hidden' name='db_charset' value='<?php echo $value[charset]; ?>'>
-                            </form></li>
-                            <?php
-                        }
-//                        
-                        ?>
-                    </ul>
+                            <?php 
+
+                            foreach ($res_data as  $value) { ?>
+                                <li>
+
+                                    <form action='index.php?act=dbinfo' method='post'>
+                                        <a class="base_link"><?php echo$value['inet_name'];?></a>
+                                        <input type='hidden' name='db_id' value='<?php echo $value['id']; ?>'>
+                                        <input type='hidden' name='db_server' value='<?php echo $value['addr']; ?>'>
+                                        <input type='hidden' name='db_login' value='<?php echo $value['login']; ?>'>
+                                        <input type='hidden' name='db_pwd' value='<?php echo $value['password']; ?>'>
+                                        <input type='hidden' name='db_name' value='<?php echo $value['db_name']; ?>'>
+                                        <input type='hidden' name='db_charset' value='<?php echo $value['charset']; ?>'>
+                                        <input type="hidden" name="db_host" value="<?php echo $value['inet_address'];?>"> 
+                                    </form>
+                                </li>
+                                <?php
+                            }
+    //                        
+                            ?>
+                        </ul>
                    <?php }
                     
                     ?>
@@ -78,22 +80,22 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
                 
                 
                 <li <?php echo $roles_active;?>>
-                    <a href="index.php?act=main">Клиенты ресурсов</a>
-                    <?php
-                    if($attributes[act] == 'main'){
-                    ?>
-                    <ul id="products">
-                        <?php 
-                        
-                        foreach ($roles as $key => $value) {
-                            echo '<li><a href="index.php?act=main&r='.$key.'">'.$value.'</a></li>';
-                        }
-//                        
+                        <a href="index.php?act=main">Клиенты ресурсов</a>
+                        <?php
+                        if($attributes[act] == 'main'){
                         ?>
-                    </ul>
-                    <?php
-                    }
-                    ?>
+                        <ul id="products">
+                            <?php 
+
+                            foreach ($roles as $key => $value) {
+                                echo '<li><a href="index.php?act=main&r='.$key.'">'.$value.'</a></li>';
+                            }
+    //                        
+                            ?>
+                        </ul>
+                        <?php
+                        }
+                        ?>
                 </li>
                 
 				
@@ -109,9 +111,40 @@ if ($attributes[act] == "srch") $objects_active = 'id="submenu-active"';
 
 <script type="text/javascript">
     $(document).ready(function(){
+        
+        
+        
         $("a.base_link").click(function(){
             $(this).parent().submit();
         }).css({'cursor':'pointer'});
+        
+        $.each($("#bases li"), function(index){
+            var out = {};
+            
+            $.each($(this).find("input"), function(){
+           
+                out[this.name] = $(this).val();
+            
+            });
+//console.log(out);
+            $.ajax({
+                url:"../action/act_hole.php",
+                type:'post',
+                dataType:'text',
+                data:out,
+                success:function(data){
+                    $("#content").append(data);
+//                    console.log(data);
+                },
+                error:function(data){
+                    console.log(data['responseText']);
+                }
+            });
+        });
+        
+        
+        
+        
     });
 </script>		
 <?php

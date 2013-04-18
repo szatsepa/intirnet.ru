@@ -1,14 +1,15 @@
 <div id="content" class="box">   
                     <!-- Tab01 -->
       <input type="hidden" id="uid" value="">
-      <input type="hidden" id="str_addr" value="<?php echo $_SERVER [QUERY_STRING];?>">
+      <input type="hidden" id="str_addr" value="<?php echo $_SERVER ['QUERY_STRING'];?>">
       <input type="hidden" id="db_n" value="<?php echo $dbname;?>">
-      <input type="hidden" id="db_s" value="<?php echo $attributes[db_server];?>">
-      <input type="hidden" id="db_l" value="<?php echo $attributes[db_login];?>">
-      <input type="hidden" id="db_p" value="<?php echo $attributes[db_pwd];?>">
-      <input type="hidden" id="db_c" value="<?php echo $attributes[db_charset];?>">
-      <input type="hidden" id="db_t" value="<?php echo $attributes[db_tablename];?>">
-      <input type="hidden" id="db_i" value="<?php echo $attributes[db_tablename];?>">
+      <input type="hidden" id="db_s" value="<?php echo $attributes['db_server'];?>">
+      <input type="hidden" id="db_l" value="<?php echo $attributes['db_login'];?>">
+      <input type="hidden" id="db_p" value="<?php echo $attributes['db_pwd'];?>">
+      <input type="hidden" id="db_c" value="<?php echo $attributes['db_charset'];?>">
+      <input type="hidden" id="db_t" value="<?php echo $attributes['db_tablename'];?>">
+      <input type="hidden" id="db_i" value="<?php echo $attributes['inet_name'];?>">
+      <input type="hidden" id="db_h" value="<?php echo $attributes['inet_address'];?>">
 
                     <!-- Tab01 -->
                     <br><br>
