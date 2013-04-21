@@ -31,12 +31,18 @@ switch ($attributes['act']){
     
     case 'main':
         include 'action/view_hole.php';
+        include 'query/res_data.php';
+        include 'main/main.php';       
+        include 'main/main_menu.php';         
+        include 'main/res_data.php';
+        break;
+    
+    case 'dbinfo':
+        include 'action/view_hole.php';
+        include 'query/us_table.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
-        echo "$dbases<br>";
-        $db_arr = json_decode($dbases);
-//        var_dump($db_arr);
-        print_r($db_arr);
+        include 'main/tablelist.php';
         break;
         
     case 'info':

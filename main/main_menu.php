@@ -118,29 +118,29 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
             $(this).parent().submit();
         }).css({'cursor':'pointer'});
         
-        $.each($("#bases li"), function(index){
-            var out = {};
-            
-            $.each($(this).find("input"), function(){
-           
-                out[this.name] = $(this).val();
-            
-            });
+//        $.each($("#bases li"), function(index){
+//            var out = {};
+//            
+//            $.each($(this).find("input"), function(){
+//           
+//                out[this.name] = $(this).val();
+//            
+//            });
 //console.log(out);
-            $.ajax({
-                url:"../action/act_hole.php",
-                type:'post',
-                dataType:'text',
-                data:out,
-                success:function(data){
-                    $("#content").append(data);
-//                    console.log(data);
-                },
-                error:function(data){
-                    console.log(data['responseText']);
-                }
-            });
-        });
+//            $.ajax({
+//                url:"../action/act_hole.php",
+//                type:'post',
+//                dataType:'text',
+//                data:out,
+//                success:function(data){
+//                    $("#content").append(data);
+////                    console.log(data);
+//                },
+//                error:function(data){
+//                    console.log(data['responseText']);
+//                }
+//            });
+//        });
         
         
         

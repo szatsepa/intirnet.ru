@@ -1,6 +1,6 @@
 <body>
-    
 
+    
     <div id="main">
         <input type="hidden" id="rem" value="<?php echo $_SESSION[rem];?>"/>
             <!-- Tray -->

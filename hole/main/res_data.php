@@ -13,7 +13,16 @@
 
                     <!-- Tab01 -->
                     <br><br>
-                    <p class="box" id="chap"><strong>Базы данных.</strong></p>      
+                    <p class="box" id="chap"><strong>Базы данных.</strong></p>
+<!--        <p class="box" id="p-filter" style="display:none;"><a id="a_role" class="btn-info"><span>Роли</span></a><a id="a_alphabet" class="btn-info"><span>Алфавит</span></a><a id="a_all" class="btn-info"><span>Все</span></a></p>            -->
+    
+<!-- Upload -->
+<!--<fieldset id="fieldset_filter_roles"></fieldset>-->
+
+
+<!-- Upload --> 
+<!--<fieldset id="fieldset_filter_alphabet"></fieldset>   -->
+      
 
     <div  class="tabs box" id="myTabs">
     </div>
@@ -36,9 +45,9 @@
             <tbody>
                 
 <?php
-
+//     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'>$value[addr]</td><td class='smaller t-center'>$value[charset]</td><td class='smaller t-center'>$value[db_query]</td><td class='t-center'><a id='v_$value[id]' class='ico-info' title='Смотреть'></a><a id='v_"+$value['ins']+"' class='ico-info' title='Смотреть'><a><a id='e_$value[id]' class='ico-edit' title='Редактировать'></a><a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
 foreach ($res_data as $value) {
-     echo "<tr id='r_{$value['id']}'><td class='t-right'>{$value['id']}</td><td>{$value['db_name']}</td><td class='smaller'>{$value['login']}</td><td class='smaller'>{$value['password']}</td><td class='smaller t-center'>{$value['addr']}</td><td class='smaller t-center'>{$value['charset']}</td><td class='smaller t-center'><a href='http://{$value['inet_address']}' target='_blank'>{$value['inet_name']}</a></td><td class='t-center'><a id='v_{$value['id']}' class='ico-info' title='Смотреть'></a>&nbsp;<a id='e_{$value['id']}' class='ico-edit' title='Редактировать'></a>&nbsp;<a id='del_{$value['id']}' class='ico-delete' title='Удалить'></a></td></tr>";
+     echo "<tr id='r_$value[id]'><td class='t-right'>$value[id]</td><td>$value[db_name]</td><td class='smaller'>$value[login]</td><td class='smaller'>$value[password]</td><td class='smaller t-center'>$value[addr]</td><td class='smaller t-center'>$value[charset]</td><td class='smaller t-center'><a href='http://$value[inet_address]' target='_blank'>$value[inet_name]</a></td><td class='t-center'><a id='v_$value[id]' class='ico-info' title='Смотреть'></a>&nbsp;<a id='e_$value[id]' class='ico-edit' title='Редактировать'></a>&nbsp;<a id='del_$value[id]' class='ico-delete' title='Удалить'></a></td></tr>";
 }
 ?>
             </tbody>

@@ -58,7 +58,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                                 <li>
 
                                     <form action='index.php?act=dbinfo' method='post'>
-                                        <a class="base_link"><?php echo$value['inet_name'];?></a>
+                                        <a class="base_link"><?php echo $value['inet_name'];?></a>
                                         <input type='hidden' name='db_id' value='<?php echo $value['id']; ?>'>
                                         <input type='hidden' name='db_server' value='<?php echo $value['addr']; ?>'>
                                         <input type='hidden' name='db_login' value='<?php echo $value['login']; ?>'>
