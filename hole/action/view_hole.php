@@ -1,7 +1,12 @@
 <?php
 //header('Content-type: text/html; charset=utf-8');
+$and = '';
 
-$query = "SELECT * FROM `db_data` WHERE `status` <> 0";
+if(isset($attributes['db_id'])){
+    $and = " AND id = {$attributes['db_id']}";
+}
+
+$query = "SELECT * FROM `db_data` WHERE `status` <> 0$and";
 
 $result = mysql_query($query) or die(mysql_errno());
 
@@ -42,5 +47,6 @@ function getDbdata($rows){
     return $contents;
 }
 
-//json_decode()
+$tables_fields = get_object_vars(json_decode($dbases));
+
 ?>

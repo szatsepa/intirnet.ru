@@ -44,6 +44,13 @@ switch ($attributes['act']){
         include 'main/main_menu.php';
         include 'main/tablelist.php';
         break;
+    
+    case 'table':
+        include 'action/view_hole.php';
+        include 'query/this_fields.php';
+        include 'main/main.php'; 
+        include 'main/main_menu.php';
+        break;
         
     case 'info':
         phpinfo();
@@ -60,9 +67,9 @@ switch ($attributes['act']){
 //echo "C => ";
 //print_r($_COOKIE);
 //echo "<br>S => ";
-//print_r($_SERVER);
+//print_r($is_tables);
 //echo "<br>A => ";
-//print_r($attributes);
+print_r($attributes);
 
 include 'main/footer.php';
 

@@ -1,31 +1,10 @@
 <?php
-include '../action/check_differences.php';
 
-$qstring = $_SERVER['QUERY_STRING'];
-
-$qstring = "index.php?".str_replace('&chng=1', "", $qstring)."&chng=1";
-
-if(count($differences)!=0){
-?>
-<script type="text/javascript">
-    if(confirm("В базах донорах имеются измененые данные!\n\t\tИзменить данные?")){
-        document.location = "<?php echo $qstring;?>";
-    }
-</script>
-<?php
-}
-if($add_rows > 0){
-//    unset($differences);
-?>
-<script type="text/javascript">
-    alert("Изменено <?php echo $add_rows;?> строк");
-</script>
-<?php
-}
-if($_SESSION[auth] == 1) { 
+if($_SESSION['auth'] == 1) { 
 $roles_active    = "";
 $users_active    = "";
 $kabagent_active = "";
+
 if ($attributes['act'] == "main") $roles_active = 'id="submenu-active"';
 if ($attributes['act'] == "res") $users_active = 'id="submenu-active"';
 if ($attributes['act'] == "adm" ) $kabagent_active = 'id="submenu-active"';
@@ -48,7 +27,6 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                     <a href="index.php?act=main">Ресурсы и базы</a>
                     <?php
                     if(isset($res_data) && count($res_data) > 0){
-//                       print_r($res_data); 
                         ?>
                     
                         <ul id="bases">
@@ -74,6 +52,37 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                             ?>
                         </ul>
                    <?php }
+                   if(isset($attributes['act']) and $attributes['act'] == 'dbinfo'){
+                       ?>
+                        <ul id="bases">
+                            <?php 
+                        reset($tables_fields);
+                        $tables_key = key($tables_fields);
+                        $tables_data = get_object_vars($tables_fields[$tables_key]);
+
+                foreach ($tables_data as $key => $value){ 
+                    $tid = array_search($key, $is_tables, TRUE);
+                    ?>
+                                <li>
+
+                                    <form action='index.php?act=table' method='post'>
+                                        <a class="base_link"><?php echo $key;?></a>
+                                        <input type='hidden' name='tid' value='<?php echo $tid; ?>'>
+                                        <input type='hidden' name='db_id' value='<?php echo $attributes['db_id']; ?>'>
+                                        <input type='hidden' name='table' value='<?php echo $key; ?>'>
+<!--                                        <input type='hidden' name='db_pwd' value='<?php echo $value['password']; ?>'>
+                                        <input type='hidden' name='db_name' value='<?php echo $value['db_name']; ?>'>
+                                        <input type='hidden' name='db_charset' value='<?php echo $value['charset']; ?>'>
+                                        <input type="hidden" name="db_host" value="<?php echo $value['inet_address'];?>"> -->
+                                    </form>
+                                </li>
+                                <?php
+                            }
+    //                        
+                            ?>
+                        </ul>
+                    <?php
+                   }
                     
                     ?>
                 </li>  
@@ -115,6 +124,13 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
         $("a.base_link").click(function(){
             $(this).parent().submit();
         }).css({'cursor':'pointer'});
+        
+        if($("#act").val()=='dbinfo'){
+            $("#act_main").attr('id','act_dbinfo');
+        }
+        if($("#act").val()=='table'){
+            $("#act_main").attr('id','act_table');
+        }
         
         $.each($("ul.box li"),function(){
             var id = this.id;

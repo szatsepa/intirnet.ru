@@ -1,9 +1,3 @@
-<?php 
-$count_tables = count($tables);
-
-$rows = ceil($count_tables/4);
-
-?>
 <div id="content" class="box">   
       <input type="hidden" id="uid" value="">
       <input type="hidden" id="str_addr" value="<?php echo $_SERVER ['QUERY_STRING'];?>">
@@ -21,45 +15,65 @@ $rows = ceil($count_tables/4);
     </div>
 
     <div id="tab01">
-<!--            <ul class="box"> </ul>-->
                 
-                <table id="db_tab">
-            <thead>
+        <table id="db_tab">
+                <?php
+                $table_str = '';
+                
+                $ch_str = '';
+                
+                foreach ($tables_fields as $key => $value) { 
+                    $table_str .= '<thead>
                 <tr>
-                    <th class="t-center">I</th>
-                    <th class="t-center">II</th>
-                    <th class="t-center">III</th>
-                    <th class="t-center">IV</th>
+                <th colspan="2">Database - "'.$key.'"
+                </th>
                 </tr>
             </thead> 
-            <tbody>
-                <?php
-                for($i=0;$i<$rows;$i++){
-                    $style_1 = $style_2 = $style_3 = $style_4 = '';
-                    $checked_1 = $checked_2 = $checked_3 = $checked_4 = '';
+            <tbody>';
                     
-                    if(in_array($tables[($i*4)][0], $is_tables)){$style_1 = "style='background-color: #afffaf'";$checked_1 = 'checked';}
-                    if(in_array($tables[($i*4)+1][0], $is_tables)){$style_2 = "style='background-color: #afffaf'";$checked_2 = 'checked';}
-                    if(in_array($tables[($i*4)+2][0], $is_tables)){$style_3 = "style='background-color: #afffaf'";$checked_3 = 'checked';}
-                    if(in_array($tables[($i*4)+3][0], $is_tables)){$style_4 = "style='background-color: #afffaf'";$checked_4 = 'checked';}
-                    echo "<tr><td class='t-left' $style_1><input type='checkbox' id='".$tables[($i*4)][0]."' title='Отметить таблицу' $checked_1>&nbsp;<a class='db_table' id='".$tables[($i*4)][0]."'>".$tables[($i*4)][0]."</a></td><td class='t-left' $style_2><input type='checkbox' id='".$tables[($i*4)+1][0]."' title='Отметить таблицу' $checked_2>&nbsp;<a class='db_table' id='".$tables[($i*4)+1][0]."'>".$tables[($i*4)+1][0]."</a></td><td class='t-left' $style_3><input type='checkbox' id='".$tables[($i*4)+2][0]."' title='Отметить таблицу' $checked_3>&nbsp;<a class='db_table' id='".$tables[($i*4)+2][0]."'>".$tables[($i*4)+2][0]."</a></td><td class='t-left' $style_4><input type='checkbox' id='".$tables[($i*4+3)][0]."' title='Отметить таблицу' $checked_4>&nbsp;<a class='db_table' id='".$tables[($i*4)+3][0]."'>".$tables[($i*4)+3][0]."</a></td></tr>";
-                 }
+                    foreach ($value as $table => $fields) {
+                        $style = "";
+                        $checked = '';
+                        $table_id = array_search($table, $is_tables, TRUE);
+                        if($table_id){
+                            $style = "style='background-color: #afffaf'";
+                            $checked = 'checked';
+                            
+                        }
+                        
+                        $table_str .= '<tr '.$style.'>
+                            <td>
+                            <input type="checkbox" id="cb_'.$table.'" '.$checked.'>
+                            </td>
+                            <td>
+                            
+                            <a href="index.php?act=table&tid='.$table_id.'&db_id='.$attributes['db_id'].'&table='.$table.'" id="'.$table_id.'"><strong>Table - "'.$table.'"</strong></a>
+                                <p>';
+                        
+                        foreach ($fields as $field) {
+                            $table_str .= '"'.$field.'";&nbsp;';
+                        }
+                        $table_str .= "</p></td></tr>";
+                    }
+               }
+                echo "$table_str";
                 
                 ?>
             </tbody> 
-                </table>
+        </table>
      </div> <!-- /tab01 -->
 
-    <div id="tab02">
+<!--    <div id="tab02">
       
-                
-<!--             <div class="box-01" id="back_box"></div>-->
                 <fieldset>
                     <p class="nom" style="text-align: center"><input value="Запомнить таблицы" class="input-submit" type="button" id="add_tables"></p> 
                 </fieldset>
          
             
           
-    </div> <!-- /tab02 -->
+    </div>  /tab02 -->
 
 </div>
+<?php
+                echo "$ch_str";
+?>
