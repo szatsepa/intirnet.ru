@@ -30,5 +30,5 @@ if(isset($attributes['r']))$str_role = intval($attributes['r']);
     <!--<script type="text/javascript" src="js/jquery-1.8b1.js"></script>-->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/myfunction.js"></script> 
-    <script type="text/javascript" src="js/<?php echo $attributes[act];?>.js"></script>    
+    <script type="text/javascript" src="js/<?php echo $attributes['act'];?>.js"></script>    
 </head>

@@ -50,6 +50,7 @@ switch ($attributes['act']){
         include 'query/this_fields.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
+        include 'main/fields_list.php';
         break;
         
     case 'info':

@@ -1,7 +1,7 @@
 <div id="content" class="box">   
       <input type="hidden" id="uid" value="">
       <input type="hidden" id="str_addr" value="<?php echo $_SERVER ['QUERY_STRING'];?>">
-      <input type="hidden" id="db_n" value="<?php echo $dbname;?>">
+      <!--<input type="hidden" id="db_n" value="<?php echo $dbname;?>">-->
       <input type="hidden" id="db_s" value="<?php echo $attributes['db_server'];?>">
       <input type="hidden" id="db_l" value="<?php echo $attributes['db_login'];?>">
       <input type="hidden" id="db_p" value="<?php echo $attributes['db_pwd'];?>">
@@ -9,7 +9,7 @@
       <input type="hidden" id="db_i" value="<?php echo $attributes['db_id'];?>">
 <!-- Tab01 -->
     <br><br>
-    <p class="box" id="chap"><strong>Список таблиц базы данных - <?php echo $dbname;?>.</strong></p>
+    <p class="box" id="chap"></p>
                     
     <div  class="tabs box" id="myTabs">
     </div>
@@ -25,8 +25,10 @@
                 foreach ($tables_fields as $key => $value) { 
                     $table_str .= '<thead>
                 <tr>
-                <th colspan="2">Database - "'.$key.'"
-                </th>
+                    <th colspan="2">
+                    <input type="hidden" id="db_n" value="'.$key.'">
+                        Database - "'.$key.'"
+                    </th>
                 </tr>
             </thead> 
             <tbody>';
@@ -43,11 +45,13 @@
                         
                         $table_str .= '<tr '.$style.'>
                             <td>
-                            <input type="checkbox" id="cb_'.$table.'" '.$checked.'>
+                                <input type="checkbox" id="cb_'.$table.'" '.$checked.'>
                             </td>
                             <td>
                             
-                            <a href="index.php?act=table&tid='.$table_id.'&db_id='.$attributes['db_id'].'&table='.$table.'" id="'.$table_id.'"><strong>Table - "'.$table.'"</strong></a>
+                            <a href="index.php?act=table&tid='.$table_id.'&db_id='.$attributes['db_id'].'&table='.$table.'" id="'.$table_id.'">
+                                <strong>Table - "'.$table.'"</strong>
+                                    </a>
                                 <p>';
                         
                         foreach ($fields as $field) {

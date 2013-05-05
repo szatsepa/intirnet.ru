@@ -66,6 +66,6 @@ $f_table = new TableFields();
 
 $count_f = $f_table->isTables($attributes['db_tablename'], $attributes['db_id']);
 
- $fields_sinonim = $f_table->getFieldsinDB($attributes['db_tablename'], $attributes['db_id']) ;
+$fields_sinonim = $f_table->getFieldsinDB($attributes['db_tablename'], $attributes['db_id']) ;
 
 ?>

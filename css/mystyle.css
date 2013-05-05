@@ -13,3 +13,7 @@
     background-color: white;
     padding: 0 24px 0 24px;
 }
+select.common {
+	font-size: 8pt;	
+	top:1px;
+}

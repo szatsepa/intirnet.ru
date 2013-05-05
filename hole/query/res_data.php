@@ -1,6 +1,6 @@
 <?php
 
-$query = "SELECT * FROM db_data";
+$query = "SELECT * FROM db_data WHERE status <> 0";
 
 $result = mysql_query($query) or die($query);
 
