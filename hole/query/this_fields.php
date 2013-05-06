@@ -15,7 +15,7 @@ $table = mysql_result($result, 0);
 
 mysql_free_result($result);
 
-$query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did";
+$query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
 
 $result = mysql_query($query) or die(mysql_errno());
 
@@ -67,7 +67,9 @@ class FieldSelect {
 
         mysql_free_result($result);
         
-        array_shift($fieldlist);;
+        array_shift($fieldlist);
+        
+        rsort($fieldlist);
         
         return $fieldlist;
     }

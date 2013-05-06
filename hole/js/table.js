@@ -9,26 +9,58 @@ $(document).ready(function(){
     }
     var tyts = false;
     
+    var edit = false;
+    
+    var obj_edit = {};
+    
     $("select.common").click(function(){
+        
         if(tyts){
-            var str = $("#"+this.id+" option:selected").val();
-            if(str != '0'){
-               var obj = $(this).css({'color':'green','font-weight':'bold'});
-            }            
+            if($(this).find("option:selected").val() != '0'){
+                
+               $(this).css({'color':'green','font-weight':'bold'});
+            }
+            
+            if(edit && $(this).parent().index()==2){
+                
+                editFild($(this).parent().parent());
+            }                      
         }
         tyts = !tyts;
+        
     });
     
     $("#save_fields").click(function(){
         
-        var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val()};
+        edit = false;
+        
+        var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':{}};
         
         $.each($("#db_tab tbody tr"),function(index){
-            output[$(this).children('td:eq(0)').text()] = $(this).children('td:eq(1)').children('select').children('option:selected').val();
+            output['fields'][$(this).children('td:eq(0)').text()] = $(this).children('td:eq(1)').children('select').children('option:selected').val();
         });
         
-        console.log(output);
+        updateSynonym(output);
+        
     });
+    
+    $("#db_tab tbody tr td a").click(function(){
+        
+        edit = true;
+        
+        var id = this.id;
+        
+        id = id.substr(2);
+        
+        obj_edit = $(this).parent().parent();
+        
+        $($(this).parent()).append($("#db_tab tbody tr td select:eq(0)").clone(true, true));
+        
+//        $("#db_tab tbody tr td:eq(2)").attr('align','center');
+        
+        $(this).remove();
+        
+    }).css({'cursor':'pointer'});
         
         if($("#db_tab").width()>$("#content").width()){
             var b_scale = ($("#content").width()/$("#db_tab").width())+0.00;
@@ -49,7 +81,56 @@ $(document).ready(function(){
         if ($.browser.opera) {
                 $("#tab01").css({"-o-transform": "scale("+b_scale+")"});
         }
+        
+        function editFild(obj){
+            
+            var field = {};
+            
+            field[$(obj).find('td:eq(0)').text()] = $(obj).find('td:eq(2) select option:selected').val();
+            
+            var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':field};
+            
+            updateSynonym(output);
+        }
+        
+        function updateSynonym(output){
+            
+            $.ajax({
+                url:'action/synonym_in_minde.php',
+                type:'post',
+                dataType:'json',
+                data:output,
+                success:function(data){
+                    if(data['query']>0){
+                        if(!edit){
+                             $.each($("#db_tab tbody tr"),function(index){
 
+                                var this_color = $(this).find('td:eq(1) select').css('color');
+
+                                if(this_color != undefined){
+
+                                    var value = $(this).find('td:eq(1) select option:selected').val();
+
+                                    if(this_color.toString() ==='rgb(0, 128, 0)'){
+                                       $(this).css({'background-color':'#afffaf'}); 
+                                       $(this).children('td:eq(1)').empty().text(value);
+                                       $(this).children('td:eq(2)').append("<a id='e_"+$(this).find('td:eq(0)').text()+"' class='ico-edit' title='Редактировать'></a>");
+                                    }
+                                }
+                            });
+                        }else{
+                            var value = $(obj_edit).find('td:eq(2) select option:selected').val();
+                            $(obj_edit).children('td:eq(1)').text(value);
+                            $(obj_edit).children('td:eq(2)').empty().append("<a id='e_"+$(this).find('td:eq(0)').text()+"' class='ico-edit' title='Редактировать'></a>");
+
+                        }
+                    }
+                },
+                        error:function(data){
+                            console.log(data['responseText']);
+                        }
+            });
+        }
    
 });
 

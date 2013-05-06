@@ -1,13 +1,29 @@
 <?php
 include '../query/connect.php';
 
-$query = "UPDATE `table_fields` SET ";
+$output = array('query'=>'');
 
-foreach ($_POST as $key => $value) {
+$output['fields'] = $_POST['fields'];
+
+$count_fields = 0;
+
+foreach ($_POST['fields'] as $key => $value) {
     
+    
+    
+    if($value !== '0'){
+        
+        $query = "UPDATE `table_fields` SET `this_name` = '{$value}' WHERE `db_id` = '{$_POST['db_id']}' AND `tablename` = '{$_POST['tablename']}' AND `field_name` = '$key'";
+    
+        mysql_query($query) or die($output['error'] = mysql_errno());
+        
+        $count_fields += mysql_affected_rows();
+    }
 }
 
+$output['query'] = $count_fields;
 
+echo json_encode($output);
 
 mysql_close();
 ?>

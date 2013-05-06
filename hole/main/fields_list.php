@@ -61,6 +61,7 @@
                     
                     <th class="t-center">Название поля</th>
                     <th class="t-center">Синоним поля</th>
+                    <th class="t-center">&nbsp;&nbsp;</th>
                    
                 </tr>
 
@@ -74,10 +75,10 @@ $selects = new FieldSelect();
 $nums = 0;
                     foreach ($tablefields as $value) {
                         if($value['this_name'] !== ''){
-                            echo "<tr><td>{$value['field_name']}</td><td>{$value['this_name']}</td></tr>";
+                            echo "<tr style='background-color:#afffaf'><td>{$value['field_name']}</td><td>{$value['this_name']}</td><td><a id='e_{$value['field_name']}' class='ico-edit' title='Редактировать'></a></td></tr>";
                         }else{
                             
-                            echo "<tr><td>{$value['field_name']}</td><td>".$selects ->getSelect("f_$nums")."</td></tr>";
+                            echo "<tr><td>{$value['field_name']}</td><td>".$selects ->getSelect("f_$nums")."</td><td></td></tr>";
                         }
                         $nums++;
                     }
