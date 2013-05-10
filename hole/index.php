@@ -47,10 +47,17 @@ switch ($attributes['act']){
     
     case 'table':
         include 'action/view_hole.php';
+        include 'query/us_table.php';
         include 'query/this_fields.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
         include 'main/fields_list.php';
+        break;
+    
+    case 'customers':
+        include 'action/view_hole.php';
+        include 'main/main.php'; 
+        include 'main/main_menu.php';
         break;
         
     case 'info':

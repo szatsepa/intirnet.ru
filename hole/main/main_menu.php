@@ -52,16 +52,17 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                             ?>
                         </ul>
                    <?php }
-                   if(isset($attributes['act']) and $attributes['act'] == 'dbinfo'){
+                   if(isset($attributes['act']) and ($attributes['act'] == 'dbinfo' or $attributes['act'] == 'table')){
                        ?>
                         <ul id="bases">
                             <?php 
                         reset($tables_fields);
                         $tables_key = key($tables_fields);
+//                        echo "$tables_key<br>";
                         $tables_data = get_object_vars($tables_fields[$tables_key]);
-
+//                        print_r($tables_data);
                 foreach ($tables_data as $key => $value){ 
-                    $tid = array_search($key, $is_tables, TRUE);
+                    $tid = array_search($key, $is_tables);
                     ?>
                                 <li>
 
