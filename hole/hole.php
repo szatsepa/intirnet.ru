@@ -58,9 +58,7 @@ function getDBUsers(){
             
             $numrow++;
         }
-    }    
-    
-//    $response .= '"count":"'.$count.'"';
+    }
        
     $response = substr($response, 0, strlen($response)-1);
 
