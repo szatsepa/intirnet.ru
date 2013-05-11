@@ -60,7 +60,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                         $tables_key = key($tables_fields);
 //                        echo "$tables_key<br>";
                         $tables_data = get_object_vars($tables_fields[$tables_key]);
-//                        print_r($tables_data);
+//                        print_r($tables_fields);
                 foreach ($tables_data as $key => $value){ 
                     $tid = array_search($key, $is_tables);
                     ?>
@@ -140,6 +140,19 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                 $(this).attr('id','submenu-active');
             }            
         });
+        
+        setInterval(function(){
+            $.ajax({
+                url:'action/check_complite.php',
+                cache:false,
+                success:function(data){
+                    console.log(data);
+                },
+                        error:function(data){
+                    console.log(data['responseText']);
+                        }
+            });
+        },1000*300);
     });
 </script>		
 <?php

@@ -19,7 +19,7 @@ if($act[$attributes['act']] === 0){
        
 }elseif ($act[$attributes['act']] === 1) {
     
-    $query = "SELECT db.`id`, db.`db_name`, db.`login`, db.`password`, db.`addr`, db.`charset`, db.`inet_name`, db.`inet_address`, t.`db_table` AS tablename, t.`id` AS tid FROM `db_data` AS db, `db_tables` AS t WHERE db.`status` <> 0 AND db.`id` = t.`db_id`";
+    $query = "SELECT db.`id`, db.`db_name`, db.`login`, db.`password`, db.`addr`, db.`charset`, db.`inet_name`, db.`inet_address`, t.`db_table` AS tablename, t.`id` AS tid FROM `db_data` AS db, `db_tables` AS t WHERE db.`status` <> 0 AND db.`id` = t.`db_id` AND db.`complite` = 1";
 }
 
 $result = mysql_query($query) or die(mysql_errno());
@@ -32,15 +32,17 @@ $tmp = array();
 
 while ($row = mysql_fetch_assoc($result)){
     
-//    echo getDbdata($row)."<br>";
     
     $tmp = get_object_vars(json_decode(getDbdata($row),FALSE));
     
     $fkey = key($tmp);
     
+//    print_r($tmp);
+// echo "<br>$fkey<br>";
+    
     if(!array_key_exists('tablename', $row)){
         
-       $tables_fields[$key] = $tmp[$key];
+       $tables_fields[$fkey] = $tmp[$fkey];
         
     }else{
         
@@ -52,6 +54,9 @@ while ($row = mysql_fetch_assoc($result)){
     
         
  }
+ 
+ print_r($tables_fields);
+// echo "<br>";
 
 mysql_free_result($result);
 
@@ -78,6 +83,5 @@ function getDbdata($rows){
     
     return $contents;
 }
-//print_r($users_array);
-//echo "<br>";
+
 ?>

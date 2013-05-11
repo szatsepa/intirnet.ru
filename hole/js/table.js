@@ -91,6 +91,8 @@ $(document).ready(function(){
             var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':field};
             
             updateSynonym(output);
+            
+            return false;
         }
         
         function updateSynonym(output){
@@ -128,6 +130,23 @@ $(document).ready(function(){
                 },
                         error:function(data){
                             console.log(data['responseText']);
+                        }
+            });
+            
+            _complite();
+            
+            return false;
+        }
+        
+        function _complite(){
+            $.ajax({
+                url:'action/check_complite.php',
+                cache:false,
+                success:function(data){
+                    console.log(data);
+                },
+                        error:function(data){
+                    console.log(data['responseText']);
                         }
             });
         }
