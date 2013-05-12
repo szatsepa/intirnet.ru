@@ -57,8 +57,10 @@ switch ($attributes['act']){
     case 'customers':
         include 'action/view_hole.php';
         include 'query/read_synonyms.php';
+        include 'action/action_hole.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
+//        var_dump($users_array);
         break;
         
     case 'info':

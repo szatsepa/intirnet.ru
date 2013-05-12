@@ -1,8 +1,29 @@
 <?php
+$headers = "MIME-Version: 1.0\r\n";
+$headers .= "Content-type: text/html; charset=utf-8";
+
+mysql_connect($_POST['addr'],$_POST['login'],$_POST['password']);
+
+mysql_select_db($_POST['db_name']);
+
+mysql_query ("SET NAMES {$_POST['charset']}");
+
+$out = mysql_errno();
+
+if (mysql_errno() <> 0) exit("ERROR ".$out);
+
+foreach ($_POST as $key => $value) {
+    $out .= "&$key=$value";
+}
+
+$response = $out;
+
+echo $_POST['customer'];
+
+mysql_close();
 
 function changeCharset ($txt, $utf2cp)  {
-    
-    $cp_arr = array (
+    $in_arr = array (
         chr(208), chr(192), chr(193), chr(194),
         chr(195), chr(196), chr(197), chr(168),
         chr(198), chr(199), chr(200), chr(201),
@@ -22,7 +43,7 @@ function changeCharset ($txt, $utf2cp)  {
         chr(254), chr(255)
     );  
  
-    $utf_arr = array (
+    $out_arr = array (
         chr(208).chr(160), chr(208).chr(144), chr(208).chr(145),
         chr(208).chr(146), chr(208).chr(147), chr(208).chr(148),
         chr(208).chr(149), chr(208).chr(129), chr(208).chr(150),
@@ -46,12 +67,13 @@ function changeCharset ($txt, $utf2cp)  {
         chr(209).chr(138), chr(209).chr(139), chr(209).chr(140),
         chr(209).chr(141), chr(209).chr(142), chr(209).chr(143)
     );  
-    if(!$utf2cp){
-        $txt = str_replace($cp_arr,$utf_arr,$txt);
-    }else{
-        $txt = str_replace($utf_arr,$cp_arr,$txt);
-    }
+  if(!$utf){
+      $txt = str_replace($in_arr,$out_arr,$txt);
+  }else{
+      $txt = str_replace($out_arr,$in_arr,$txt);
+  }
     
     return $txt;
 }
+
 ?>

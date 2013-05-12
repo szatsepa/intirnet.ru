@@ -28,17 +28,12 @@ $dbases = '';
 
 $tmp = array();
 
-
-
 while ($row = mysql_fetch_assoc($result)){
     
     
     $tmp = get_object_vars(json_decode(getDbdata($row),FALSE));
     
     $fkey = key($tmp);
-    
-//    print_r($tmp);
-// echo "<br>$fkey<br>";
     
     if(!array_key_exists('tablename', $row)){
         
@@ -55,7 +50,7 @@ while ($row = mysql_fetch_assoc($result)){
         
  }
  
- print_r($tables_fields);
+// print_r($tables_fields);
 // echo "<br>";
 
 mysql_free_result($result);

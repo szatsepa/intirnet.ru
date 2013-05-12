@@ -1,9 +1,56 @@
 <?php
-//_clearTMP();
+_clearTMP();
 
 $synonyms = readSynonims();
 
 $users = changeFields($users_array, $synonyms);
+
+setTMP($users);
+
+checkCustomers();
+
+function checkCustomers(){
+    
+    $query = "SELECT c.`id`, t.`surname`, t.`name`, t.`patronymic`, t.`role`, t.`phone`, t.`email`, t.`password` 
+                FROM `tmp` t 
+                LEFT JOIN `customer` c 
+                ON (t.`email`= c.`email`) 
+                WHERE c.`id` IS NULL
+                AND (t.`role` = 3 OR t.`role` = '')";
+    
+    $result = mysql_query($query);
+    
+    while ($row = mysql_fetch_assoc($result)){
+        unset($row['id']);
+        insertNewCustomers($row);
+    }
+}
+
+function insertNewCustomers($arr){
+    
+    $query = "INSERT INTO `customer` ";
+    
+    $fields = $data = "(";
+    
+    foreach ($arr as $key => $value) {
+        
+        $fields .= "`$key`,";
+        
+        $data .= "'$value',";
+    }
+    
+    $fields = substr($fields, 0, strlen($fields)-1).")";
+    
+    $data = substr($data, 0, strlen($data)-1).")";
+    
+    $query .= $fields." VALUES ".$data;
+    
+    mysql_query($query);
+    
+    echo mysql_insert_id()."<br>";
+    
+    return;
+}
 
 function changeFields($users,$synonym){
     
@@ -18,7 +65,6 @@ function changeFields($users,$synonym){
         foreach ($value as $key => $val) {
             
             array_push($tmp[$dtmp[0]][$dtmp[1]], checkFields(get_object_vars($val), $synonym));
-//             checkFields(get_object_vars($val), $synonym);
         }
     }
     
@@ -41,7 +87,7 @@ function checkFields($uarr,$sarr){
                    
                    if($new_key == $okey){
                        
-                       $tmp[$new_key] = $oval;
+                       $tmp[$value[$new_key]] = $oval;
                    }                   
                 }
                 
@@ -89,24 +135,59 @@ function readSynonims(){
 }
 
 function _clearTMP(){
-//    
-//    mysql_query("CREATE TABLE IF NOT EXISTS `tmp` (
-//        `id` int(11) NOT NULL auto_increment,
-//        `user_id`  int(11) NOT NULL,
-//        `surname` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `name` varchar(255) character set utf8 collate utf8_bin NOT NULL,        
-//        `patronymic` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `role` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `phone` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `email` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `tablename` varchar(255) character set utf8 collate utf8_bin NOT NULL,
-//        `db_data_id`  int(11) NOT NULL,
-//        PRIMARY KEY  (`id`)
-//        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;");
-
-
+    
     mysql_query("TRUNCATE TABLE `tmp`");
 }    
 
-var_dump($users);
+function setTMP($customers){
+    
+    $step = ceil(count($customers)/1000);
+    
+    foreach ($customers as $value){
+        
+        foreach ($value as $val) {
+            $query = buildQuery($val);
+        }
+        
+        $aff = insertTmp($query);
+    } 
+    
+    return;
+}
+
+function insertTmp($query){
+    
+    mysql_query($query);
+    
+    if(mysql_affected_rows()>0){
+        return mysql_affected_rows();
+    }else{
+        return mysql_errno()." => ".$query;
+    }    
+    
+}
+
+function buildQuery($arr){
+
+    $query = "INSERT INTO `tmp` (";
+
+    foreach ($arr[0] as $key => $bvalue) {
+        $query .= "`$key`,";
+    }
+    
+    $query = substr($query, 0,  strlen($query)-1).") VALUES "; 
+    
+    foreach ($arr as $cvalue) {
+        $query .= "(";
+        foreach ($cvalue as $value) {
+            $query .= "'$value',";
+        }
+        
+        $query = substr($query, 0,  strlen($query)-1)."),";
+    }
+
+    $query = substr($query, 0,  strlen($query)-1);
+
+    return $query;
+}
 ?>
