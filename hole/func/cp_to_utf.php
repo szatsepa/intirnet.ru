@@ -54,4 +54,16 @@ function changeCharset ($txt, $utf2cp)  {
     
     return $txt;
 }
+function checkRoles(){
+    
+    $result = mysql_query("SELECT role FROM customer GROUP BY role");
+    
+    $roles = array();
+    
+    while($var = mysql_fetch_assoc($result)){
+        array_push($roles, $var[role]);
+    }
+    
+    return $roles;
+}
 ?>

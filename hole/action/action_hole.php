@@ -22,8 +22,6 @@ function allDB(){
         array_push($tmp['all'], $tmp[$row['db_name'].'_T_'.$row['tablename']]);
     }
     
-//    var_dump();
-    
     return $tmp['all'];
 }
 
@@ -63,7 +61,7 @@ function prepareData($array){
         array_shift($tmp);
         
         foreach ($tmp as $key => $var) {
-            $db_data .= "&$key=$var";
+            $db_data .= "&".trim($key)."=".trim($var);
         }
         
         $fields = '';
@@ -90,7 +88,7 @@ function prepareData($array){
                 $customer_data = str_replace($var['this_name'], $var['field_name'], $customer_data);
                 
             }
-
+            
             setDbdata($path, $db_data, $customer_data);
         }
     }
@@ -100,13 +98,15 @@ function prepareData($array){
 
 function _customerString($array){
     
-    $output_str = '';
+    $output_str = '{';
     
     foreach ($array as $key => $value) {
-        if($value != '')$output_str .= "$key:$value;";
+        if($value != '')$output_str .= '"'.trim ($key).'":"'.trim ($value).'",';
     }
     
-    return substr($output_str, 0, strlen($output_str)-1);
+    
+    
+    return substr($output_str, 0, strlen($output_str)-1).'}';
 }
 
 function getDb_Data($db_name){
@@ -142,9 +142,6 @@ function setDbdata($path,$db_data,$customer){
 
     $contents = file_get_contents("http://{$path}/hole/hole_insert.php", false ,$context);
     
-//    var_dump($context);
-    echo $contents.'<br>';
-    
-    return $contents;
+    return;
 }
 ?>

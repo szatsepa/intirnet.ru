@@ -16,9 +16,60 @@ foreach ($_POST as $key => $value) {
     $out .= "&$key=$value";
 }
 
-$response = $out;
+$customers = json_decode($_POST['customer']);
 
-echo $_POST['customer'];
+$where = '';
+
+$fields = "(";
+
+$values = "(";
+
+foreach ($customers as $key => $value) {
+    if(stristr($key, "mail")){
+        if($_POST['charset'] != 'utf8'){
+            $where .= " `$key` = '".  changeCharset($value, NULL)."' AND";
+            
+        }  else {
+            $where .= " `$key` = '". $value."' AND";
+        }
+    }
+    
+    if($_POST['charset'] != 'utf8'){
+        
+        $values .= "'".changeCharset($value, NULL)."'";
+    }  else {
+        
+        $values .= "'". $value."',";
+    }
+    
+    $fields .= "`$key`,";
+}
+
+$fields = substr($fields, 0, strlen($fields)-1).")";
+
+$values = substr($values, 0, strlen($values)-1).")";
+
+$where = substr($where, 0, strlen($where)-3);
+
+$query = "SELECT COUNT(*) FROM `{$_POST['tablename']}` WHERE ".$where;
+
+$result = mysql_query($query);
+
+$count = mysql_result($result, 0);
+
+mysql_free_result($result);
+
+if($count == 0){
+    
+    $query = "INSERT INTO `{$_POST['tablename']}` $fields VALUES $values";
+    
+    mysql_query($query);
+    
+}else{
+    $query = NULL;
+}
+
+echo mysql_insert_id();
 
 mysql_close();
 
