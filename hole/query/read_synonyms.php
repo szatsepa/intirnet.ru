@@ -47,8 +47,6 @@ function insertNewCustomers($arr){
     
     mysql_query($query);
     
-    echo mysql_insert_id()."<br>";
-    
     return;
 }
 
@@ -187,7 +185,7 @@ function buildQuery($arr){
     }
 
     $query = substr($query, 0,  strlen($query)-1);
-
+    echo "$query<br>";
     return $query;
 }
 ?>

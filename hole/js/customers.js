@@ -6,7 +6,7 @@ $(document).ready(function(){
     var d_bases = new Array();
     var base_name = '';
     var pre_input = {};
-    
+//    console.log(getCode());
     
     
     var w_content = $("#content").width();
@@ -120,7 +120,7 @@ $("#user_insert_submit").mousedown(function(){
          
          form_add += "<input type='hidden' name='name' value='"+$("#name").val()+"'><input type='hidden' name='phone' value='"+$("#phone").val()+"'>";
          
-         form_add += "<input type='hidden' name='email' value='"+$("#email").val()+"'>";
+         form_add += "<input type='hidden' name='email' value='"+$("#email").val()+"'><input type='hidden' name='password' value='"+getCode()+"'>";
          
          form_add += "</form>";
          
@@ -143,10 +143,7 @@ $("#user_insert_submit").mousedown(function(){
                 if($("#customer_data thead tr th:eq("+i+")").text() == 'name' || $("#customer_data thead tr th:eq("+i+")").text() == 'surname' || $("#customer_data thead tr th:eq("+i+")").text() == 'patronymic'){
                 
                         var name = $("#customer_data thead tr th:eq("+i+")").text();
-
-
-
-
+                        
                         if(exists($(this).children())) {
                             form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).children().val()+"'>";
 
@@ -508,6 +505,25 @@ function _readCustomer(arg){
             var td_data = $("#"+id+" > td:eq(5)").text();
     //                $("#"+id+" > td:eq(5)").text(d_bases[(td_data - 1)]['db_name']);
         });
+        return false;
+    }
+    
+    function getCode(){
+        
+        var bukoff_arr = new Array('a','s','d','f','g','h','j','k','l','q','w','e','r','t','y','u','i','o','p','z','x','c','v','b','n','m','Z','X','C','V','B','N','M','A','S','D','F','G','H','J','K','L','Q','W','E','R','T','Y','U','I','O','P');
+
+        var string = '';
+
+//        var numr = Math.floor(Math.random()*(51));
+
+        for(i = 0;i<8;i++){
+
+            num = Math.floor(Math.random()*(51));
+
+            string += bukoff_arr[num];
+
+        }
+        return string;
     }
 });
 

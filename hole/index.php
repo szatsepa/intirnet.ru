@@ -21,7 +21,8 @@ if(isset($_COOKIE[di]) && $_COOKIE['di'] != 'NULL'){
 include 'func/cp_to_utf.php';
 include 'query/connect.php';   
 include 'query/user.php';
-include 'action/checkauth.php'; 
+include 'action/checkauth.php';
+include 'func/function.php';
 //include 'query/check_bases_add_tmp.php';
 //include 'action/clear_add_customer.php';
 //include 'query/read_customerlist.php'; 
@@ -61,8 +62,11 @@ switch ($attributes['act']){
         include 'query/read_customerlist.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
-        include 'main/customers.php';
-//        var_dump($users_array);
+        include 'main/customerlist.php';        
+        break;
+    
+    case 'add':
+        include 'action/add_customer.php';
         break;
         
     case 'info':
@@ -82,7 +86,7 @@ switch ($attributes['act']){
 //echo "<br>S => ";
 //print_r($is_tables);
 //echo "<br>A => ";
-print_r($attributes);
+//print_r($attributes);
 
 include 'main/footer.php';
 

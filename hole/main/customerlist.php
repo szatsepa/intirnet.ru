@@ -50,10 +50,10 @@
                 <tr>
                     <th class="t-center">ID</th>
                     <th class="t-center">Ф.И.О.</th>
-                    <th class="t-center">Роль</th>
+                    <!--<th class="t-center">Роль</th>-->
                     <th class="t-center">Телефон</th>
                     <th class="t-center">Email</th>
-                    <th class="t-center">Database.</th>
+                    <!--<th class="t-center">Database.</th>-->
                     <th class='t-center'>Действ.</th>
                 </tr>
             </thead> 
@@ -65,10 +65,10 @@
         <tr id='r_<?php echo $value[id];?>'>
             <td class='t-right'><?php echo $value['id'];?></td>
             <td><?php echo "$value[surname]&nbsp;{$value['name']}&nbsp;{$value['patronymic']}";?></td>
-            <td class='smaller'><?php echo $value['role'];?></td>
+            <!--<td class='smaller'><?php echo $value['role'];?></td>-->
             <td class='smaller'><?php echo $value['phone'];?></td>
             <td class='smaller'><a href='mailto:<?php echo $value['email'];?>'><?php echo $value['email'];?></a></td>
-            <td class='smaller'><?php echo $value['db_data_id'];?></td>
+            <!--<td class='smaller'><?php echo $value['db_data_id'];?></td>-->
             <td class='t-center'>
                 <a id='e_<?php echo $value['id'];?>' class='ico-info' title='Смотреть'></a>
                 <a id='d_<?php echo $value['id'];?>' class='ico-delete' title='Удалить'></a>
@@ -99,20 +99,22 @@
         <div class="col50" id="cu_h">
              <p><label for="surname">Фамилия:</label><br />
 			    <input value="" class="input-text required" id="surname" type="text"></p>
+             <p><label for="name">Имя:</label><br />
+			    <input value="" class="input-text required" id="name" type="text"></p>
             <p><label for="patronymic">Отчество:</label><br />
 			    <input value="" class="input-text" id="patronymic" type="text"></p>
-             <p><label for="phone">Телефон:</label><br />
-			    <input value="" class="input-text required" id="phone" type="text"></p>
+            
+             
 <!--            <p><label for="fax">Факс:</label><br />
 			    <input size="30" value="" class="input-text" id="fax" type="text"></p>-->
         </div>
         
         <div class="col50 f-right" id="cu_f">
-            <p><label for="name">Имя:</label><br />
-			    <input value="" class="input-text required" id="name" type="text"></p>
+            <p><label for="phone">Телефон:</label><br />
+			    <input value="" class="input-text required" id="phone" type="text"></p>
             
-            <p><label for="role">Роль:</label><br />
-                            <input value="Заказчик" class="input-text" id="role" readonly type="text"></p>
+<!--            <p><label for="role">Роль:</label><br />
+                            <input value="Заказчик" class="input-text" id="role" readonly type="text"></p>-->
             <p><label for="email">Электронная почта:</label><br />
 			    <input value="" class="input-text email" id="email" type="text"></p><br />
         </div>

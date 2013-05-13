@@ -12,9 +12,9 @@ $out = mysql_errno();
 
 if (mysql_errno() <> 0) exit("ERROR ".$out);
 
-foreach ($_POST as $key => $value) {
-    $out .= "&$key=$value";
-}
+//foreach ($_POST as $key => $value) {
+//    $out .= "&$key=$value";
+//}
 
 $customers = json_decode($_POST['customer']);
 
@@ -25,7 +25,7 @@ $fields = "(";
 $values = "(";
 
 foreach ($customers as $key => $value) {
-    if(stristr($key, "mail")){
+    if(strstr($key, "mail")){
         if($_POST['charset'] != 'utf8'){
             $where .= " `$key` = '".  changeCharset($value, NULL)."' AND";
             
@@ -66,10 +66,10 @@ if($count == 0){
     mysql_query($query);
     
 }else{
-    $query = NULL;
+//    $query = NULL;
 }
 
-echo mysql_insert_id();
+echo $query;
 
 mysql_close();
 
