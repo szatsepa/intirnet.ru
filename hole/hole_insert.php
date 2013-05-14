@@ -24,6 +24,8 @@ $fields = "(";
 
 $values = "(";
 
+$set = "";
+
 foreach ($customers as $key => $value) {
     if(strstr($key, "mail")){
         if($_POST['charset'] != 'utf8'){
@@ -37,13 +39,17 @@ foreach ($customers as $key => $value) {
     if($_POST['charset'] != 'utf8'){
         
         $values .= "'".changeCharset($value, NULL)."'";
-    }  else {
+        $set .= "`$key` = '".  changeCharset($value, NULL)."',";
         
+    }  else {
+        $set .= "`$key` = '$value',";
         $values .= "'". $value."',";
     }
     
     $fields .= "`$key`,";
 }
+
+$set = substr($set, 0, strlen($set)-1);
 
 $fields = substr($fields, 0, strlen($fields)-1).")";
 
@@ -51,23 +57,32 @@ $values = substr($values, 0, strlen($values)-1).")";
 
 $where = substr($where, 0, strlen($where)-3);
 
-$query = "SELECT COUNT(*) FROM `{$_POST['tablename']}` WHERE ".$where;
-
-$result = mysql_query($query);
-
-$count = mysql_result($result, 0);
-
-mysql_free_result($result);
-
-if($count == 0){
+if(isset($_POST['upd']) and $_POST['upd'] == 1){
     
-    $query = "INSERT INTO `{$_POST['tablename']}` $fields VALUES $values";
+    $query = "UPDATE `{$_POST['tablename']}` SET {$set} WHERE ".$where;
     
     mysql_query($query);
     
 }else{
-//    $query = NULL;
+    
+    $query = "SELECT COUNT(*) FROM `{$_POST['tablename']}` WHERE ".$where;
+
+    $result = mysql_query($query);
+
+    $count = mysql_result($result, 0);
+
+    mysql_free_result($result);
+
+    if($count == 0){
+
+        $query = "INSERT INTO `{$_POST['tablename']}` $fields VALUES $values";
+
+        mysql_query($query);
+
+    }
 }
+
+
 
 echo $query;
 

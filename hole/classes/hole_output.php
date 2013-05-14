@@ -1,8 +1,11 @@
 <?php
 class IntirnetDb{
     
-    function _constructor(){
+    var $complite_DB = array();
+    
+    function IntirnetDb(){
         
+        $this->complite_DB = $this->allDB();
     }
     
     function allDB(){
@@ -105,11 +108,9 @@ class Prepare{
         return;
     }
     
-    function addCustomer($array,$customer){
+    function addCustomer($array,$customer,$update){
         
         $output = NULL;
-        
-//        foreach ($array as $value) {}
         
         $value = array_shift($array);
 
@@ -157,8 +158,14 @@ class Prepare{
                 }
             }
         }
-
-        $output = $this->setDbdata($path, $db_data, json_encode($ctmp));        
+        
+        $_customer = json_encode($ctmp);
+        
+        if($update == 1){
+          $_customer .=  "&upd=1";
+        }
+        
+        $output = $this->setDbdata($path, $db_data, $_customer);
 
         return $output;
     
@@ -195,9 +202,12 @@ class Prepare{
     }
     
     private function setDbdata($path,$db_data,$customer){
+        
+            $output = $db_data."&customer=".$customer;
+            echo "$output<br>";
 
-        $output = $db_data."&customer=".$customer; 
-//        echo "$path<br>$output<br>";
+        
+//        echo "$customer<br>";
        //задаем контекст
         $context = stream_context_create(
         array(

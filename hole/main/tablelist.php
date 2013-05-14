@@ -22,7 +22,8 @@
                 
                 $ch_str = '';
                 
-                foreach ($tables_fields as $key => $value) { 
+                foreach ($_HOLE -> donorsData as $key => $value) { 
+                    
                     $table_str .= '<thead>
                 <tr>
                     <th colspan="2">

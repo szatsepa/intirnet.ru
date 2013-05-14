@@ -1,6 +1,6 @@
 <?php
 
-_clearTMP();
+//_clearTMP();
 
 $bases_here = _new_base_here(_base_here());
 

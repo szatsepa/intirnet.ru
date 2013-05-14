@@ -1,20 +1,22 @@
+<?php
+if(isset($attributes['adderror'])){
+    ?>
+<script type="text/javascript">
+    alert("Пользователь с таким е-мейлом уже зарегистрирован!");
+</script>
+<?php
+}
+?>
 <div id="content" class="box">   
   <input type="hidden" id="uid" value="">
   <input type="hidden" id="сid" value="">
-  <input type="hidden" id="str_addr" value="<?php echo $_SERVER ['QUERY_STRING'];?>">
-  <form id="my_db">
-      <?php 
-//      foreach ($have_base_here as $value){
-//     echo "<input type='hidden' name='{$value['db_name']}' id='{$value['db_id']}' value='{$value['password']}' title='{$value['login']}' alt='{$value['charset']}'>";     
-//      }
-      ?>
-  </form>
+  <input type="hidden" id="str_addr" value="act=customers">
   
     <?php
-    if(isset($attributes[role])){
+    if(isset($attributes['role'])){
                 echo "<input type='hidden' id='s_role' value='{$attributes['role']}'>";
           }
-    if(isset($attributes[buk])){
+    if(isset($attributes['buk'])){
                 echo "<input type='hidden' id='s_buk' value='{$attributes['buk']}'>";
           }      
     ?>
@@ -50,10 +52,8 @@
                 <tr>
                     <th class="t-center">ID</th>
                     <th class="t-center">Ф.И.О.</th>
-                    <!--<th class="t-center">Роль</th>-->
                     <th class="t-center">Телефон</th>
                     <th class="t-center">Email</th>
-                    <!--<th class="t-center">Database.</th>-->
                     <th class='t-center'>Действ.</th>
                 </tr>
             </thead> 
@@ -72,7 +72,6 @@
             <td class='t-center'>
                 <a id='e_<?php echo $value['id'];?>' class='ico-info' title='Смотреть'></a>
                 <a id='d_<?php echo $value['id'];?>' class='ico-delete' title='Удалить'></a>
-<!--                <a id='set_<?php echo $value['id'];?>' class='ico-user-02' title='Выбрать контакт'></a>-->
             </td>
         </tr>
 

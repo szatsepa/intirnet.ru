@@ -10,28 +10,26 @@ if(!isset($attributes) || !is_array($attributes)) {
 	$attributes = array();
 	$attributes = array_merge($_GET,$_POST); 
 }
-if(isset($attributes[ch]) && $attributes[ch]){
+if(isset($attributes['ch']) && $attributes['ch']){
     // Yстановим куку (неделя) для аутентификации
 	 setcookie("di", $_SESSION['id'], time()+(604800));
 } 
-if(isset($_COOKIE[di]) && $_COOKIE['di'] != 'NULL'){
+if(isset($_COOKIE['di']) && $_COOKIE['di'] != 'NULL'){
     $_SESSION['id'] = $_COOKIE['di'];
 }
-
-include 'func/cp_to_utf.php';
-include 'query/connect.php';   
+include 'query/connect.php';
+include 'func/cp2utf.php';
+include 'classes/hole_input.php';
+include 'classes/hole_output.php';
 include 'query/user.php';
-include 'action/checkauth.php';
-include 'func/function.php';
-//include 'query/check_bases_add_tmp.php';
-//include 'action/clear_add_customer.php';
-//include 'query/read_customerlist.php'; 
+include 'action/checkauth.php'; 
 include 'main/header.php';
+
+$_HOLE = new Hole();
 
 switch ($attributes['act']){
     
     case 'main':
-        include 'action/view_hole.php';
         include 'query/res_data.php';
         include 'main/main.php';       
         include 'main/main_menu.php';         
@@ -39,7 +37,6 @@ switch ($attributes['act']){
         break;
     
     case 'dbinfo':
-        include 'action/view_hole.php';
         include 'query/us_table.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
@@ -47,7 +44,6 @@ switch ($attributes['act']){
         break;
     
     case 'table':
-        include 'action/view_hole.php';
         include 'query/us_table.php';
         include 'query/this_fields.php';
         include 'main/main.php'; 
@@ -56,8 +52,6 @@ switch ($attributes['act']){
         break;
     
     case 'customers':
-        include 'action/view_hole.php';
-        include 'query/read_synonyms.php';
         include 'action/action_hole.php';
         include 'query/read_customerlist.php';
         include 'main/main.php'; 
@@ -67,6 +61,10 @@ switch ($attributes['act']){
     
     case 'add':
         include 'action/add_customer.php';
+        break;
+    
+    case 'update':
+        include 'action/update_customer.php';
         break;
         
     case 'info':

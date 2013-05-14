@@ -40,11 +40,28 @@ $(document).ready(function(){
         var id = this.id;
         id = id.substr(2); 
         $("#uid").val(id);
-        $("#user_insert_submit").val('Сохранить');
+        $("#user_insert_submit").val('Изменить');
         add = false;
         search = false;
-//        base_name = $("#customers_tab tbody tr td:eq(5)").text(); 
-        _readCustomer({uid:id});
+        
+        $.ajax({
+            url:'query/read_customer.php',
+            type:'post',
+            dataType:'json',
+            data:{'uid':id},
+            success:function(data){
+                 $("#tab02").show();
+                 $("#tab01").hide();
+                $.each(data, function(index){
+                    var str_id = "#"+index;
+                    $(str_id).val(this);
+                });
+            },
+            error:function(data){
+                console.log(data['responseText']);
+            }
+        });
+        
 
     }).css({'cursor':'pointer'});
     
@@ -136,32 +153,19 @@ $("#user_insert_submit").mousedown(function(){
             
     }else if(!add && !search){
         
-        var form_update = "<form id='upd_cu' action='index.php?act=update' method='post'><input type='hidden' name='addr' value="+$("#str_addr").val()+">";
-        
-        $.each($("#customer_data tbody tr td"), function(i){
-
-                if($("#customer_data thead tr th:eq("+i+")").text() == 'name' || $("#customer_data thead tr th:eq("+i+")").text() == 'surname' || $("#customer_data thead tr th:eq("+i+")").text() == 'patronymic'){
-                
-                        var name = $("#customer_data thead tr th:eq("+i+")").text();
-                        
-                        if(exists($(this).children())) {
-                            form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).children().val()+"'>";
-
-                        }else{
-                            form_update += "<input type='hidden' name='"+$("#customer_data thead tr th:eq("+i+")").text()+"' value='"+$(this).text()+"'>";
-                        }
-                     } 
-                     
-                    if($("#customer_data thead tr th:eq("+i+")").text() == 'id' ){
-                       form_update += "<input type='hidden' name='uid' value='"+$("#uid").val()+"'>";
-                    } 
-            });
+        var form_add = "<form id='add_cu' action='index.php?act=update' method='post'><input type='hidden' name='addr' value='"+$("#str_addr").val()+"'>";
+         
+         form_add += "<input type='hidden' name='surname' value='"+$("#surname").val()+"'><input type='hidden' name='patronymic' value='"+$("#patronymic").val()+"'>";
+         
+         form_add += "<input type='hidden' name='name' value='"+$("#name").val()+"'><input type='hidden' name='phone' value='"+$("#phone").val()+"'>";
+         
+         form_add += "<input type='hidden' name='email' value='"+$("#email").val()+"'>";
+         
+         form_add += "</form>";
+         
+         $("#sbmt_btn").append(form_add);
             
-            form_update += "</form>";
-            
-            $("#sbmt_btn").append(form_update);
-            
-            $("#upd_cu").submit();
+         $("#add_cu").submit()
             
     }
 

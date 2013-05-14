@@ -56,6 +56,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                        ?>
                         <ul id="bases">
                             <?php 
+                            $tables_fields = $_HOLE->donorsData;
                         reset($tables_fields);
                         $tables_key = key($tables_fields);
 //                        echo "$tables_key<br>";
@@ -146,7 +147,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                 url:'action/check_complite.php',
                 cache:false,
                 success:function(data){
-                    console.log(data);
+//                    console.log(data);
                 },
                         error:function(data){
                     console.log(data['responseText']);

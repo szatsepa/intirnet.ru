@@ -91,7 +91,7 @@ function getDBStructure(){
     //        $response .= $num_rows.': "';
 
             if($_POST['charset'] == 'cp1251'){
-               $response .= '"'.cp1251_to_utf8($us_row[0], NULL); 
+               $response .= '"'.  changeCharset($us_row[0], NULL); 
             }else{
                $response .= '"'.$us_row[0];
             }
@@ -118,7 +118,7 @@ function getDBStructure(){
     return $response;
 }
 
-function cp1251_to_utf8 ($txt, $utf)  {
+function changeCharset ($txt, $utf)  {
     $in_arr = array (
         chr(208), chr(192), chr(193), chr(194),
         chr(195), chr(196), chr(197), chr(168),
