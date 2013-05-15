@@ -70,11 +70,12 @@ $(document).ready(function(){
         var id = this.id;
         id = id.substr(2); 
         $("#uid").val(id);
+        var obj = $(this).parent().parent();
         if(confirm("Вы действительно хотите это сделать?")){
             
-            var form_delete = "<form id='del_cu' action='index.php?act=delete' method='post'>";
+            var form_delete = "<form id='del_cu' action='index.php?act=del' method='post'>";
             
-            form_delete += "<input type='hidden' name='addr' value="+$("#str_addr").val()+"><input type='hidden' name='uid' value="+id+"></form>";
+            form_delete += "<input type='hidden' name='addr' value="+$("#str_addr").val()+"><input type='hidden' name='email' value='"+$(obj).find('td:eq(3)').text()+"'></form>";
             
             $("#sbmt_btn").append(form_delete);
             

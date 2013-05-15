@@ -19,6 +19,8 @@ class Hole {
             
             $customers = $this->checkCustomer();
             
+            $addcustomers = $this->checkTMP();
+            
 //            var_dump($customers);
             
             if($customers['count'] > 0){
@@ -26,6 +28,13 @@ class Hole {
                     $this->insertNewCustomers ($value);
                 }
             }
+            
+            if($addcustomers['count'] > 0){
+                foreach ($addcustomers['new'] as $value) {
+                    $this->insertNewCustomers ($value);
+                }
+            }
+            
         }
     }
     
@@ -254,7 +263,8 @@ class Hole {
                     FROM `tmp` t 
                     LEFT JOIN `customer` c 
                     ON (t.`email`= c.`email`) 
-                    WHERE c.`id` IS NULL";
+                    WHERE c.`id` IS NULL
+                    GROUP BY t.`email`";
 
         $result = mysql_query($query);
 
@@ -268,7 +278,28 @@ class Hole {
         return array('count'=>  count($customers),'new'=>$customers);
     }
     
-    private function insertNewCustomers($arr){
+    private function checkTMP(){
+        
+        $query = "SELECT t.`id` as tmpid, c.`surname`, c.`name`, c.`patronymic`, c.`role`, c.`phone`, c.`email`, c.`password` 
+                    FROM `customer` c
+                    LEFT JOIN  `tmp` t 
+                    ON (c.`email`= t.`email`)
+                    WHERE t.`id` IS NULL 
+                    GROUP BY t.`email`";
+        
+        $result = mysql_query($query);
+
+        $customers = array();
+
+        while ($row = mysql_fetch_assoc($result)){
+            unset($row['id']);
+            array_push($customers, $row);
+        }
+        
+        return array('count'=>  count($customers),'new'=>$customers);
+    }
+
+        private function insertNewCustomers($arr){
     
         $query = "INSERT INTO `customer` ";
 

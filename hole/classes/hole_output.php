@@ -101,7 +101,7 @@ class Prepare{
 
                 }
 
-                $this->setDbdata($path, $db_data, $customer_data);
+                $this->setDbdata($path, $db_data, $customer_data,NULL);
             }
         }
 
@@ -165,10 +165,50 @@ class Prepare{
           $_customer .=  "&upd=1";
         }
         
-        $output = $this->setDbdata($path, $db_data, $_customer);
+        $output = $this->setDbdata($path, $db_data, $_customer,NULL);
 
         return $output;
     
+    }
+    
+    function delCustomer($array,$email){
+        
+        $output = NULL;
+        
+        $path = $field = '';
+        
+        foreach ($array as $value) {
+            
+            foreach ($value as $var) {
+                
+                if(array_search('email', $var)){
+                    
+                    $tmp = $var;
+                    
+                    $path = array_shift($tmp);
+                    
+                    array_pop($tmp);
+                    
+                    array_shift($tmp);
+                    
+                    $output_str = '';
+                    
+                    foreach ($tmp as $key => $val) {
+                        $output_str .= "&$key=$val";
+                    }
+                    
+                    $output_str .= "&value=".$email;
+                    
+                    $output = $this->setDbdata($path, $output_str, NULL, 1);
+                    
+                    echo "$path<br>$output<br>";
+                }
+                
+            }
+
+        }
+
+        return $output;
     }
 
     private function _customerString($array){
@@ -201,13 +241,14 @@ class Prepare{
         return $data;
     }
     
-    private function setDbdata($path,$db_data,$customer){
+    private function setDbdata($path,$db_data,$customer,$del){
         
+            
+        if(!$del){
             $output = $db_data."&customer=".$customer;
-            echo "$output<br>";
-
-        
-//        echo "$customer<br>";
+        } else {
+            $output = $db_data."&del=$del";
+        }   
        //задаем контекст
         $context = stream_context_create(
         array(
@@ -219,7 +260,7 @@ class Prepare{
             )
         );
 
-        $contents = file_get_contents("http://{$path}/hole/hole_insert.php", false ,$context);
+        $contents = file_get_contents("http://{$path}/hole/hole_action.php", false ,$context);
 
         return $contents;
     }

@@ -7,8 +7,8 @@ $customer = $_POST;
 
 unset($customer['addr']);
 
-var_dump($customer);
-echo "<br>";
+$dell_Cu = new Prepare();
+
 $where = '';
 
 $set = "";
@@ -32,17 +32,9 @@ $query = "UPDATE `customer` SET {$set} WHERE ".$where;
 
 mysql_query($query);
 
-//echo "<br>$query";
+$dell_Cu->delCustomer($this_db->allDB(), $_POST['email']);
 
-$add_customer = new Prepare();
-
-$response = $add_customer->addCustomer($this_db->allDB(), $customer, 1);
-
-echo "$response<br>";
-
-//if($response > 0){
-//    header("location:index.php?$server_query");
-//}else{
-//    header("location:index.php?$server_query&adderror=1");
-//}
+if(mysql_affected_rows()>0){
+    header("location:index.php?$server_query");
+}
 ?>
