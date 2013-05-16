@@ -23,43 +23,44 @@
                 $ch_str = '';
                 
                 foreach ($_HOLE -> donorsData as $key => $value) { 
-                    
-                    $table_str .= '<thead>
-                <tr>
-                    <th colspan="2">
-                    <input type="hidden" id="db_n" value="'.$key.'">
-                        Database - "'.$key.'"
-                    </th>
-                </tr>
-            </thead> 
-            <tbody>';
-                    
-                    foreach ($value as $table => $fields) {
-                        $style = "";
-                        $checked = '';
-                        $table_id = array_search($table, $is_tables, TRUE);
-                        if($table_id){
-                            $style = "style='background-color: #afffaf'";
-                            $checked = 'checked';
-                            
+                    if($attributes['db_name'] == $key){
+                            $table_str .= '<thead>
+                        <tr>
+                            <th colspan="2">
+                            <input type="hidden" id="db_n" value="'.$key.'">
+                                Database - "'.$key.'"
+                            </th>
+                        </tr>
+                    </thead> 
+                    <tbody>';
+
+                            foreach ($value as $table => $fields) {
+                                $style = "";
+                                $checked = '';
+                                $table_id = array_search($table, $is_tables, TRUE);
+                                if($table_id){
+                                    $style = "style='background-color: #afffaf'";
+                                    $checked = 'checked';
+
+                                }
+
+                                $table_str .= '<tr '.$style.'>
+                                    <td>
+                                        <input type="checkbox" id="cb_'.$table.'" '.$checked.'>
+                                    </td>
+                                    <td>
+
+                                    <a href="index.php?act=table&tid='.$table_id.'&db_id='.$attributes['db_id'].'&table='.$table.'" id="'.$table_id.'">
+                                        <strong>Table - "'.$table.'"</strong>
+                                            </a>
+                                        <p>';
+
+                                foreach ($fields as $field) {
+                                    $table_str .= '"'.$field.'";&nbsp;';
+                                }
+                                $table_str .= "</p></td></tr>";
+                            }
                         }
-                        
-                        $table_str .= '<tr '.$style.'>
-                            <td>
-                                <input type="checkbox" id="cb_'.$table.'" '.$checked.'>
-                            </td>
-                            <td>
-                            
-                            <a href="index.php?act=table&tid='.$table_id.'&db_id='.$attributes['db_id'].'&table='.$table.'" id="'.$table_id.'">
-                                <strong>Table - "'.$table.'"</strong>
-                                    </a>
-                                <p>';
-                        
-                        foreach ($fields as $field) {
-                            $table_str .= '"'.$field.'";&nbsp;';
-                        }
-                        $table_str .= "</p></td></tr>";
-                    }
                }
                 echo "$table_str";
                 

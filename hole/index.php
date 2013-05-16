@@ -86,7 +86,7 @@ switch ($attributes['act']){
 //echo "C => ";
 //print_r($_COOKIE);
 //echo "<br>S => ";
-//print_r($is_tables);
+////print_r($is_tables);
 //echo "<br>A => ";
 //print_r($attributes);
 

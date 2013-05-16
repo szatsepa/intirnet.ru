@@ -1,6 +1,7 @@
 $(document).ready(function(){
     
     $("#chap").append("Список таблиц базы данных - <strong>\""+$("#db_n").val()+"\"</strong>")
+    $("#tab01").css({'margin-left':'27px'});
     
     $("#db_tab tbody tr td input:checkbox").click(function(){
         
