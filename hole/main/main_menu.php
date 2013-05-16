@@ -59,10 +59,9 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                             $tables_fields = $_HOLE->donorsData;
                         reset($tables_fields);
                         $tables_key = key($tables_fields);
-//                        echo "$tables_key<br>";
                         $tables_data = get_object_vars($tables_fields[$tables_key]);
-//                        print_r($tables_fields);
-                foreach ($tables_data as $key => $value){ 
+                foreach ($tables_fields[$attributes['db_name']] as $key => $value){ 
+                    
                     $tid = array_search($key, $is_tables);
                     ?>
                                 <li>
@@ -72,13 +71,12 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                                         <input type='hidden' name='tid' value='<?php echo $tid; ?>'>
                                         <input type='hidden' name='db_id' value='<?php echo $attributes['db_id']; ?>'>
                                         <input type='hidden' name='table' value='<?php echo $key; ?>'>
-<!--                                        <input type='hidden' name='db_pwd' value='<?php echo $value['password']; ?>'>
-                                        <input type='hidden' name='db_name' value='<?php echo $value['db_name']; ?>'>
-                                        <input type='hidden' name='db_charset' value='<?php echo $value['charset']; ?>'>
-                                        <input type="hidden" name="db_host" value="<?php echo $value['inet_address'];?>"> -->
+                                        <input type="hidden" name="db_name" value="<?php echo $attributes['db_name'];?>">
                                     </form>
                                 </li>
                                 <?php
+                                
+                               
                             }
     //                        
                             ?>

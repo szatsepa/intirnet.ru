@@ -59,18 +59,24 @@ class Prepare{
     function prepareData($array){
     
         foreach ($array as $value) {
+            
+            if(count($value)===0)                break;
 
             $db_data = '';
 
             $tmp = $value[0];
 
             $path = $tmp['inet_address'];
-
-            for($i=0;$i<2;$i++){
-                array_pop($tmp);            
-            }
-
-            array_shift($tmp);
+            
+            unset($tmp['inet_address']);
+            
+            unset($tmp ["field_name"]);
+            
+            unset($tmp["this_name"]);
+            
+//            echo "$path<br>";
+//            
+//            var_dump($value);
 
             foreach ($tmp as $key => $var) {
                 $db_data .= "&".trim($key)."=".trim($var);

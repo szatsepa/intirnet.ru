@@ -9,6 +9,8 @@ class Hole {
    
     function Hole() {
         
+        $this->notComplite();
+        
         $this->donorsData = $this->getDBData(NULL);
         
         $this->donorsUsers = $this->getDBComplite();
@@ -299,7 +301,7 @@ class Hole {
         return array('count'=>  count($customers),'new'=>$customers);
     }
 
-        private function insertNewCustomers($arr){
+    private function insertNewCustomers($arr){
     
         $query = "INSERT INTO `customer` ";
 
@@ -322,7 +324,23 @@ class Hole {
         
         return;
     }
-   
-
+    private function notComplite(){
+        
+        $query = "SELECT db.id, db.db_name, t.db_table, f.field_name 
+                    FROM `db_data` as db 
+                    LEFT JOIN   `db_tables` t ON db.id = t.db_id  
+                    LEFT JOIN table_fields f ON t.db_table = f.tablename 
+                    WHERE f.field_name IS NULL";
+        
+        $result = mysql_query($query);
+        
+        while ($row = mysql_fetch_assoc($result)){
+            
+            mysql_query("UPDATE `db_data` SET `complite` = 0 WHERE `id` = {$row['id']}");
+        }
+        
+        return;
+    }
+    
 }
 ?>
