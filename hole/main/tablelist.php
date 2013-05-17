@@ -1,7 +1,7 @@
 <div id="content" class="box">   
       <input type="hidden" id="uid" value="">
       <input type="hidden" id="str_addr" value="<?php echo $_SERVER ['QUERY_STRING'];?>">
-      <!--<input type="hidden" id="db_n" value="<?php echo $dbname;?>">-->
+      <input type="hidden" id="db_n" value="<?php echo $attributes['db_name'];?>">
       <input type="hidden" id="db_s" value="<?php echo $attributes['db_server'];?>">
       <input type="hidden" id="db_l" value="<?php echo $attributes['db_login'];?>">
       <input type="hidden" id="db_p" value="<?php echo $attributes['db_pwd'];?>">
@@ -21,9 +21,10 @@
                 $table_str = '';
                 
                 $ch_str = '';
-                
+//                var_dump($_HOLE -> donorsData);              
                 foreach ($_HOLE -> donorsData as $key => $value) { 
                     if($attributes['db_name'] == $key){
+//                        var_dump($value);
                             $table_str .= '<thead>
                         <tr>
                             <th colspan="2">

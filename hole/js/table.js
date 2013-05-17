@@ -4,9 +4,9 @@ $(document).ready(function(){
 
     $("#tab02").show().css({'text-align':'center'});
     
-    if($("#is_select").val() == 0){
-        $("#myTabs ul li").empty();
-    }
+//    if($("#is_select").val() == 0){ }
+    $("#myTabs ul li").empty();
+   
     var tyts = false;
     
     var edit = false;

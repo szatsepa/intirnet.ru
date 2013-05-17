@@ -64,7 +64,7 @@ if(isset($attributes['adderror'])){
         ?>
         <tr id='r_<?php echo $value[id];?>'>
             <td class='t-right'><?php echo $value['id'];?></td>
-            <td><?php echo "$value[surname]&nbsp;{$value['name']}&nbsp;{$value['patronymic']}";?></td>
+            <td><?php echo "{$value['surname']}&nbsp;{$value['name']}&nbsp;{$value['patronymic']}";?></td>
             <!--<td class='smaller'><?php echo $value['role'];?></td>-->
             <td class='smaller'><?php echo $value['phone'];?></td>
             <td class='smaller'><a href='mailto:<?php echo $value['email'];?>'><?php echo $value['email'];?></a></td>

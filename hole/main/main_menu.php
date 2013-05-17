@@ -60,6 +60,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                         reset($tables_fields);
                         $tables_key = key($tables_fields);
                         $tables_data = get_object_vars($tables_fields[$tables_key]);
+            if(count($tables_fields[$attributes['db_name']])){
                 foreach ($tables_fields[$attributes['db_name']] as $key => $value){ 
                     
                     $tid = array_search($key, $is_tables);
@@ -78,6 +79,8 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                                 
                                
                             }
+                            
+                }
     //                        
                             ?>
                         </ul>

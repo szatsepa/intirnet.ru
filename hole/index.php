@@ -70,6 +70,13 @@ switch ($attributes['act']){
     case 'del':
         include 'action/delete_customer.php';
         break;
+    
+    case 'adm':
+        include 'query/users.php';
+        include 'main/main.php';
+        include 'main/main_menu.php';
+        include 'main/administration.php';
+        break;
         
     case 'info':
         phpinfo();
@@ -89,6 +96,9 @@ switch ($attributes['act']){
 ////print_r($is_tables);
 //echo "<br>A => ";
 //print_r($attributes);
+//echo md5("admin");->21232f297a57a5a743894a0e4a801fc3 
+/*
+//19e282746b45066892214118ee66eaf3*/
 
 include 'main/footer.php';
 

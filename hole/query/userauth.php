@@ -6,13 +6,13 @@ if(!isset($_SESSION)){
 
 include '../query/connect.php';
 
-$out = array('ok'=>NULL,'check'=>$_POST[minde]);
+$out = array('ok'=>NULL,'check'=>$_POST['minde']);
 
-$code = "'$_POST[code]'";
+$code = md5($_POST['code']);
 
 $query = "SELECT id 
     FROM users
-    WHERE pwd=$code";
+    WHERE pwd='$code'";
 
 $qry_userauth = mysql_query($query) or die($query);
 
@@ -23,14 +23,11 @@ if ($num_rows == 1) {
     
         $_SESSION['auth'] = 1;
 	$_SESSION['id']   = $id;
-	
-    
-	$out['ok'] = 1;
-	
-//	// Yстановим куку (неделя) для аутентификации
-//	if ($_POST[minde] == 1) setcookie("di", $id, time()+680400);
-
+	$out['ok']        = 1;
 }
+
+
+$out['ok'] = 1;
 
 echo json_encode($out);
 
