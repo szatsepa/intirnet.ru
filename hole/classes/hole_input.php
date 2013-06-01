@@ -7,7 +7,7 @@ class Hole {
 
     var  $donorsUsers = array();
    
-    function Hole() {
+    function __construct() {
         
         $this->notComplite();
         
@@ -81,21 +81,23 @@ class Hole {
 
 
             $tmp = get_object_vars(json_decode($this->_getHole($row),FALSE));
+            
+            if($tmp){
 
-            $fkey = key($tmp);
+                $fkey = key($tmp);
 
-            if(!array_key_exists('tablename', $row)){
+                if(!array_key_exists('tablename', $row)){
 
-               $array[$fkey] = $tmp[$fkey];
+                   $array[$fkey] = $tmp[$fkey];
 
-            }else{
+                }else{
 
-                $tmpu = get_object_vars($tmp[$fkey]);
-                $skey = key($tmpu);
-                $array[$fkey.'_T_'.$skey]=$tmpu[$skey];
+                    $tmpu = get_object_vars($tmp[$fkey]);
+                    $skey = key($tmpu);
+                    $array[$fkey.'_T_'.$skey]=$tmpu[$skey];
+                }
+
             }
-
-
 
          }
 
@@ -248,7 +250,12 @@ class Hole {
         
         foreach ($arr as $key => $value) {
             $fields .= "`$key`,";
-            $values .= "'$value',";
+            if($key == 'password'){
+                $values .= "'".md5($value)."',";
+            }  else {
+                $values .= "'$value',";
+            }
+            
         }
         
         $fields = substr($fields, 0, strlen($fields)-1);

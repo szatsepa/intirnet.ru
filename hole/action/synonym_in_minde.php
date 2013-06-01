@@ -23,6 +23,8 @@ foreach ($_POST['fields'] as $key => $value) {
 
 $output['query'] = $count_fields;
 
+mysql_query("UPDATE `db_data` SET `complite` = 1 WHERE `id` = {$_POST['db_id']}");
+
 echo json_encode($output);
 
 mysql_close();

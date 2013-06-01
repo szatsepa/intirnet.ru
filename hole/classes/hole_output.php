@@ -3,7 +3,7 @@ class IntirnetDb{
     
     var $complite_DB = array();
     
-    function IntirnetDb(){
+    function __construct(){
         
         $this->complite_DB = $this->allDB();
     }
@@ -52,10 +52,10 @@ class IntirnetDb{
 
 class Prepare{
     
-    function Prepare(){
+    function  __construct(){
         
     }
-    
+            
     function prepareData($array){
     
         foreach ($array as $value) {
@@ -73,10 +73,6 @@ class Prepare{
             unset($tmp ["field_name"]);
             
             unset($tmp["this_name"]);
-            
-//            echo "$path<br>";
-//            
-//            var_dump($value);
 
             foreach ($tmp as $key => $var) {
                 $db_data .= "&".trim($key)."=".trim($var);
@@ -252,6 +248,7 @@ class Prepare{
             
         if(!$del){
             $output = $db_data."&customer=".$customer;
+//            echo $output."<br>";
         } else {
             $output = $db_data."&del=$del";
         }   

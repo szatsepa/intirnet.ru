@@ -335,7 +335,7 @@ function _searchData(arg){
                         $("#customers_tab > tbody").empty();
                         var tab_str = '';
                         $.each(data, function(){
-                            tab_str += "<tr id='r_"+this['id']+"'><td class='t-right'>"+this['id']+"</td><td>"+this['surname']+" "+this['name']+" "+this['patronymic']+"</td><td class='smaller'>"+this['role']+"</td><td class='smaller'>"+this['phone']+"</td><td class='smaller'><a href='mailto:"+this['email']+"'>"+this['email']+"</a></td><td class='t-center'><a id='e_"+this['id']+"' class='ico-info' title='Смотреть'></a><a id='d_"+this['id']+"' class='ico-delete' title='Удалить'></a></td></tr>";
+                            tab_str += "<tr id='r_"+this['id']+"'><td class='t-right'>"+this['id']+"</td><td>"+this['surname']+" "+this['name']+" "+this['patronymic']+"</td><td class='smaller'>"+this['phone']+"</td><td class='smaller'><a href='mailto:"+this['email']+"'>"+this['email']+"</a></td><td class='t-center'><a id='e_"+this['id']+"' class='ico-info' title='Смотреть'></a><a id='d_"+this['id']+"' class='ico-delete' title='Удалить'></a></td></tr>";
                         });
 
                         $("#customers_tab > tbody").append(tab_str); 

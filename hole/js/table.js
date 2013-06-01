@@ -4,7 +4,6 @@ $(document).ready(function(){
 
     $("#tab02").show().css({'text-align':'center'});
     
-//    if($("#is_select").val() == 0){ }
     $("#myTabs ul li").empty();
    
     var tyts = false;
@@ -55,8 +54,6 @@ $(document).ready(function(){
         obj_edit = $(this).parent().parent();
         
         $($(this).parent()).append($("#db_tab tbody tr td select:eq(0)").clone(true, true));
-        
-//        $("#db_tab tbody tr td:eq(2)").attr('align','center');
         
         $(this).remove();
         
@@ -127,6 +124,7 @@ $(document).ready(function(){
 
                         }
                     }
+//                    window.history.go(-1);
                 },
                         error:function(data){
                             console.log(data['responseText']);
