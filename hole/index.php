@@ -59,6 +59,11 @@ switch ($attributes['act']){
         include 'main/customerlist.php';        
         break;
     
+    case 'check':
+        include 'action/check_resurses.php';
+        include 'main/main.php'; 
+        include 'main/main_menu.php';       
+        break;
     case 'add':
         include 'action/add_customer.php';
         break;

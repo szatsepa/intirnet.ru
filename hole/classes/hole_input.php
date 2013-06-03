@@ -326,8 +326,14 @@ class Hole {
         $data = substr($data, 0, strlen($data)-1).")";
 
         $query .= $fields." VALUES ".$data;
-
-        mysql_query($query);
+        
+        $result = mysql_query("SELECT COUNT(`id`) FROM `customer` WHERE `email` = {$arr['email']}");
+        
+        $count = mysql_result($result, 0);
+        
+        if($count > 0){
+            mysql_query($query);
+        }        
         
         return;
     }
