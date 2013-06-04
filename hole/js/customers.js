@@ -14,6 +14,8 @@ $(document).ready(function(){
     $("#tab03, #customer_data").css({'width':w_content});
     
     $("td.t-center").css({'cursor':'default'});
+    
+    $("#pager p a").css({'font-weight':'bold'});
 
     customers = $("#customers_tab > tbody").html(); 
     

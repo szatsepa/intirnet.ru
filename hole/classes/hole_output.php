@@ -203,7 +203,6 @@ class Prepare{
                     
                     $output = $this->setDbdata($path, $output_str, NULL, 1);
                     
-//                    echo "$path<br>$output<br>";
                 }
                 
             }

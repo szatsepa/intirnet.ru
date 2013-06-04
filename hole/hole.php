@@ -24,7 +24,7 @@ echo $response;
 
 function getDBUsers(){
     
-    $response = '{"'.$_POST['db_name'].'":{"'.$_POST['tablename'].'":[';
+    $tmp = array("{$_POST['db_name']}"=>array("{$_POST['tablename']}"=>array()));
     
     $query = "SELECT COUNT(*) FROM {$_POST['tablename']}"; 
     
@@ -45,28 +45,16 @@ function getDBUsers(){
         $numrow = 0;
         
         while ($row = mysql_fetch_assoc($result)){
-          
-            $response .= '{';
             
-            foreach ($row as $key => $value) {
-                $response .= '"'.$key.'":"'.$value.'",';
-            }
-            
-            $response = substr($response, 0, strlen($response)-1);
-            
-            $response .= '},';
-            
-            $numrow++;
+             array_push($tmp["{$_POST['db_name']}"]["{$_POST['tablename']}"], $row);
+             
         }
     }
-       
-    $response = substr($response, 0, strlen($response)-1);
-
-    $response .= ']}}';
     
-    return $response;
+    return json_encode($tmp);
     
 }
+
 
 function getDBStructure(){
     
@@ -87,8 +75,6 @@ function getDBStructure(){
         $us_result = mysql_query($us_query);
 
         while ($us_row = mysql_fetch_row($us_result)){
-
-    //        $response .= $num_rows.': "';
 
             if($_POST['charset'] == 'cp1251'){
                $response .= '"'.  changeCharset($us_row[0], NULL); 

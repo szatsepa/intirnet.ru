@@ -33,7 +33,18 @@ if(isset($attributes['adderror'])){
 <!-- Upload --> 
 <fieldset id="fieldset_filter_alphabet" style="display:none;">
 	<legend>Алфавит</legend>
-    <?php  include ("../main/alphabet.php");?>
+    <?php  include ("../main/alphabet.php");
+    
+        $pages = ceil(count($customers)/36);
+        if(!isset($attributes['p'])){
+            $page = 0;
+        }else{
+            $page = intval($attributes['p'])-1;
+        }
+
+        $rows = 0;  
+        
+    ?>
 </fieldset>        
 <!-- href="index.php?act=srch"-->
     <div  class="tabs box" id="myTabs">
@@ -44,9 +55,19 @@ if(isset($attributes['adderror'])){
         <li><a id="t04"><span><img src="../design/circle.gif" width="27" height="27"></span></a></li>
     </ul>
     </div>
+
 <!-- class="ui-tabs-panel"-->
     <div id="tab01">
-
+<div id="pager" style="text-align: center;">
+   <?php
+   $pg = $page+1;
+   $pre = intval($attributes['p'])-1;
+   if($pre == 0) $pre = 1;
+   $next = intval($attributes['p'])+1;
+   if($next > $pages) $next = $pages;
+       echo "<p><a href='index.php?act=customers&p=1'>&Lt;</a>&nbsp;&nbsp;&nbsp;<a href='index.php?act=customers&p={$pre}'>&LT;</a>&nbsp;&nbsp;&nbsp;Стрaница {$pg} из {$pages}. &nbsp;&nbsp;&nbsp;<a href='index.php?act=customers&p={$next}'>&GT;</a>&nbsp;&nbsp;&nbsp;<a href='index.php?act=customers&p={$pages}'>&Gt;</a></p>";
+   ?>
+</div>
         <table id="customers_tab" >
             <thead>
                 <tr>
@@ -60,7 +81,11 @@ if(isset($attributes['adderror'])){
             <tbody>
                 
     <?php
+
     foreach ($customers as $value) {
+        $rows++;
+        if($rows < ($page*36))            continue;
+        if($rows == ($page*36 + 36))            break;
         ?>
         <tr id='r_<?php echo $value[id];?>'>
             <td class='t-right'><?php echo $value['id'];?></td>
@@ -75,7 +100,8 @@ if(isset($attributes['adderror'])){
             </td>
         </tr>
 
-      <?php          }
+      <?php         
+      }
                 ?>
             </tbody>
         </table>

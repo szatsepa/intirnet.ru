@@ -1,6 +1,4 @@
 <?php
-//header('Content-type: text/html; charset=utf-8');
-
 class Hole {
 
     var  $donorsData = array();
@@ -22,8 +20,6 @@ class Hole {
             $customers = $this->checkCustomer();
             
             $addcustomers = $this->checkTMP();
-            
-//            var_dump($customers);
             
             if($customers['count'] > 0){
                 foreach ($customers['new'] as $value) {
@@ -64,7 +60,11 @@ class Hole {
                           db.`id` = t.`db_id` AND 
                           db.`complite` = 1";
         
-        return $this->_prepareUsers($this->_getData($query), $this->getSynonims());
+        $dU = $this->_prepareUsers($this->_getData($query), $this->getSynonims());
+        
+//        var_dump($dU);
+        
+        return $dU;
     }
     
     private function _getData($query){
@@ -76,11 +76,28 @@ class Hole {
         $dbases = '';
 
         $tmp = array();
+        
+        $flag = NULL;
 
         while ($row = mysql_fetch_assoc($result)){
-
-
-            $tmp = get_object_vars(json_decode($this->_getHole($row),FALSE));
+                        
+            $hole_str = $this->_getHole($row);
+            
+            if(isset($row['tid'])){
+                $flag = 1;
+//                    echo "{$row['db_name']}________________________________{$row['tablename']}<br>";
+//                    $js = json_decode($hole_str,TRUE);
+//                    if($js and ($row['db_name'] == 'gb_dlsi' or $row['db_name'] == 'domyli_ru')){
+//                        var_dump($js);
+//                    }else{
+//                         
+////                                    echo ' - Неизвестная ошибка<br>'.$hole_str;
+//                    }
+//   TO_DO попробовать сделать проверочку на стороне донора на правильность строки                 
+//                    echo "<br><br>";
+            }
+                                
+            $tmp = get_object_vars(json_decode($hole_str,FALSE));
             
             if($tmp){
 
@@ -92,9 +109,11 @@ class Hole {
 
                 }else{
 
+            
                     $tmpu = get_object_vars($tmp[$fkey]);
                     $skey = key($tmpu);
                     $array[$fkey.'_T_'.$skey]=$tmpu[$skey];
+
                 }
 
             }
@@ -103,10 +122,19 @@ class Hole {
 
         mysql_free_result($result);
         
+//        if($flag == 1){
+////            var_dump($array);
+////            echo '<br><br>';
+//        }
+        
         return $array;
     }
     
     private function _prepareUsers($users,$synonym){
+        
+//        var_dump($users);
+//        
+//        echo '<br><br>';
     
         $tmp = array();
 
@@ -116,11 +144,13 @@ class Hole {
 
             $tmp[$dtmp[0]][$dtmp[1]] = array();
 
-            foreach ($value as $key => $val) {
+            foreach ($value as $val) {
 
                 array_push($tmp[$dtmp[0]][$dtmp[1]], $this->checkFields(get_object_vars($val), $synonym));
             }
         }
+//        
+//        var_dump($tmp);
 
         return $tmp;
     }
@@ -154,6 +184,10 @@ class Hole {
     private function _getHole($rows){
         
         $data = '';
+        
+        $path = $rows['inet_address'];
+        
+        unset($rows['inet_address']);
 
         foreach ($rows as $key => $value){
             $data .= "&$key=$value";
@@ -170,7 +204,12 @@ class Hole {
             )
         );
 
-        $contents = file_get_contents("http://{$rows['inet_address']}/hole/hole.php", false ,$context);
+        $contents = file_get_contents("http://$path/hole/hole.php", false ,$context);
+        
+        if(isset($rows['tid'])){
+//            echo "$path<br>";
+//            echo "$contents<br><br>";
+        }
 
         return $contents;
     }
@@ -193,7 +232,7 @@ class Hole {
 
             $synonyms[$row[0]] = array();
 
-            $rest = mysql_query("SELECT f.`tablename`FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') GROUP BY f.`tablename`");
+            $rest = mysql_query("SELECT f.`tablename` FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') GROUP BY f.`tablename`");
 
             while ($srow = mysql_fetch_assoc($rest)){
 
@@ -221,12 +260,13 @@ class Hole {
     
     private function _setTMP($customers){
         
-        foreach ($customers as $value){
-           
+        foreach ($customers as $key => $value){
+//            echo "$key<br>";
             foreach ($value as $val) {
-                
                 foreach ($val as $var) {
-                      $aff = $this->_insertTmp($this->_buildQuery($var));
+                    $tmp = $var;
+                    $tmp['dbn']=$key;
+                      $aff = $this->_insertTmp($this->_buildQuery($tmp));
                 }
             }
             
@@ -327,12 +367,15 @@ class Hole {
 
         $query .= $fields." VALUES ".$data;
         
+        $count = 0;
+        
         $result = mysql_query("SELECT COUNT(`id`) FROM `customer` WHERE `email` = {$arr['email']}");
         
-        $count = mysql_result($result, 0);
+        if($result) $count = mysql_result($result, 0);
         
-        if($count > 0){
+        if($count === 0){
             mysql_query($query);
+            
         }        
         
         return;
