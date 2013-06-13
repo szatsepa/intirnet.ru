@@ -1,7 +1,7 @@
 <?php
+$sinchronisation = new Sinchronisation();
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+$tmp_data = $sinchronisation->getData("tmp");
+
+var_dump($tmp_data);
 ?>

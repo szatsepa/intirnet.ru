@@ -9,14 +9,20 @@ $query = "SELECT db.id
 
 $result = mysql_query($query);
 
+$response = 0;
+
 while ($row = mysql_fetch_row($result)){
     
-    $query = "UPDATE `db_data` SET `complite` = 1 WHERE `id` = {$row[0]}";
+    $query = "UPDATE `db_data` SET `complite` = 1 WHERE `id` = {$row[0]} AND `status` = 1";
     
     mysql_query($query);
+    
+    if(mysql_affected_rows()>0) $response = 1;
 }
 
-echo mysql_affected_rows();
+mysql_free_result($result);
+
+echo $response;
 
 mysql_close();
 ?>

@@ -27,6 +27,12 @@ include 'main/header.php';
 
 $_HOLE = new Hole();
 
+$inserted = $_HOLE->Customers();
+
+if($inserted or $attributes['comlete'] == 1){
+    include 'action/action_hole.php';
+}
+
 switch ($attributes['act']){
     
     case 'main':
@@ -52,7 +58,7 @@ switch ($attributes['act']){
         break;
     
     case 'customers':
-        include 'action/action_hole.php';
+        
         include 'query/read_customerlist.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';
@@ -60,6 +66,7 @@ switch ($attributes['act']){
         break;
     
     case 'check':
+        include 'classes/check_resurses.php';
         include 'action/check_resurses.php';
         include 'main/main.php'; 
         include 'main/main_menu.php';       
@@ -99,11 +106,10 @@ switch ($attributes['act']){
 //print_r($_COOKIE);
 //echo "<br>S => ";
 ////print_r($is_tables);
-//echo "<br>A => ";
-//print_r($attributes);
-//echo md5("admin");->21232f297a57a5a743894a0e4a801fc3 
-/*
-//19e282746b45066892214118ee66eaf3*/
+//echo "<br>0eee7950a085d46a42e14b1e05513d23<br>";
+////print_r($attributes);
+//echo md5("pinokio");
+//pinokio
 
 include 'main/footer.php';
 

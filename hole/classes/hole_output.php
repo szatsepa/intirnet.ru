@@ -90,20 +90,20 @@ class Prepare{
                     FROM `customer`";
 
             $result = mysql_query($query);
+            
+            $tmp_customer = array();
 
             while ($row = mysql_fetch_assoc($result)){
 
-                $customer_data = $this->_customerString($row); 
-
-
-
                 foreach ($value as $var) {
-
-                    $customer_data = str_replace($var['this_name'], $var['field_name'], $customer_data);
-
+                    
+                    $tmp_customer[$var['field_name']] = $row[$var['this_name']];
                 }
-
-                $this->setDbdata($path, $db_data, $customer_data,NULL);
+                
+                $customer_data = json_encode($tmp_customer);
+//
+                $out = $this->setDbdata($path, $db_data, $customer_data,NULL);
+                
             }
         }
 
@@ -213,16 +213,8 @@ class Prepare{
     }
 
     private function _customerString($array){
-
-        $output_str = '{';
-
-        foreach ($array as $key => $value) {
-            if($value != '')$output_str .= '"'.trim ($key).'":"'.trim ($value).'",';
-        }
-
-
-
-        return substr($output_str, 0, strlen($output_str)-1).'}';
+        
+        return json_encode($array);
     }
 
     private function getDb_Data($db_name){
@@ -244,10 +236,9 @@ class Prepare{
     
     private function setDbdata($path,$db_data,$customer,$del){
         
-            
+//        echo "$customer<br>";     
         if(!$del){
             $output = $db_data."&customer=".$customer;
-//            echo $output."<br>";
         } else {
             $output = $db_data."&del=$del";
         }   

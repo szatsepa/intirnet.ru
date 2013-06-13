@@ -113,7 +113,11 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
 				
                 <li id="act_adm">
                     <a href="index.php?act=adm">Администрация</a>
-                </li>   
+                </li>  
+                
+                <li id="act_check">
+                    <a href="index.php?act=check">Check</a>
+                </li> 
 
             </ul>
     </div> <!-- /aside -->
@@ -145,16 +149,22 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
         
         setInterval(function(){
             $.ajax({
-                url:'action/check_complite.php',
+                url:'action/check_complete.php',
                 cache:false,
                 success:function(data){
-//                    console.log(data);
+                    var search = document.location.search;
+                    if(data == 0){
+//                       console.log(search); 
+                    }else{
+                       document.location = "index.php"+search+"&comlete=1"; 
+                    }
+                    
                 },
                         error:function(data){
                     console.log(data['responseText']);
                         }
             });
-        },1000*300);
+        },1000*30);
     });
 </script>		
 <?php

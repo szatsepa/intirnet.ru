@@ -1,4 +1,6 @@
 <?php
+//сласс обрабатывае входящие данные ресурсов доноров
+
 class Hole {
 
     var  $donorsData = array();
@@ -7,32 +9,41 @@ class Hole {
    
     function __construct() {
         
+    }
+    
+    public function Customers(){
+        
+        $response = FALSE;
+        
+        $affected = 0;
+//        проверяем комлектность таблиц бд запись таблиц и синонимов
         $this->notComplite();
-        
+//        получаем список активных доноров 
         $this->donorsData = $this->getDBData(NULL);
-        
+//        получим список клиентов баз доноров
         $this->donorsUsers = $this->getDBComplite();
-        
+//        очистим таблицу тмп
         if($this->_clearTMP()){
-            
+//            запишем всех клиентов баз доноров в таблицу тмп
             $this->_setTMP($this->donorsUsers);
-            
+//            проверим наличие новых клиентов в базах донорах
             $customers = $this->checkCustomer();
-            
+//            проверим не изменились ли данные клиентов в админке нашего ресурса
             $addcustomers = $this->checkTMP();
-            
+//            если нечто изменилось добавляем клиентов в таблицу кустомер
             if($customers['count'] > 0){
                 foreach ($customers['new'] as $value) {
-                    $this->insertNewCustomers ($value);
+                   $affected = $this->insertNewCustomers ($value);
                 }
             }
             
             if($addcustomers['count'] > 0){
                 foreach ($addcustomers['new'] as $value) {
-                    $this->insertNewCustomers ($value);
+                   $affected = $this->insertNewCustomers ($value);
                 }
             }
             
+            if($affected > 0) $response = TRUE;
         }
     }
     
@@ -85,16 +96,6 @@ class Hole {
             
             if(isset($row['tid'])){
                 $flag = 1;
-//                    echo "{$row['db_name']}________________________________{$row['tablename']}<br>";
-//                    $js = json_decode($hole_str,TRUE);
-//                    if($js and ($row['db_name'] == 'gb_dlsi' or $row['db_name'] == 'domyli_ru')){
-//                        var_dump($js);
-//                    }else{
-//                         
-////                                    echo ' - Неизвестная ошибка<br>'.$hole_str;
-//                    }
-//   TO_DO попробовать сделать проверочку на стороне донора на правильность строки                 
-//                    echo "<br><br>";
             }
                                 
             $tmp = get_object_vars(json_decode($hole_str,FALSE));
@@ -122,19 +123,10 @@ class Hole {
 
         mysql_free_result($result);
         
-//        if($flag == 1){
-////            var_dump($array);
-////            echo '<br><br>';
-//        }
-        
         return $array;
     }
     
     private function _prepareUsers($users,$synonym){
-        
-//        var_dump($users);
-//        
-//        echo '<br><br>';
     
         $tmp = array();
 
@@ -149,9 +141,7 @@ class Hole {
                 array_push($tmp[$dtmp[0]][$dtmp[1]], $this->checkFields(get_object_vars($val), $synonym));
             }
         }
-//        
-//        var_dump($tmp);
-
+        
         return $tmp;
     }
     
@@ -205,11 +195,6 @@ class Hole {
         );
 
         $contents = file_get_contents("http://$path/hole/hole.php", false ,$context);
-        
-        if(isset($rows['tid'])){
-//            echo "$path<br>";
-//            echo "$contents<br><br>";
-        }
 
         return $contents;
     }
@@ -261,7 +246,6 @@ class Hole {
     private function _setTMP($customers){
         
         foreach ($customers as $key => $value){
-//            echo "$key<br>";
             foreach ($value as $val) {
                 foreach ($val as $var) {
                     $tmp = $var;
@@ -291,7 +275,7 @@ class Hole {
         foreach ($arr as $key => $value) {
             $fields .= "`$key`,";
             if($key == 'password'){
-                $values .= "'".md5($value)."',";
+                $values .= "'".$value."',";
             }  else {
                 $values .= "'$value',";
             }
@@ -378,7 +362,7 @@ class Hole {
             
         }        
         
-        return;
+        return mysql_affected_rows();
     }
     private function notComplite(){
         
