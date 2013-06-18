@@ -302,12 +302,16 @@ class Hole {
         $result = mysql_query($query);
 
         $customers = array();
-
+        
+        if(!$result){
+            return NULL;
+        } 
+        
         while ($row = mysql_fetch_assoc($result)){
             unset($row['id']);
             array_push($customers, $row);
         }
-        
+
         return array('count'=>  count($customers),'new'=>$customers);
     }
     
@@ -323,6 +327,10 @@ class Hole {
         $result = mysql_query($query);
 
         $customers = array();
+        
+        if(!$result){
+            return NULL;
+        }
 
         while ($row = mysql_fetch_assoc($result)){
             unset($row['id']);

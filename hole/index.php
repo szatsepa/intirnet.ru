@@ -1,6 +1,8 @@
 <?php 
 // created by arcady.1254@gmail.com
 
+include 'config.php';
+
 if(!isset($_SESSION)){
 
     session_start();    

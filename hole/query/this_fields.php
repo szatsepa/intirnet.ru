@@ -3,37 +3,12 @@ if(isset($attributes['tid']) and !$attributes['tid']){
     header("location:index.php?act=main");
 }
 
-$did = intval($attributes['db_id']);
-
-$tid = intval($attributes['tid']);
-
-$query = "SELECT `db_table` FROM `db_tables` WHERE `id` = $tid";
-
-$result = mysql_query($query) or die(mysql_errno());
-
-$table = mysql_result($result, 0);
-
-mysql_free_result($result);
-
-$query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
-
-$result = mysql_query($query) or die(mysql_errno());
-
-$tablefields = array();
-
-while ($row = mysql_fetch_assoc($result)){
-    array_push($tablefields, $row);
-}
-
-mysql_free_result($result);
-
-array_shift($tablefields);
-
 class FieldSelect {
     
     var $fields;
 
     function FieldSelect() {
+        
         $this->fields = $this->getFields();
     }
     
@@ -55,8 +30,8 @@ class FieldSelect {
     
     private function getFields(){
         
-        $query = "SHOW COLUMNS FROM `vvz_intirnet`.`customer`";
-
+        $query = "SHOW COLUMNS FROM `".DBNAME."`.`customer`";
+        
         $result = mysql_query($query);
 
         $fieldlist = array();
@@ -72,6 +47,34 @@ class FieldSelect {
         rsort($fieldlist);
         
         return $fieldlist;
+    }
+    
+    public function getFieldsOfTable($tid, $did){
+        
+        $query = "SELECT `db_table` FROM `db_tables` WHERE `id` = $tid";
+
+        $result = mysql_query($query) or die(mysql_errno());
+
+        $table = mysql_result($result, 0);
+
+        mysql_free_result($result);
+
+        $query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
+
+        $result = mysql_query($query) or die(mysql_errno());
+
+        $tablefields = array();
+
+        while ($row = mysql_fetch_assoc($result)){
+            array_push($tablefields, $row);
+        }
+
+        mysql_free_result($result);
+
+        array_shift($tablefields);
+        
+        return $tablefields;
+        
     }
 
 }

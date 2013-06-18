@@ -1,6 +1,7 @@
 <?php
-//echo "<br>";
-//print_r(getFields());
+$selects = new FieldSelect();
+
+$tablefields = $selects->getFieldsOfTable(intval($attributes['tid']), intval($attributes['db_id']));
 ?>
 <div id="content" class="box"> 
       <input type="hidden" id="uid" value="<?php echo $user['id'];?>">
@@ -71,7 +72,6 @@
                 <?php 
 reset($tablefields);
 
-$selects = new FieldSelect();
 $nums = 0;
                     foreach ($tablefields as $value) {
                         if($value['this_name'] !== ''){

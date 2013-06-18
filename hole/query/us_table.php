@@ -1,16 +1,21 @@
 <?php
+$is_tables = _using_tables(intval($attributes['db_id']));
 
-$db_id = intval($attributes['db_id']);
+function _using_tables($did){
+    $query = "SELECT * FROM `db_tables` WHERE `db_id`=$did";
 
-$query = "SELECT * FROM `db_tables` WHERE `db_id`=$db_id";
+    $result = mysql_query($query);
 
-$result = mysql_query($query);
+    $is_tables = array();
 
-$is_tables = array();
+    while ($var = mysql_fetch_assoc($result)){
+        $is_tables[$var['id']] = $var['db_table'];
+    }
 
-while ($var = mysql_fetch_assoc($result)){
-    $is_tables[$var['id']] = $var['db_table'];
+    mysql_free_result($result);
+    
+    return $is_tables;
 }
 
-mysql_free_result($result); 
+ 
 ?>
