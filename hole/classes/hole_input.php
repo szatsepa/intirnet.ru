@@ -69,7 +69,7 @@ class Hole {
                     FROM `db_data` AS db, `db_tables` AS t 
                     WHERE db.`status` <> 0 AND
                           db.`id` = t.`db_id` AND 
-                          db.`complite` = 1";
+                          db.`complete` = 1";
         
         $dU = $this->_prepareUsers($this->_getData($query), $this->getSynonims());
         
@@ -285,11 +285,8 @@ class Hole {
         
         foreach ($arr as $key => $value) {
             $fields .= "`$key`,";
-            if($key == 'password'){
-                $values .= "'".$value."',";
-            }  else {
-                $values .= "'$value',";
-            }
+            
+            $values .= "'$value',";          
             
         }
         
@@ -297,17 +294,17 @@ class Hole {
         
         $values = substr($values, 0, strlen($values)-1);
         
-        
+//        echo "INSERT INTO `tmp` ($fields) VALUES ($values)<br>";
         return "INSERT INTO `tmp` ($fields) VALUES ($values)";
     }
     
     private function checkCustomer(){
     
-        $query = "SELECT c.`id`, t.`surname`, t.`name`, t.`patronymic`, t.`role`, t.`phone`, t.`email`, t.`password` 
+        $query = "SELECT c.`id`, t.`login`, t.`email`, t.`password` 
                     FROM `tmp` t 
                     LEFT JOIN `customer` c 
                     ON (t.`email`= c.`email`) 
-                    WHERE c.`id` IS NULL
+                    WHERE c.`id` IS NULL AND t.`email` <> ''
                     GROUP BY t.`email`";
 
         $result = mysql_query($query);
@@ -328,11 +325,11 @@ class Hole {
     
     private function checkTMP(){
         
-        $query = "SELECT t.`id` as tmpid, c.`surname`, c.`name`, c.`patronymic`, c.`role`, c.`phone`, c.`email`, c.`password` 
+        $query = "SELECT t.`id` as tmpid, c.`login`, c.`email`, c.`password` 
                     FROM `customer` c
                     LEFT JOIN  `tmp` t 
                     ON (c.`email`= t.`email`)
-                    WHERE t.`id` IS NULL 
+                    WHERE t.`id` IS NULL AND t.`email` <> ''
                     GROUP BY t.`email`";
         
         $result = mysql_query($query);
@@ -385,17 +382,23 @@ class Hole {
     }
     private function notComplite(){
         
-        $query = "SELECT db.id, db.db_name, t.db_table, f.field_name 
+        mysql_query("UPDATE `db_data` SET `complete` = 0");
+        
+        $query = "SELECT db.`id`
                     FROM `db_data` as db 
                     LEFT JOIN   `db_tables` t ON db.id = t.db_id  
                     LEFT JOIN table_fields f ON t.db_table = f.tablename 
-                    WHERE f.field_name IS NULL";
+                    LEFT JOIN `synonims` AS s ON f.`field_name` = s.`fieldname`
+                    WHERE s.`synonim` IS NOT NULL
+                    GROUP BY db.`id`";
         
         $result = mysql_query($query);
-        
+                
         while ($row = mysql_fetch_assoc($result)){
             
-            mysql_query("UPDATE `db_data` SET `complite` = 0 WHERE `id` = {$row['id']}");
+            mysql_query("UPDATE `db_data` SET `complete` = 0 WHERE `id` <> {$row['id']}");
+            
+            mysql_query("UPDATE `db_data` SET `complete` = 1 WHERE `id` = {$row['id']}");
         }
         
         return;

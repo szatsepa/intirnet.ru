@@ -1,9 +1,8 @@
 <?php
-if(!$roles)$roles = checkRoles();
 
 $sort = intval($attributes['r']);
 
-$customers = _allPersons($sort,$roles);
+$customers = _allPersons($sort,NULL);
 
 function _allPersons($sort,$roles){
     

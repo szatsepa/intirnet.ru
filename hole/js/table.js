@@ -23,12 +23,16 @@ $(document).ready(function(){
             if(edit && $(this).parent().index()==2){
                 
                 editField($(this).parent().parent());
+                
+                
             }                      
         }
         
-        tyts = !tyts;
+        if(edit){
+            $("#tab02").hide();
+        }
         
-        $("#tab02").hide();
+        tyts = !tyts;
         
     });
     
@@ -90,7 +94,7 @@ $(document).ready(function(){
             
             var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':field, 'edit':'yes'};
             
-            console.log(output);
+//            console.log(output);
             
             updateSynonym(output);
             
@@ -105,7 +109,7 @@ $(document).ready(function(){
                 dataType:'json',
                 data:output,
                 success:function(data){
-                    
+                    console.log(data);
                     if(data['query']>0){
                         if(!edit){
                              $.each($("#db_tab tbody tr"),function(index){
@@ -134,6 +138,7 @@ $(document).ready(function(){
                     }
                     
                     $("#tab02").show();
+//                    $("#tab02").append(data['string']);
                 },
                         error:function(data){
                             document.write(data['responseText']);
@@ -150,7 +155,7 @@ $(document).ready(function(){
                 url:'action/check_complete.php',
                 cache:false,
                 success:function(data){
-                    console.log(data);
+//                    console.log(data);
                 },
                         error:function(data){
                     console.log(data['responseText']);

@@ -28,7 +28,7 @@ include 'action/checkauth.php';
 include 'main/header.php';
 
 $_HOLE = new Hole();
-
+//
 $inserted = $_HOLE->Customers();
 
 if($inserted or $attributes['comlete'] == 1){

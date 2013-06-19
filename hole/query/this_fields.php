@@ -24,13 +24,16 @@ class FieldSelect {
         $output = $synonim = '';              
         
         $query = "SELECT f.`field_name` AS `synonim` 
-                    FROM `table_fields` AS f 
-                    LEFT JOIN `synonims` AS s 
-                    ON f.`field_name` = s.`synonim` 
-                    WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND 
-                          f.db_id = $did AND 
-                          s.`fieldname` = '$field'";
-        
+                    FROM `db_data` db, `db_tables` t, `table_fields` f, `synonims` s   
+                    WHERE db.`complete` = 1 AND 
+                          db.`id` = $did AND 
+                          db.`id` = t.`db_id` AND 
+                          t.`db_table` = f.`tablename` AND 
+                          f.`tablename` = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND 
+                          f.`field_name` = s.`synonim` AND 
+                          s.`fieldname` = '$field'  AND 
+                          f.`tablename` = s.`tablename`";
+       
         $result = mysql_query($query);
         
         $synonim = mysql_fetch_assoc($result);
