@@ -1,29 +1,35 @@
 <?php
-include '../query/connect.php';
+ header('Content-Type: text/html; charset=utf-8');
+
+include 'connect.php';
 
 $output = array('query'=>'');
 
-$output['fields'] = $_POST['fields'];
+//$output['fields'] = $_POST;
 
 $count_fields = 0;
 
 foreach ($_POST['fields'] as $key => $value) {
-    
-    
-    
-    if($value !== '0'){
+
+     if(isset($_POST['edit'])){
+         
+                $query = "UPDATE `synonims` SET `synonim` = '$value' WHERE `did` = '{$_POST['db_id']}' AND `tablename` = '{$_POST['tablename']}' AND `fieldname` = '{$key}'";          
+
+            }else{ 
+
+                $query = "INSERT INTO `synonims` (`did`, `tablename`, `fieldname`, `synonim`) VALUES ({$_POST['db_id']},'{$_POST['tablename']}','{$key}','{$value}')";
+             }
         
-        $query = "UPDATE `table_fields` SET `this_name` = '{$value}' WHERE `db_id` = '{$_POST['db_id']}' AND `tablename` = '{$_POST['tablename']}' AND `field_name` = '$key'";
-    
-        mysql_query($query) or die($output['error'] = mysql_errno());
+        mysql_query($query);
         
         $count_fields += mysql_affected_rows();
-    }
+        
+        if(mysql_affected_rows()==0) $output['error'] = mysql_errno();
 }
 
-$output['query'] = $count_fields;
+$output['string'] = $query;
 
-mysql_query("UPDATE `db_data` SET `complite` = 1 WHERE `id` = {$_POST['db_id']}");
+$output['query'] = $count_fields;
 
 echo json_encode($output);
 

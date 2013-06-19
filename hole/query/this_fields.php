@@ -6,13 +6,45 @@ if(isset($attributes['tid']) and !$attributes['tid']){
 class FieldSelect {
     
     var $fields;
-
-    function FieldSelect() {
+    
+    function __construct() {
         
-        $this->fields = $this->getFields();
+    }
+    public function fieldSelect($tid, $did) {
+        
+        $this->fields = $this->getFields($tid, $did);
+        
+        return $this->fields;
     }
     
-    function getSelect($id){
+    public function getSinonim($tid,$did,$field,$id){
+        
+//        if($field == 'id')            return NULL;
+        
+        $output = $synonim = '';              
+        
+        $query = "SELECT f.`field_name` AS `synonim` 
+                    FROM `table_fields` AS f 
+                    LEFT JOIN `synonims` AS s 
+                    ON f.`field_name` = s.`synonim` 
+                    WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND 
+                          f.db_id = $did AND 
+                          s.`fieldname` = '$field'";
+        
+        $result = mysql_query($query);
+        
+        $synonim = mysql_fetch_assoc($result);
+        
+        if(!$synonim){
+            $output = "<tr><td>{$field}</td><td>{$this->getSelect($id)}</td><td></td></tr>";
+        }else{
+            $output = "<tr style='background-color:#afffaf'><td>{$field}</td><td>{$synonim['synonim']}</td><td><a id='e_{$field}' class='ico-edit' title='Редактировать'></a></td></tr>";
+        }
+        
+        return $output;
+    }
+
+    public function getSelect($id){
         
         $str_out = "<select class='common' id='$id'>";
         
@@ -28,23 +60,25 @@ class FieldSelect {
         
     }
     
-    private function getFields(){
+    private function getFields($tid, $did){
         
-        $query = "SHOW COLUMNS FROM `".DBNAME."`.`customer`";
+//        $query = "SHOW COLUMNS FROM `".DBNAME."`.`customer`";
+        
+        $query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
         
         $result = mysql_query($query);
 
         $fieldlist = array();
+        
+        if(!$result)            return NULL;
 
-        while ($row = mysql_fetch_row($result)){
-            array_push($fieldlist, $row[0]);
+        while ($row = mysql_fetch_assoc($result)){
+            array_push($fieldlist,$row['field_name']);
         }
 
         mysql_free_result($result);
         
-        array_shift($fieldlist);
-        
-        rsort($fieldlist);
+//        rsort($fieldlist);
         
         return $fieldlist;
     }
@@ -59,19 +93,21 @@ class FieldSelect {
 
         mysql_free_result($result);
 
-        $query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
+//        $query = "SELECT * FROM `table_fields` AS f WHERE f.tablename = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND f.db_id = $did ORDER BY f.field_name";
+        
+        $query = "SHOW COLUMNS FROM `".DBNAME."`.`customer`";
 
         $result = mysql_query($query) or die(mysql_errno());
 
         $tablefields = array();
+        
+        if(!$result)            return NULL;
 
-        while ($row = mysql_fetch_assoc($result)){
-            array_push($tablefields, $row);
+        while ($row = mysql_fetch_row($result)){
+            array_push($tablefields, $row[0]);
         }
 
         mysql_free_result($result);
-
-        array_shift($tablefields);
         
         return $tablefields;
         

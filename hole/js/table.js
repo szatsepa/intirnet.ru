@@ -22,10 +22,13 @@ $(document).ready(function(){
             
             if(edit && $(this).parent().index()==2){
                 
-                editFild($(this).parent().parent());
+                editField($(this).parent().parent());
             }                      
         }
+        
         tyts = !tyts;
+        
+        $("#tab02").hide();
         
     });
     
@@ -43,7 +46,7 @@ $(document).ready(function(){
         
     });
     
-    $("#db_tab tbody tr td a").click(function(){
+    $("#db_tab tbody tr td a").live('click',function(){
         
         edit = true;
         
@@ -79,13 +82,15 @@ $(document).ready(function(){
                 $("#tab01").css({"-o-transform": "scale("+b_scale+")"});
         }
         
-        function editFild(obj){
+        function editField(obj){
             
             var field = {};
             
             field[$(obj).find('td:eq(0)').text()] = $(obj).find('td:eq(2) select option:selected').val();
             
-            var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':field};
+            var output = {'db_id':$("#db_i").val(),'tablename':$("#db_t").val(),'fields':field, 'edit':'yes'};
+            
+            console.log(output);
             
             updateSynonym(output);
             
@@ -100,6 +105,7 @@ $(document).ready(function(){
                 dataType:'json',
                 data:output,
                 success:function(data){
+                    
                     if(data['query']>0){
                         if(!edit){
                              $.each($("#db_tab tbody tr"),function(index){
@@ -123,22 +129,25 @@ $(document).ready(function(){
                             $(obj_edit).children('td:eq(2)').empty().append("<a id='e_"+$(this).find('td:eq(0)').text()+"' class='ico-edit' title='Редактировать'></a>");
 
                         }
+                        
+                        $("a.ico-edit").css({'cursor':'pointer'});
                     }
-//                    window.history.go(-1);
+                    
+                    $("#tab02").show();
                 },
                         error:function(data){
-                            console.log(data['responseText']);
+                            document.write(data['responseText']);
                         }
             });
             
-            _complite();
+            _complete();
             
             return false;
         }
         
-        function _complite(){
+        function _complete(){
             $.ajax({
-                url:'action/check_complite.php',
+                url:'action/check_complete.php',
                 cache:false,
                 success:function(data){
                     console.log(data);

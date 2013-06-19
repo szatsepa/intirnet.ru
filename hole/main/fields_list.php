@@ -1,7 +1,10 @@
 <?php
-$selects = new FieldSelect();
+$fieldlist = new FieldSelect();
 
-$tablefields = $selects->getFieldsOfTable(intval($attributes['tid']), intval($attributes['db_id']));
+$selects = $fieldlist->fieldSelect(intval($attributes['tid']), intval($attributes['db_id']));
+
+$tablefields = $fieldlist->getFieldsOfTable(intval($attributes['tid']), intval($attributes['db_id']));
+
 ?>
 <div id="content" class="box"> 
       <input type="hidden" id="uid" value="<?php echo $user['id'];?>">
@@ -26,9 +29,9 @@ $tablefields = $selects->getFieldsOfTable(intval($attributes['tid']), intval($at
                         <?php
                         $num = 0;
                         
-                        foreach ($tablefields as $value) {
+                        foreach ($selects as $value) {
                             if($value['this_name'] !== ''){
-                                echo '<option value="'.$value['this_name'].'">'.$value['this_name'].'</option>';
+                                echo '<option value="'.$value['field_name'].'">'.$value['field_name'].'</option>';
                                 $num++;
                             }                            
                         }
@@ -56,8 +59,10 @@ $tablefields = $selects->getFieldsOfTable(intval($attributes['tid']), intval($at
             <thead>
                 <tr>
 <!--                    <th class="t-center">I</th>-->
-                    <?php foreach ($tablefields as $value){?><?php 
-                   } ?>
+                    <?php
+//                    foreach ($tablefields as $value){ 
+//                   } 
+                   ?>
                         
                     
                     <th class="t-center">Название поля</th>
@@ -74,12 +79,10 @@ reset($tablefields);
 
 $nums = 0;
                     foreach ($tablefields as $value) {
-                        if($value['this_name'] !== ''){
-                            echo "<tr style='background-color:#afffaf'><td>{$value['field_name']}</td><td>{$value['this_name']}</td><td><a id='e_{$value['field_name']}' class='ico-edit' title='Редактировать'></a></td></tr>";
-                        }else{
-                            
-                            echo "<tr><td>{$value['field_name']}</td><td>".$selects ->getSelect("f_$nums")."</td><td></td></tr>";
-                        }
+                        
+                        echo $fieldlist->getSinonim(intval($attributes['tid']), intval($attributes['db_id']), $value, $nums);
+                        
+                       
                         $nums++;
                     }
                 ?>
@@ -91,32 +94,15 @@ $nums = 0;
 <table id="customer_t">
     <thead>
         <tr>
-           <?php 
-//           foreach ($this_fields as $value){
-                ?>
 
-            <!--<th class="t-center"><?php echo $value;?></th>-->
-
-            <?php 
-//            } 
-//            reset($this_fields);
-            ?> 
         </tr>
     </thead>
     <tbody>
         <tr>
-            <?php
-//            foreach ($this_fields as $key){
-//                echo "<td class='t-left'>$fields_sinonim[$key]</td>";
-//            }
-            ?>
+
         </tr>
     </tbody>
 </table>
-<?php
-//print_r($fields_sinonim);
-?>
-
         
 </div> <!-- /tab01 -->
     <div id="tab02"> 

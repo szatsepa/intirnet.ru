@@ -217,17 +217,28 @@ class Hole {
 
             $synonyms[$row[0]] = array();
 
-            $rest = mysql_query("SELECT f.`tablename` FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') GROUP BY f.`tablename`");
+            $rest = mysql_query("SELECT f.`tablename` FROM `table_fields` AS f WHERE f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') GROUP BY f.`tablename`");
 
             while ($srow = mysql_fetch_assoc($rest)){
 
                 $synonyms[$row[0]][$srow['tablename']] = array();
+                
+                $qru = "SELECT f.`field_name` AS synonim, 
+                               s.`fieldname` AS field 
+                         FROM `table_fields` AS f 
+                         LEFT JOIN synonims AS s 
+                         ON f.`field_name` = s.synonim 
+                         WHERE  f.`tablename` = '{$srow['tablename']}' AND 
+                                f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') AND 
+                                s.`fieldname` IS NOT NULL";
 
-                $resu = mysql_query("SELECT f.`field_name`, f.`this_name` FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`tablename` = '{$srow['tablename']}' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}')");
+//                $resu = mysql_query("SELECT f.`field_name`, f.`this_name` FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`tablename` = '{$srow['tablename']}' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}')");
 
+                $resu = mysql_query($qru);
+                
                 while ($frow = mysql_fetch_assoc($resu)){
 
-                    array_push($synonyms[$row[0]][$srow['tablename']], array($frow["field_name"]=>$frow['this_name']));
+                    array_push($synonyms[$row[0]][$srow['tablename']], array($frow["synonim"]=>$frow['field']));
                 }
 
                 mysql_free_result($resu);

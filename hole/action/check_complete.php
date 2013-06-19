@@ -1,11 +1,12 @@
 <?php
-include '../query/connect.php';
+include 'connect.php';
 
-$query = "SELECT db.id  
+$query = "SELECT db.`id`  
             FROM `db_data` AS db 
             LEFT JOIN `db_tables` AS dbt ON (db.`id` = dbt.`db_id`) 
             LEFT JOIN `table_fields` AS tf ON (dbt.`db_table` = tf.`tablename`) 
-            WHERE tf.`this_name` <> '' GROUP BY db.id";
+            LEFT JOIN `synonims` AS s ON (tf.`field_name` = s.`synonim`) 
+            WHERE s.`synonim` IS NOT NULL";
 
 $result = mysql_query($query);
 
