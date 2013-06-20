@@ -36,6 +36,8 @@ $(document).ready(function(){
         
         var trow = obj;
         
+        console.log(output);
+        
         $.ajax({
             url:'action/add_new_table.php',
             type:'post',

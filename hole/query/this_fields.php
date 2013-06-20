@@ -32,8 +32,9 @@ class FieldSelect {
                           f.`tablename` = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND 
                           f.`field_name` = s.`synonim` AND 
                           s.`fieldname` = '$field'  AND 
-                          f.`tablename` = s.`tablename`";
-       
+                          f.`tablename` = s.`tablename`  AND 
+                          s.`did` = t.`db_id`";
+        
         $result = mysql_query($query);
         
         $synonim = mysql_fetch_assoc($result);

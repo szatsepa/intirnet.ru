@@ -147,24 +147,24 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
             }            
         });
         
-//        setInterval(function(){
-//            $.ajax({
-//                url:'action/check_complete.php',
-//                cache:false,
-//                success:function(data){
-//                    var search = document.location.search;
-//                    if(data == 0){
-////                       console.log(search); 
-//                    }else{
-//                       document.location = "index.php"+search+"&comlete=1"; 
-//                    }
-//                    
-//                },
-//                        error:function(data){
-//                    console.log(data['responseText']);
-//                        }
-//            });
-//        },1000*30);
+        setInterval(function(){
+            $.ajax({
+                url:'action/check_complete.php',
+                cache:false,
+                success:function(data){
+                    var search = document.location.search;
+                    if(data == 0){
+                       console.log(search); 
+                    }else{
+                       document.location = "index.php"+search+"&comlete=1"; 
+                    }
+                    
+                },
+                        error:function(data){
+                    console.log(data['responseText']);
+                        }
+            });
+        },1000*60*15);
     });
 </script>		
 <?php

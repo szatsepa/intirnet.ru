@@ -1,5 +1,5 @@
 <?php
-include '../query/connect.php';
+include 'connect.php';
 
 $table = trim($_POST['table']);
 

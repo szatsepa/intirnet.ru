@@ -109,7 +109,7 @@ $(document).ready(function(){
                 dataType:'json',
                 data:output,
                 success:function(data){
-                    console.log(data);
+                    console.log(edit);
                     if(data['query']>0){
                         if(!edit){
                              $.each($("#db_tab tbody tr"),function(index){
@@ -146,6 +146,8 @@ $(document).ready(function(){
             });
             
             _complete();
+            
+            window.location.reload();
             
             return false;
         }

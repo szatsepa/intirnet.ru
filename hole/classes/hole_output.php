@@ -1,11 +1,11 @@
 <?php
 class IntirnetDb{
     
-    var $complite_DB = array();
+    var $complete_DB = array();
     
     function __construct(){
         
-        $this->complite_DB = $this->allDB();
+        $this->complete_DB = $this->allDB();
     }
     
     function allDB(){
@@ -16,7 +16,7 @@ class IntirnetDb{
                     FROM `db_data` db, `db_tables` t 
                     WHERE db.`id` = t.`db_id` AND
                     db.`status` <> 0 AND 
-                    db.`complite` <> 0";
+                    db.`complete` <> 0";
 
         $result = mysql_query($query);
 
@@ -34,11 +34,13 @@ class IntirnetDb{
     
         $tmp = array();
 
-        $query = "SELECT `field_name`, `this_name` 
-                    FROM `table_fields` 
-                    WHERE `db_id` = '{$array['id']}' AND 
-                          `tablename` = '{$array['tablename']}' AND
-                          `this_name` <> ''";
+        $query = "SELECT f.`field_name`, s.`fieldname` AS synonim
+                    FROM `table_fields` f, `synonims` s
+                    WHERE f.`db_id` = s.`did` AND 
+                    f.`tablename` = s.`tablename` AND 
+                    f.`field_name` = s.`synonim` AND 
+                    f.`db_id` = {$array['id']} AND 
+                    s.`tablename` = '{$array['tablename']}'";
 
         $result = mysql_query($query);
 
@@ -72,7 +74,7 @@ class Prepare{
             
             unset($tmp ["field_name"]);
             
-            unset($tmp["this_name"]);
+            unset($tmp["synonim"]);
 
             foreach ($tmp as $key => $var) {
                 $db_data .= "&".trim($key)."=".trim($var);
@@ -81,7 +83,7 @@ class Prepare{
             $fields = '';
 
             foreach ($value as $key => $val) {
-                $fields .= "`{$val['this_name']}`,";
+                $fields .= "`{$val['synonim']}`,";
             }
 
             $fields = substr($fields, 0, strlen($fields)-1);
@@ -97,7 +99,7 @@ class Prepare{
 
                 foreach ($value as $var) {
                     
-                    $tmp_customer[$var['field_name']] = $row[$var['this_name']];
+                    $tmp_customer[$var['field_name']] = $row[$var['synonim']];
                 }
                 
                 $customer_data = json_encode($tmp_customer);
@@ -135,7 +137,7 @@ class Prepare{
         $fields = '';
 
         foreach ($value as $key => $val) {
-            $fields .= "`{$val['this_name']}`,";
+            $fields .= "`{$val['synonim']}`,";
         }
 
         $fields = substr($fields, 0, strlen($fields)-1);
@@ -146,7 +148,7 @@ class Prepare{
 
         foreach ($value as $var) {
 
-            $customer_data = str_replace($var['this_name'], $var['field_name'], $customer_data);
+            $customer_data = str_replace($var['synonim'], $var['field_name'], $customer_data);
         } 
 
         $tmpc = json_decode($customer_data);

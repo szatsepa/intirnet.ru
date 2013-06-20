@@ -14,7 +14,7 @@ $response = 0;
 
 while ($row = mysql_fetch_row($result)){
     
-    $query = "UPDATE `db_data` SET `complite` = 1 WHERE `id` = {$row[0]} AND `status` = 1";
+    $query = "UPDATE `db_data` SET `complete` = 1 WHERE `id` = {$row[0]} AND `status` = 1";
     
     mysql_query($query);
     

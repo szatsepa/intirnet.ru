@@ -17,11 +17,11 @@ class Hole {
         
         $affected = 0;
 //        проверяем комлектность таблиц бд запись таблиц и синонимов
-        $this->notComplite();
+        $this->notcomplete();
 //        получаем список активных доноров 
         $this->donorsData = $this->getDBData(NULL);
 //        получим список клиентов баз доноров
-        $this->donorsUsers = $this->getDBComplite();
+        $this->donorsUsers = $this->getDBcomplete();
 //        очистим таблицу тмп
         if($this->_clearTMP()){
 //            запишем всех клиентов баз доноров в таблицу тмп
@@ -45,6 +45,8 @@ class Hole {
             
             if($affected > 0) $response = TRUE;
         }
+        
+        return $response;
     }
     
     function getDBData($id){       
@@ -63,7 +65,7 @@ class Hole {
         
     }
     
-    private function getDBComplite(){
+    private function getDBcomplete(){
         
         $query = "SELECT db.`id`, db.`db_name`, db.`login`, db.`password`, db.`addr`, db.`charset`, db.`inet_name`, db.`inet_address`, t.`db_table` AS tablename, t.`id` AS tid 
                     FROM `db_data` AS db, `db_tables` AS t 
@@ -294,13 +296,12 @@ class Hole {
         
         $values = substr($values, 0, strlen($values)-1);
         
-//        echo "INSERT INTO `tmp` ($fields) VALUES ($values)<br>";
         return "INSERT INTO `tmp` ($fields) VALUES ($values)";
     }
     
     private function checkCustomer(){
     
-        $query = "SELECT c.`id`, t.`login`, t.`email`, t.`password` 
+        $query = "SELECT c.`id`, t.`login`, t.`email`, t.`password`,t.`firstname`, t.`lastname` 
                     FROM `tmp` t 
                     LEFT JOIN `customer` c 
                     ON (t.`email`= c.`email`) 
@@ -325,7 +326,7 @@ class Hole {
     
     private function checkTMP(){
         
-        $query = "SELECT t.`id` as tmpid, c.`login`, c.`email`, c.`password` 
+        $query = "SELECT t.`id` as tmpid, c.`login`, c.`email`, c.`password`,t.`firstname`, t.`lastname` 
                     FROM `customer` c
                     LEFT JOIN  `tmp` t 
                     ON (c.`email`= t.`email`)
@@ -373,6 +374,8 @@ class Hole {
         
         if($result) $count = mysql_result($result, 0);
         
+//        echo "$query<br>";
+        
         if($count === 0){
             mysql_query($query);
             
@@ -380,7 +383,7 @@ class Hole {
         
         return mysql_affected_rows();
     }
-    private function notComplite(){
+    private function notcomplete(){
         
         mysql_query("UPDATE `db_data` SET `complete` = 0");
         

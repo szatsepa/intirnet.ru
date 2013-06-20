@@ -72,8 +72,8 @@ if(isset($attributes['adderror'])){
             <thead>
                 <tr>
                     <th class="t-center">ID</th>
-                    <th class="t-center">Ф.И.О.</th>
-                    <th class="t-center">Телефон</th>
+                    <th class="t-center">Имя</th>
+                    <th class="t-center">Логин</th>
                     <th class="t-center">Email</th>
                     <th class='t-center'>Действ.</th>
                 </tr>
@@ -87,11 +87,10 @@ if(isset($attributes['adderror'])){
         if($rows < ($page*36))            continue;
         if($rows == ($page*36 + 36))            break;
         ?>
-        <tr id='r_<?php echo $value[id];?>'>
+        <tr id='r_<?php echo $value['id'];?>'>
             <td class='t-right'><?php echo $value['id'];?></td>
-            <td><?php echo "{$value['surname']}&nbsp;{$value['name']}&nbsp;{$value['patronymic']}";?></td>
-            <!--<td class='smaller'><?php echo $value['role'];?></td>-->
-            <td class='smaller'><?php echo $value['phone'];?></td>
+            <td><?php echo "{$value['firstname']}&nbsp;{$value['lastname']}";?></td>
+            <td class='smaller'><?php echo $value['login'];?></td>
             <td class='smaller'><a href='mailto:<?php echo $value['email'];?>'><?php echo $value['email'];?></a></td>
             <!--<td class='smaller'><?php echo $value['db_data_id'];?></td>-->
             <td class='t-center'>
