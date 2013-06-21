@@ -31,9 +31,13 @@ $_HOLE = new Hole();
 //
 $inserted = $_HOLE->Customers();
 
-if($inserted or $attributes['comlete'] == 1){
-    include 'action/action_hole.php';
-}
+$donorslist = new IntirnetDb();
+
+$outputlist = new Prepare();
+
+//if($inserted or $attributes['comlete'] == 1){
+//    include 'action/action_hole.php';
+//}
 
 switch ($attributes['act']){
     

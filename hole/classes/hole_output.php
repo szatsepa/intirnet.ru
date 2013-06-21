@@ -1,14 +1,14 @@
 <?php
 class IntirnetDb{
-    
+
     var $complete_DB = array();
     
     function __construct(){
-        
+ //    получаем список зарегистрированих баз доноров       
         $this->complete_DB = $this->allDB();
     }
     
-    function allDB(){
+    private function allDB(){
     
         $tmp = array('all' => array());
 
@@ -31,7 +31,7 @@ class IntirnetDb{
     }
     
     private function getSynonym($array){
-    
+// соответствие полей (синонимы) базы здесь и базы донора    
         $tmp = array();
 
         $query = "SELECT f.`field_name`, s.`fieldname` AS synonim

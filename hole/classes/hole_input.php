@@ -17,7 +17,7 @@ class Hole {
         
         $affected = 0;
 //        проверяем комлектность таблиц бд запись таблиц и синонимов
-        $this->notcomplete();
+        $this->nocomplete();
 //        получаем список активных доноров 
         $this->donorsData = $this->getDBData(NULL);
 //        получим список клиентов баз доноров
@@ -374,8 +374,6 @@ class Hole {
         
         if($result) $count = mysql_result($result, 0);
         
-//        echo "$query<br>";
-        
         if($count === 0){
             mysql_query($query);
             
@@ -383,7 +381,7 @@ class Hole {
         
         return mysql_affected_rows();
     }
-    private function notcomplete(){
+    private function nocomplete(){
         
         mysql_query("UPDATE `db_data` SET `complete` = 0");
         
