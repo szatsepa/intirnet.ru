@@ -25,8 +25,7 @@ class FieldSelect {
         
         $query = "SELECT f.`field_name` AS `synonim` 
                     FROM `db_data` db, `db_tables` t, `table_fields` f, `synonims` s   
-                    WHERE db.`complete` = 1 AND 
-                          db.`id` = $did AND 
+                    WHERE db.`id` = $did AND 
                           db.`id` = t.`db_id` AND 
                           t.`db_table` = f.`tablename` AND 
                           f.`tablename` = (SELECT `db_table` FROM `db_tables` WHERE `id` = $tid) AND 

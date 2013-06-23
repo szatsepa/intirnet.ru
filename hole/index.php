@@ -25,19 +25,20 @@ include 'classes/hole_input.php';
 include 'classes/hole_output.php';
 include 'query/user.php';
 include 'action/checkauth.php'; 
-include 'main/header.php';
 
 $_HOLE = new Hole();
-//
+
 $inserted = $_HOLE->Customers();
 
-$donorslist = new IntirnetDb();
+////var_dump($_HOLE->donorsData);
+//
+//$donorslist = new IntirnetDb();
 
-$outputlist = new Prepare();
+//var_dump($donorslist->db_donors);
 
-//if($inserted or $attributes['comlete'] == 1){
-//    include 'action/action_hole.php';
-//}
+//$outputlist = new Prepare();
+
+include 'main/header.php';
 
 switch ($attributes['act']){
     

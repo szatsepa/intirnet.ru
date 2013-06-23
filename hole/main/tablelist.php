@@ -21,7 +21,7 @@
                 $table_str = '';
                 
                 $ch_str = '';
-//                var_dump($_HOLE -> donorsData);              
+                
                 foreach ($_HOLE -> donorsData as $key => $value) { 
                     if($attributes['db_name'] == $key){
 //                        var_dump($value);

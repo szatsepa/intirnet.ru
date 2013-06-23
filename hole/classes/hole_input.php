@@ -54,7 +54,9 @@ class Hole {
         $and = '';
         
         if($id){
-           $and = " AND db.`id` = {$id}"; 
+           $and = " AND db.`id` = {$id} ORDER BY db.`id`"; 
+        }else{
+           $and = " ORDER BY db.`id`"; 
         }
         
         $query = "SELECT db.`id`, db.`db_name`, db.`login`, db.`password`, db.`addr`, db.`charset`, db.`inet_name`, db.`inet_address` 
@@ -74,8 +76,6 @@ class Hole {
                           db.`complete` = 1";
         
         $dU = $this->_prepareUsers($this->_getData($query), $this->getSynonims());
-        
-//        var_dump($dU);
         
         return $dU;
     }
@@ -184,7 +184,7 @@ class Hole {
         foreach ($rows as $key => $value){
             $data .= "&$key=$value";
         }
-
+//        echo "$data<br>";
        //задаем контекст
         $context = stream_context_create(
         array(
@@ -233,9 +233,7 @@ class Hole {
                          WHERE  f.`tablename` = '{$srow['tablename']}' AND 
                                 f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}') AND 
                                 s.`fieldname` IS NOT NULL";
-
-//                $resu = mysql_query("SELECT f.`field_name`, f.`this_name` FROM `table_fields` AS f WHERE f.`this_name` <> '' AND f.`tablename` = '{$srow['tablename']}' AND f.`db_id` = (SELECT id FROM `db_data` WHERE `db_name` = '{$row[0]}')");
-
+                                
                 $resu = mysql_query($qru);
                 
                 while ($frow = mysql_fetch_assoc($resu)){
@@ -295,6 +293,8 @@ class Hole {
         $fields = substr($fields, 0, strlen($fields)-1);
         
         $values = substr($values, 0, strlen($values)-1);
+        
+//        echo "INSERT INTO `tmp` ($fields) VALUES ($values)<br>";
         
         return "INSERT INTO `tmp` ($fields) VALUES ($values)";
     }
@@ -381,29 +381,77 @@ class Hole {
         
         return mysql_affected_rows();
     }
+    
     private function nocomplete(){
         
         mysql_query("UPDATE `db_data` SET `complete` = 0");
         
-        $query = "SELECT db.`id`
-                    FROM `db_data` as db 
-                    LEFT JOIN   `db_tables` t ON db.id = t.db_id  
-                    LEFT JOIN table_fields f ON t.db_table = f.tablename 
-                    LEFT JOIN `synonims` AS s ON f.`field_name` = s.`fieldname`
-                    WHERE s.`synonim` IS NOT NULL
-                    GROUP BY db.`id`";
+        $query = "SELECT id FROM db_data WHERE status = 1";
         
         $result = mysql_query($query);
                 
         while ($row = mysql_fetch_assoc($result)){
             
-            mysql_query("UPDATE `db_data` SET `complete` = 0 WHERE `id` <> {$row['id']}");
+            $nu_sho = $this->isTables($row['id']);
             
-            mysql_query("UPDATE `db_data` SET `complete` = 1 WHERE `id` = {$row['id']}");
+//            echo "$nu_sho<br>";
+           
+           if($nu_sho !== 0){
+               
+//               echo "UPDATE `db_data` SET `complete` = 1 WHERE `id` = {$row['id']}<br>";
+               
+               mysql_query("UPDATE `db_data` SET `complete` = 1 WHERE `id` = {$row['id']}");
+           }
+           
         }
         
         return;
     }
     
+    private function isTables($id){
+        
+        $out = 0;
+        
+        $query = "SELECT db_table FROM db_tables WHERE db_id = $id";
+        
+        $result = mysql_query($query);
+        
+        $rows = mysql_numrows($result);
+        
+        $n = 0;
+        
+        while ($row = mysql_fetch_assoc($result)){
+            
+           if($this->isFields($id, $row['db_table'])) $n++;
+        }
+        
+        if($rows == $n){
+            
+            $out = 1;
+        }
+        
+        return $out;
+    }
+    
+    private function isFields($did,$table){
+        
+        $output = NULL;
+        
+        $query = "SELECT f.db_id FROM table_fields f LEFT JOIN synonims s ON f.field_name = s.synonim 
+                            WHERE f.db_id = $did 
+                                 AND f.db_id = s.did 
+                                 AND f.tablename = '$table'
+                                 AND f.tablename = s.tablename
+                                 GROUP BY f.db_id";
+        
+        $result = mysql_query($query);
+        
+        while ($row = mysql_fetch_assoc($result)){
+            
+            $output = $row['db_id'];
+        }
+//        echo "$query<br>$did -> $table -> $output<br>";
+        return $output;
+    }
 }
 ?>

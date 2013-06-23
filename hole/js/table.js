@@ -109,7 +109,7 @@ $(document).ready(function(){
                 dataType:'json',
                 data:output,
                 success:function(data){
-                    console.log(edit);
+                    console.log(data);
                     if(data['query']>0){
                         if(!edit){
                              $.each($("#db_tab tbody tr"),function(index){
@@ -138,6 +138,7 @@ $(document).ready(function(){
                     }
                     
                     $("#tab02").show();
+                    
 //                    $("#tab02").append(data['string']);
                 },
                         error:function(data){
@@ -147,7 +148,7 @@ $(document).ready(function(){
             
             _complete();
             
-            window.location.reload();
+//            window.location.reload();
             
             return false;
         }

@@ -57,13 +57,7 @@ $tablefields = $fieldlist->getFieldsOfTable(intval($attributes['tid']), intval($
                 
                 <table id="db_tab">
             <thead>
-                <tr>
-<!--                    <th class="t-center">I</th>-->
-                    <?php
-//                    foreach ($tablefields as $value){ 
-//                   } 
-                   ?>
-                        
+                <tr>                        
                     
                     <th class="t-center">Название поля</th>
                     <th class="t-center">Синоним поля</th>

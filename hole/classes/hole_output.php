@@ -1,11 +1,11 @@
 <?php
 class IntirnetDb{
 
-    var $complete_DB = array();
+    var $db_donors = array();
     
     function __construct(){
  //    получаем список зарегистрированих баз доноров       
-        $this->complete_DB = $this->allDB();
+        $this->db_donors = $this->allDB();
     }
     
     private function allDB(){
