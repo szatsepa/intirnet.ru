@@ -1,5 +1,5 @@
 <?php
-include '../query/connect.php';
+include '../config.php'; include '../query/connect.php';
 
 $query = "SELECT * FROM customer AS c WHERE c.id = '{$_POST['uid']}'";
 

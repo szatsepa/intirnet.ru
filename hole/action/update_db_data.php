@@ -1,6 +1,6 @@
 <?php
 
-include '../query/connect.php';
+include '../config.php'; include '../query/connect.php';
 
 $query = "UPDATE `db_data` SET `db_name` = '{$_POST['db_name']}', 
                                 `login` = '{$_POST['login']}', 

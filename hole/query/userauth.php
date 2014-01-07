@@ -4,7 +4,7 @@ if(!isset($_SESSION)){
     session_start();    
 }
 
-include '../query/connect.php';
+include '../config.php'; include '../query/connect.php';
 
 $out = array('ok'=>NULL,'check'=>$_POST['minde']);
 

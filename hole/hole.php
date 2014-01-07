@@ -2,11 +2,13 @@
 $headers = "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=utf-8";
 
-mysql_connect($_POST['addr'],$_POST['login'],$_POST['password']);
+$attributes = array_merge($_GET,$_POST);
 
-mysql_select_db($_POST['db_name']);
+mysql_connect($attributes['addr'],$attributes['login'],$attributes['password']);
 
-mysql_query ("SET NAMES {$_POST['charset']}");
+mysql_select_db($attributes['db_name']);
+
+mysql_query ("SET NAMES {$attributes['charset']}");
 
 $out = mysql_errno();
 
@@ -14,9 +16,9 @@ if (mysql_errno() <> 0) exit("ERROR ".$out);
 
 $response = NULL;
 
-if(!isset($_POST['tablename'])){
+if(!isset($attributes['tablename'])){
     $response = getDBStructure();
-}elseif (isset ($_POST['tablename'])) {
+}elseif (isset ($attributes['tablename'])) {
     $response = getDBUsers();
 }
 
@@ -24,9 +26,9 @@ echo $response;
 
 function getDBUsers(){
     
-    $tmp = array("{$_POST['db_name']}"=>array("{$_POST['tablename']}"=>array()));
+    $tmp = array("{$attributes['db_name']}"=>array("{$attributes['tablename']}"=>array()));
     
-    $query = "SELECT COUNT(*) FROM {$_POST['tablename']}"; 
+    $query = "SELECT COUNT(*) FROM {$attributes['tablename']}"; 
     
     $result = mysql_query($query);
     
@@ -38,7 +40,7 @@ function getDBUsers(){
         
         $start = ($i*1000);
         
-        $query = "SELECT * FROM {$_POST['tablename']} LIMIT {$start}, 1000";
+        $query = "SELECT * FROM {$attributes['tablename']} LIMIT {$start}, 1000";
         
         $result = mysql_query($query);
         
@@ -46,7 +48,7 @@ function getDBUsers(){
         
         while ($row = mysql_fetch_assoc($result)){
             
-             array_push($tmp["{$_POST['db_name']}"]["{$_POST['tablename']}"], $row);
+             array_push($tmp["{$attributes['db_name']}"]["{$attributes['tablename']}"], $row);
              
         }
     }
@@ -58,11 +60,11 @@ function getDBUsers(){
 
 function getDBStructure(){
     
-    $query = " SHOW TABLES FROM {$_POST['db_name']} WHERE Tables_in_{$_POST['db_name']} LIKE '%user%' OR  Tables_in_{$_POST['db_name']} LIKE '%custom%'";
+    $query = " SHOW TABLES FROM {$attributes['db_name']} WHERE Tables_in_{$attributes['db_name']} LIKE '%user%' OR  Tables_in_{$attributes['db_name']} LIKE '%custom%'";
 
     $result = mysql_query($query);
 
-    $response = '{"'.$_POST['db_name'].'":{';
+    $response = '{"'.$attributes['db_name'].'":{';
 
     while ($row = mysql_fetch_row($result)){
 
@@ -76,7 +78,7 @@ function getDBStructure(){
 
         while ($us_row = mysql_fetch_row($us_result)){
 
-            if($_POST['charset'] == 'cp1251'){
+            if($attributes['charset'] == 'cp1251'){
                $response .= '"'.  changeCharset($us_row[0], NULL); 
             }else{
                $response .= '"'.$us_row[0];

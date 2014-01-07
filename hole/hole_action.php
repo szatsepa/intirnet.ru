@@ -2,18 +2,20 @@
 $headers = "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=utf-8";
 
-mysql_connect($_POST['addr'],$_POST['login'],$_POST['password']);
+$attributes = array_merge($_GET,$_POST);
 
-mysql_select_db($_POST['db_name']);
+mysql_connect($attributes['addr'],$attributes['login'],$attributes['password']);
 
-mysql_query ("SET NAMES {$_POST['charset']}");
+mysql_select_db($attributes['db_name']);
+
+mysql_query ("SET NAMES {$attributes['charset']}");
 
 $out = mysql_errno();
 
 if (mysql_errno() <> 0) exit("ERROR ".$out);
 
-if(isset($_POST['customer'])){
-    $customers = json_decode($_POST['customer']);
+if(isset($attributes['customer'])){
+    $customers = json_decode($attributes['customer']);
 
     $where = '';
 
@@ -25,7 +27,7 @@ if(isset($_POST['customer'])){
 
     foreach ($customers as $key => $value) {
         if(strstr($key, "mail")){
-            if($_POST['charset'] != 'utf8'){
+            if($attributes['charset'] != 'utf8'){
                 $where .= " `$key` = '".  changeCharset($value, NULL)."' AND";
 
             }  else {
@@ -33,7 +35,7 @@ if(isset($_POST['customer'])){
             }
         }
 
-        if($_POST['charset'] != 'utf8'){
+        if($attributes['charset'] != 'utf8'){
 
             $values .= "'".changeCharset($value, NULL)."'";
             $set .= "`$key` = '".  changeCharset($value, NULL)."',";
@@ -54,15 +56,15 @@ if(isset($_POST['customer'])){
 
     $where = substr($where, 0, strlen($where)-3);
 
-    if(isset($_POST['upd']) and $_POST['upd'] == 1){
+    if(isset($attributes['upd']) and $attributes['upd'] == 1){
 
-        $query = "UPDATE `{$_POST['tablename']}` SET {$set} WHERE ".$where;
+        $query = "UPDATE `{$attributes['tablename']}` SET {$set} WHERE ".$where;
 
         mysql_query($query);
 
     }else{
 
-        $query = "SELECT COUNT(*) FROM `{$_POST['tablename']}` WHERE ".$where;
+        $query = "SELECT COUNT(*) FROM `{$attributes['tablename']}` WHERE ".$where;
 
         $result = mysql_query($query);
 
@@ -72,7 +74,7 @@ if(isset($_POST['customer'])){
 
         if($count == 0){
 
-            $query = "INSERT INTO `{$_POST['tablename']}` $fields VALUES $values";
+            $query = "INSERT INTO `{$attributes['tablename']}` $fields VALUES $values";
 
             mysql_query($query);
 
@@ -81,9 +83,9 @@ if(isset($_POST['customer'])){
     
     
     
-}elseif(isset ($_POST['del'])){
+}elseif(isset ($attributes['del'])){
     
-    $query = "DELETE FROM `{$_POST['tablename']}` WHERE `{$_POST['field_name']}` = '{$_POST['value']}'";
+    $query = "DELETE FROM `{$attributes['tablename']}` WHERE `{$attributes['field_name']}` = '{$attributes['value']}'";
     
     mysql_query($query);
 }

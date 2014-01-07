@@ -1,6 +1,6 @@
 <?php
 
-include '../query/connect.php';
+include '../config.php'; include '../query/connect.php';
 
 $code = md5($_POST['pwd']);
 

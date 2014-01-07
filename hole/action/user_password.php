@@ -1,5 +1,5 @@
 <?php
-include '../query/connect.php';
+include '../config.php'; include '../query/connect.php';
 
 $email = $_POST[email];
 

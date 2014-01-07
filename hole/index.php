@@ -30,7 +30,7 @@ $_HOLE = new Hole();
 
 $inserted = $_HOLE->Customers();
 
-////var_dump($_HOLE->donorsData);
+var_dump($_HOLE->donorsData);
 //
 //$donorslist = new IntirnetDb();
 

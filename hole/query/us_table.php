@@ -2,7 +2,7 @@
 $is_tables = _using_tables(intval($attributes['db_id']));
 
 function _using_tables($did){
-    $query = "SELECT * FROM `db_tables` WHERE `db_id`=$did";
+    $query = "SELECT * FROM `db_tables` WHERE `db_id`= $did";
 
     $result = mysql_query($query);
 
