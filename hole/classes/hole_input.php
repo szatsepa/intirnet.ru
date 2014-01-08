@@ -1,5 +1,5 @@
 <?php
-//сласс обрабатывае входящие данные ресурсов доноров
+//kласс обрабатываеt входящие данные ресурсов доноров
 
 class Hole {
 
@@ -49,6 +49,30 @@ class Hole {
         return $response;
     }
     
+    public function _showtables($data){
+        
+        $host = $data['db_host'];
+        
+        $db_name = $data['db_name'];
+        
+        $charset = $data['db_charset'];
+        
+        $server = $data['db_server'];
+        
+        $login = $data['db_login'];
+        
+        $pwd = $data['db_pwd'];
+        
+        $out = array('inet_address'=>$host,'db_name'=>$db_name,'addr'=>$server,'login'=>$login,'password'=>$pwd,'charset'=>$charset);
+        
+        var_dump($out);
+        
+        echo "<br>";
+        
+        return $this->_getHole($out);
+        
+    }
+    
     function getDBData($id){       
         
         $and = '';
@@ -61,7 +85,9 @@ class Hole {
         
         $query = "SELECT db.`id`, db.`db_name`, db.`login`, db.`password`, db.`addr`, db.`charset`, db.`inet_name`, db.`inet_address` 
                     FROM `db_data` AS db 
-                    WHERE db.`status` <> 0 {$and}";           
+                    WHERE db.`status` <> 0 {$and}"; 
+                    
+//        echo "$query";
         
         return $this->_getData($query);
         
@@ -293,8 +319,6 @@ class Hole {
         $fields = substr($fields, 0, strlen($fields)-1);
         
         $values = substr($values, 0, strlen($values)-1);
-        
-//        echo "INSERT INTO `tmp` ($fields) VALUES ($values)<br>";
         
         return "INSERT INTO `tmp` ($fields) VALUES ($values)";
     }

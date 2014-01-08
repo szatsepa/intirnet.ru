@@ -8,7 +8,7 @@ class IntirnetDb{
         $this->db_donors = $this->allDB();
     }
     
-    private function allDB(){
+        private function allDB(){
     
         $tmp = array('all' => array());
 

@@ -30,9 +30,11 @@ $_HOLE = new Hole();
 
 $inserted = $_HOLE->Customers();
 
-var_dump($_HOLE->donorsData);
-//
-//$donorslist = new IntirnetDb();
+//var_dump($_HOLE->donorsData);
+
+$donorslist = new IntirnetDb();
+
+
 
 //var_dump($donorslist->db_donors);
 
@@ -51,6 +53,12 @@ switch ($attributes['act']){
     
     case 'dbinfo':
         include 'query/us_table.php';
+//        если в базе нет записей таблиц нужной базы - выводим все таблицы в которых могут быть зарегистрированые пользователи(клиенты)
+        if(!$_HOLE->donorsData){
+    
+            $showtable = $_HOLE->_showtables($attributes);
+//            var_dump($showtable);
+        }
         include 'main/main.php'; 
         include 'main/main_menu.php';
         include 'main/tablelist.php';
@@ -114,7 +122,7 @@ switch ($attributes['act']){
 //echo "<br>S => ";
 ////print_r($is_tables);
 //echo "<br>0eee7950a085d46a42e14b1e05513d23<br>";
-////print_r($attributes);
+print_r($attributes);
 //echo md5("pinokio");
 //pinokio
 

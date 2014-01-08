@@ -2,7 +2,7 @@
 $headers = "MIME-Version: 1.0\r\n";
 $headers .= "Content-type: text/html; charset=utf-8";
 
-$attributes = array_merge($_GET,$_POST);
+$attributes = $_POST;
 
 mysql_connect($attributes['addr'],$attributes['login'],$attributes['password']);
 
