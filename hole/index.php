@@ -21,24 +21,15 @@ if(isset($_COOKIE['di']) && $_COOKIE['di'] != 'NULL'){
 }
 include 'query/connect.php';
 include 'func/cp2utf.php';
-include 'classes/hole_input.php';
+include 'classes/OuterData.php';
 include 'classes/hole_output.php';
 include 'query/user.php';
 include 'action/checkauth.php'; 
 
-$_HOLE = new Hole();
+$Hole = new OuterData();
 
-$inserted = $_HOLE->Customers();
+$Hole->_setTMP();
 
-//var_dump($_HOLE->donorsData);
-
-$donorslist = new IntirnetDb();
-
-
-
-//var_dump($donorslist->db_donors);
-
-//$outputlist = new Prepare();
 
 include 'main/header.php';
 

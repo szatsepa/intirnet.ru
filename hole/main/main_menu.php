@@ -29,7 +29,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                     if(isset($res_data) && count($res_data) > 0){
                         ?>
                     
-                        <ul id="bases">
+<!--                        <ul id="bases">
                             <?php 
 
                             foreach ($res_data as  $value) { ?>
@@ -50,7 +50,7 @@ if ($attributes['act'] == "srch") $objects_active = 'id="submenu-active"';
                             }
     //                        
                             ?>
-                        </ul>
+                        </ul>-->
                    <?php }
                    if(isset($attributes['act']) and ($attributes['act'] == 'dbinfo' or $attributes['act'] == 'table')){
                        ?>

@@ -43,8 +43,8 @@ foreach ($res_data as $value) {
             </tbody>
         </table>
 
-        <br>
-        <p class="nom" style="text-align: center"><input value="Добавить" class="input-submit" type="button" id="add_new_base"></p>
+<!--        <br>
+        <p class="nom" style="text-align: center"><input value="Добавить" class="input-submit" type="button" id="add_new_base"></p>-->
     </div> <!-- /tab01 -->
        
 <div id="tab02">

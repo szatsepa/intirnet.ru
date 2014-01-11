@@ -49,29 +49,29 @@ class Hole {
         return $response;
     }
     
-    public function _showtables($data){
-        
-        $host = $data['db_host'];
-        
-        $db_name = $data['db_name'];
-        
-        $charset = $data['db_charset'];
-        
-        $server = $data['db_server'];
-        
-        $login = $data['db_login'];
-        
-        $pwd = $data['db_pwd'];
-        
-        $out = array('inet_address'=>$host,'db_name'=>$db_name,'addr'=>$server,'login'=>$login,'password'=>$pwd,'charset'=>$charset);
-        
-        var_dump($out);
-        
-        echo "<br>";
-        
-        return $this->_getHole($out);
-        
-    }
+//    public function _showtables($data){
+//        
+//        $host = $data['db_host'];
+//        
+//        $db_name = $data['db_name'];
+//        
+//        $charset = $data['db_charset'];
+//        
+//        $server = $data['db_server'];
+//        
+//        $login = $data['db_login'];
+//        
+//        $pwd = $data['db_pwd'];
+//        
+//        $out = array('inet_address'=>$host,'db_name'=>$db_name,'addr'=>$server,'login'=>$login,'password'=>$pwd,'charset'=>$charset);
+//        
+//        var_dump($out);
+//        
+//        echo "<br>";
+//        
+//        return $this->_getHole($out);
+//        
+//    }
     
     function getDBData($id){       
         
