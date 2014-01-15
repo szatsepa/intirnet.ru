@@ -10,7 +10,10 @@ class OuterData {
     
     var $changelist = array();
     
+    var $newcustomers = array();
+    
     function __construct() {
+        
         $this->customers = $this->_getDBs();
     }
 //    записываем пользователей во временную таблицу предварительно очистив ее
@@ -47,10 +50,12 @@ class OuterData {
     
 //    записываем пользователей в таблицу но только тех которые появились на отслеживаемых ресурсах после предыдущего просмотра
     
-    private function _setCustomers() {
+    private function _setCustomers() { 
         
-        $query = "SELECT t.`login`, t.`password`, t.`email` FROM `tmp` AS t LEFT JOIN `customer` AS c ON t.`email` = c.`email` WHERE c.`email` is NULL";
+        mysql_query("CREATE TABLE `cutmp` SELECT `login`, `email`, `password` FROM `tmp` GROUP BY `email`");
         
+        $query = "SELECT t.`login`, t.`password`, t.`email` FROM `cutmp` AS t LEFT JOIN `customer` AS c ON t.`email` = c.`email` WHERE c.`email` is NULL GROUP BY t.`email`";        
+       
         $result = mysql_query($query);
         
         while ($row = mysql_fetch_assoc($result)){
@@ -60,6 +65,8 @@ class OuterData {
         $this->_matching();
         
         var_dump($this->changelist);
+        
+        mysql_query("DROP TABLE `cutmp`");
         
         return mysql_affected_rows();
         
@@ -83,6 +90,32 @@ class OuterData {
                $customers_str = $this->_getHole($row);
 
                $tmp[$row['id']] = json_decode($customers_str,TRUE);
+               
+               $customers_arr = json_decode($customers_str,TRUE);
+               
+               $tablename = str_replace('.', '_', $row['inet_address']);
+               
+               $query = "CREATE TABLE `{$tablename}` "
+               . "(`login` VARCHAR(64),"
+                       . "`password` VARCHAR(64),"
+                       . "`email` VARCHAR(64))";
+               
+               mysql_query($query);
+               
+               foreach ($customers_arr as $value) {
+                   mysql_query("INSERT INTO `{$tablename}` (`login`,`password`, `email`) VALUES ('{$value['login']}','{$value['password']}','{$value['email']}')");                   
+                   
+               }
+               
+               $new_customers = mysql_query("SELECT t.`login`,t.`password`,t.`email` FROM `tmp` AS t LEFT JOIN `{$tablename}` AS d ON t.`email` = d.`email` WHERE d.`login` IS NULL");
+                   
+                   echo "SELECT t.`login`,t.`password`,t.`email` FROM `tmp` AS t LEFT JOIN `{$tablename}` AS d ON t.`email` = d.`email` WHERE d.`login` IS NULL<br>";
+                   
+               while ($rows = mysql_fetch_assoc($new_customers)){
+                   array_push($this->newcustomers, $rows);
+               }
+               
+               mysql_query("DROP TABLE `{$tablename}`");
             }
         
         }
@@ -102,7 +135,7 @@ class OuterData {
             $data .= "&$key=$value";
         }
         
-       //задаем контекст
+//задаем контекст
         $context = stream_context_create(
         array(
                 'http'=>array(

@@ -42,26 +42,26 @@ switch ($attributes['act']){
         include 'main/res_data.php';
         break;
     
-    case 'dbinfo':
-        include 'query/us_table.php';
-//        если в базе нет записей таблиц нужной базы - выводим все таблицы в которых могут быть зарегистрированые пользователи(клиенты)
-        if(!$_HOLE->donorsData){
+//    case 'dbinfo':
+//        include 'query/us_table.php';
+////        если в базе нет записей таблиц нужной базы - выводим все таблицы в которых могут быть зарегистрированые пользователи(клиенты)
+//        if(!$_HOLE->donorsData){
+//    
+//            $showtable = $_HOLE->_showtables($attributes);
+////            var_dump($showtable);
+//        }
+//        include 'main/main.php'; 
+//        include 'main/main_menu.php';
+//        include 'main/tablelist.php';
+//        break;
     
-            $showtable = $_HOLE->_showtables($attributes);
-//            var_dump($showtable);
-        }
-        include 'main/main.php'; 
-        include 'main/main_menu.php';
-        include 'main/tablelist.php';
-        break;
-    
-    case 'table':
-        include 'query/us_table.php';
-        include 'query/this_fields.php';
-        include 'main/main.php'; 
-        include 'main/main_menu.php';
-        include 'main/fields_list.php';
-        break;
+//    case 'table':
+//        include 'query/us_table.php';
+//        include 'query/this_fields.php';
+//        include 'main/main.php'; 
+//        include 'main/main_menu.php';
+//        include 'main/fields_list.php';
+//        break;
     
     case 'customers':
         
